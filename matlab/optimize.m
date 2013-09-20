@@ -1,54 +1,52 @@
 clear; clc
 
-m = load('features.txt');
-
 global phi_demo
 global phi_k
 global nb_used_samples
 
+nb_demo = 3;
+nb_features = 65;
 nb_samples = 1000;
-nb_demo = 10;
+nb_used_samples = nb_samples;
 
-nb_used_samples = 10;
+% w = zeros(1,nb_features);
+% cost_function(w)
+% w = ones(1,nb_features);
+% cost_function(w)
 
-phi_demo = m(1:nb_demo,:);
-phi_k = zeros(nb_samples,16,nb_demo);
+max = 1;
+lb = zeros(1,nb_features);
+ub = max*ones(1,nb_features);
 
-for d=1:nb_demo,
-    phi_k(:,:,d) = m(((d-1)*nb_samples+(nb_demo+1)):(d*nb_samples+nb_demo),:);
+%-------------------------------------------
+% Constrainted optimization
+%-------------------------------------------
+nb_sampling_phase = 30;
+min_samples = 3;
+max_samples = 1000;
+
+for i=1:(nb_sampling_phase-1), % in c++ (move3d)
+    
+    nb_samples = floor( min_samples + i*(max_samples-min_samples)/(nb_sampling_phase-1) );
+    nb_used_samples = nb_samples;
+    
+    [phi_demo, phi_k] = load_instance( nb_demo, nb_samples, nb_features );
+    
+    w0 = 0.01*ones(1,nb_features);
+    [w,fval,exitflag,output,lambda,grad,hessian] = constrainted_minimization(w0,lb,ub);
+    disp(['fval : ', num2str(fval)])
+    disp('optimization done!!!');
+
+    % Saving to file
+    disp('writing weights to file');
+    csvwrite(['spheres_weights_', num2str(nb_samples,'%03d'), '.txt'],w);
 end
 
-w = zeros(1,16);
-cost_function(w)
-w = ones(1,16);
-cost_function(w)
-
 %-------------------------------------------
-%-------------------------------------------
-max = 100;
-lb = [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0];
-ub = [max max max max max max max max max max max max max max max max];
-
-%-------------------------------------------
+% Genetic algorithm
 %-------------------------------------------
 
-Generations_Data = 2000;
+%Generations_Data = 2000;
 %TolFun_Data = 1e-12;
-TolFun_Data = 0;
-genetic_algo(16,lb,ub,Generations_Data,TolFun_Data)
-
-%-------------------------------------------
-%-------------------------------------------
-
-% x0 = [1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1];
-% w = constrainted_minimization(x0,lb,ub);
-
-%-------------------------------------------
-%-------------------------------------------
-
-disp('optimization done!!!');
-
-%-------------------------------------------
-%-------------------------------------------
-disp('writing weights to file');
-csvwrite('weights.csv',w);
+%TolFun_Data = 0;
+%genetic_algo(nb_features,lb,ub,Generations_Data,TolFun_Data)

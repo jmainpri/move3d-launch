@@ -1,7 +1,7 @@
 clear; clc;
 
 %cost_map = load('cost_map_0.txt')
-cost_map = load('cost_map.txt')
+cost_map = load('cost_map_64.txt')
 [X,Y] = meshgrid([-40:0.800001:40]);
 Z = cost_map;
 contour3(X,Y,Z,30)
