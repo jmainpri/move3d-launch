@@ -25,13 +25,18 @@ nb_sampling_phase = 30;
 min_samples = 3;
 max_samples = 1000;
 
+% On instance
+
+% Multiple instance
 for i=1:(nb_sampling_phase-1), % in c++ (move3d)
     
     nb_samples = floor( min_samples + i*(max_samples-min_samples)/(nb_sampling_phase-1) );
     nb_used_samples = nb_samples;
     
+    % Load file
     [phi_demo, phi_k] = load_instance( nb_demo, nb_samples, nb_features );
     
+    % Load file
     w0 = 0.01*ones(1,nb_features);
     [w,fval,exitflag,output,lambda,grad,hessian] = constrainted_minimization(w0,lb,ub);
     disp(['fval : ', num2str(fval)])
