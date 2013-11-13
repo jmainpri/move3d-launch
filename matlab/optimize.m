@@ -4,8 +4,8 @@ global phi_demo
 global phi_k
 global nb_used_samples
 
-nb_demo = 3;
-nb_features = 65;
+nb_demo = 1;
+nb_features = 64; % 64 + 1 (smoothness)
 nb_samples = 1000;
 nb_used_samples = nb_samples;
 
