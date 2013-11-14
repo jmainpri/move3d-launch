@@ -347,7 +347,7 @@ stringParameter\titi=
 
 [HricsParam]
 boolParameter\init_spheres_cost=false
-intParameter\tata=0
+intParameter\ioc_phase=0
 doubleParameter\toto=0
 stringParameter\titi=
 
@@ -355,7 +355,7 @@ stringParameter\titi=
 ox=207.974365234375
 oy=403.6728515625
 oz=5.22323846817017
-dist=1146.13392944336
+dist=1146.13391113281
 az=6.13318538665771
 el=1.26687502861023
 up0=0
