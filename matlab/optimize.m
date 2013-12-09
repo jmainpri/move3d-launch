@@ -6,7 +6,7 @@ global nb_used_samples
 
 nb_demo = 1;
 nb_features = 64; % 64 + 1 (smoothness)
-nb_samples = 1000;
+nb_samples = 100;
 nb_used_samples = nb_samples;
 
 % w = zeros(1,nb_features);
@@ -21,12 +21,12 @@ ub = max*ones(1,nb_features);
 %-------------------------------------------
 % Constrainted optimization
 %-------------------------------------------
-nb_sampling_phase = 30;
+nb_sampling_phase = 20; % in c++ (move3d)
 min_samples = 3;
-max_samples = 1000;
+max_samples = 100;
 
 % Multiple instance
-for i=1:(nb_sampling_phase-1), % in c++ (move3d)
+for i=1:(nb_sampling_phase-1), 
     
     nb_samples = floor( min_samples + i*(max_samples-min_samples)/(nb_sampling_phase-1) );
     nb_used_samples = nb_samples;

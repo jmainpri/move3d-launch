@@ -2,8 +2,12 @@ function [phi_demo, phi_k] = load_instance( nb_demo, nb_samples, nb_features )
 
 formatSpec = '%03d';
 
+filename = ['spheres_features_', num2str(nb_samples,formatSpec), '.txt'];
+
+display(filename)
+
 % load file according to the number of samples
-m = load(['spheres_features_', num2str(nb_samples,formatSpec), '.txt']);
+m = load(filename);
 
 % gets the features of the demos (at the beginning of the file)
 phi_demo = m(1:nb_demo,:);

@@ -25,5 +25,7 @@ move3dpull()
     git pull
     cd $move3d_root/move3d-studio
     git pull
+    cd $move3d_root/move3d-launch
+    git pull
     cd $move3d_root
 }
