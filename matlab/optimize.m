@@ -25,8 +25,6 @@ nb_sampling_phase = 30;
 min_samples = 3;
 max_samples = 1000;
 
-% On instance
-
 % Multiple instance
 for i=1:(nb_sampling_phase-1), % in c++ (move3d)
     
