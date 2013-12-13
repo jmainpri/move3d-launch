@@ -4,7 +4,7 @@ formatSpec = '%03d';
 
 filename = ['data/spheres_features_', num2str(nb_samples,formatSpec), '.txt'];
 
-display(filename)
+% display(filename)
 
 % load file according to the number of samples
 m = load(filename);
