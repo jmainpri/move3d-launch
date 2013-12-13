@@ -297,7 +297,7 @@ doubleParameter\costResolution=0.5
 doubleParameter\distMinToDraw=0.300000011920929
 doubleParameter\trajStompTimeLimit=7
 doubleParameter\trajDuration=5
-doubleParameter\trajOptimStdDev=0.1
+doubleParameter\trajOptimStdDev=0.5
 doubleParameter\trajOptimSmoothWeight=100
 doubleParameter\trajOptimObstacWeight=0.1
 doubleParameter\trajReplanningWindow=1
@@ -349,6 +349,7 @@ stringParameter\titi=
 [HricsParam]
 boolParameter\init_spheres_cost=false
 intParameter\ioc_phase=1
+intParameter\ioc_sample_iteration=0
 doubleParameter\ioc_spheres_power=2
 stringParameter\titi=
 
