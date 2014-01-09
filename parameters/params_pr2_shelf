@@ -208,7 +208,7 @@ boolParameter\trajCostRecompute=false
 boolParameter\trajComputeCollision=true
 boolParameter\trajStompWithRRT=false
 boolParameter\trajStompComputeColl=true
-boolParameter\trajStompWithTimeLimit=false
+boolParameter\trajStompWithTimeLimit=true
 boolParameter\trajStompWithIterLimit=false
 boolParameter\trajStompMultiplyM=true
 boolParameter\trajStompMatrixAdaptation=false
@@ -295,7 +295,7 @@ doubleParameter\MinStep=2
 doubleParameter\costTraj=1
 doubleParameter\costResolution=0.5
 doubleParameter\distMinToDraw=0.1
-doubleParameter\trajStompTimeLimit=7
+doubleParameter\trajStompTimeLimit=1
 doubleParameter\trajDuration=5
 doubleParameter\trajOptimStdDev=0.005
 doubleParameter\trajOptimSmoothWeight=20
@@ -304,6 +304,7 @@ doubleParameter\trajReplanningWindow=1
 doubleParameter\trajReplanningTotalTime=30
 doubleParameter\starRadius=1
 doubleParameter\starFinish=3
+doubleParameter\grid_pace=0
 doubleParameter\env_randomXMinLimit=-3
 doubleParameter\env_randomXMaxLimit=3
 doubleParameter\env_randomYMinLimit=-3
@@ -340,14 +341,17 @@ boolParameter\draw_current_occupancy=false
 boolParameter\draw_recorded_motion=false
 boolParameter\with_multiple_stomps=false
 boolParameter\parallelize_stomp=false
+boolParameter\print_debug=false
 intParameter\human_traj_id=0
 doubleParameter\tete=0
 stringParameter\titi=
 
 [HricsParam]
 boolParameter\init_spheres_cost=false
-intParameter\tata=0
-doubleParameter\toto=0
+boolParameter\ioc_single_iteration=false
+intParameter\ioc_phase=0
+intParameter\ioc_sample_iteration=0
+doubleParameter\ioc_spheres_power=0
 stringParameter\titi=
 
 [ActiveRobotCntrts]
@@ -365,12 +369,12 @@ upBodySm=false
 jointsToExport=false
 
 [Camera]
-ox=0.0525840036571026
-oy=0.795758426189423
-oz=0.844139516353607
-dist=2.07708930969238
-az=6.03568553924561
-el=0.529999971389771
+ox=-0.0705380825075647
+oy=0.676151432276574
+oz=0.950955163562415
+dist=2.39644179105759
+az=5.77693553924561
+el=0.471874971389771
 up0=0
 up1=0
 up2=1

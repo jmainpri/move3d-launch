@@ -6,7 +6,8 @@ options = optimset;
 %% Modify options setting
 options = optimset(options,'Display', 'off');
 options = optimset(options,'FunValCheck', 'on');
-options = optimset(options,'PlotFcns', { @optimplotx });
+% uncomment next line to plot weights
+% options = optimset(options,'PlotFcns', { @optimplotx });
 options = optimset(options,'Algorithm', 'active-set');
 options = optimset(options,'GradObj', 'on');
 [x,fval,exitflag,output,lambda,grad,hessian] = ...

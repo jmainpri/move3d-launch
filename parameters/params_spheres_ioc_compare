@@ -349,7 +349,7 @@ stringParameter\titi=
 [HricsParam]
 boolParameter\init_spheres_cost=false
 boolParameter\ioc_single_iteration=false
-intParameter\ioc_phase=1
+intParameter\ioc_phase=2
 intParameter\ioc_sample_iteration=5
 doubleParameter\ioc_spheres_power=5
 stringParameter\titi=
@@ -358,7 +358,7 @@ stringParameter\titi=
 ox=1.19977903366089
 oy=-1.21393024921417
 oz=-0.837040781974792
-dist=133.407227725983
+dist=133.4072265625
 az=6.21568536758423
 el=0.867500007152557
 up0=0
