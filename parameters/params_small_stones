@@ -136,7 +136,7 @@ currentArmId=0
 [doubleParameter]
 dmax=0
 FPS=0
-showTrajFPS=14.67
+showTrajFPS=4.36
 extensionStep=0
 costStep=0
 costThreshold=0
@@ -355,12 +355,12 @@ doubleParameter\ioc_spheres_power=0
 stringParameter\titi=
 
 [Camera]
-ox=181.620910012513
-oy=408.827748684114
-oz=2.2593158512246
-dist=1285.57022827148
-az=6.26818530717959
-el=1.2443749666214
+ox=181.620910644531
+oy=408.827758789062
+oz=2.25931596755981
+dist=1235.75434555054
+az=6.20443513870239
+el=1.08124999046326
 up0=0
 up1=0
 up2=1
