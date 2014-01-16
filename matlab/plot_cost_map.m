@@ -2,8 +2,11 @@ clear; clc;
 
 figure
 
-%cost_map = load('cost_map_0.txt')
-cost_map = load('cost_map_64.txt');
+% cost_map = load('cost_map_0.txt')
+% cost_map = load('cost_map_64.txt');
+ cost_map = load('matlab/cost_map_derv_0_64.txt');
+% cost_map = load('matlab/cost_map_derv_1_64.txt');
+
 [X,Y] = meshgrid([-40:0.800001:40]);
 Z = cost_map;
 contour3(X,Y,Z,30)
