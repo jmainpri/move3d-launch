@@ -7,9 +7,9 @@ clear; clc;
 % cost_map = load('matlab/cost_map_derv_1_64.txt');
 
 HeatMap(load('matlab/cost_map_64.txt'));
-HeatMap(load('matlab/cost_map_feat_64.txt'));
-HeatMap(load('matlab/cost_map_derv_0_64.txt'));
-HeatMap(load('matlab/cost_map_derv_1_64.txt'));
+% HeatMap(load('matlab/cost_map_feat_64.txt'));
+% HeatMap(load('matlab/cost_map_derv_0_64.txt'));
+% HeatMap(load('matlab/cost_map_derv_1_64.txt'));
 
 % figure
 % 
