@@ -1,4 +1,4 @@
-clear; clc;
+%clear; clc;
 
 % cost_map = load('cost_map_0.txt')
 % cost_map = load('cost_map_64.txt');
@@ -6,10 +6,12 @@ clear; clc;
 % cost_map = load('matlab/cost_map_derv_1_64.txt');
 % cost_map = load('matlab/cost_map_derv_1_64.txt');
 
-HeatMap(load('matlab/cost_map_64.txt'));
-% HeatMap(load('matlab/cost_map_feat_64.txt'));
-% HeatMap(load('matlab/cost_map_derv_0_64.txt'));
-% HeatMap(load('matlab/cost_map_derv_1_64.txt'));
+% set heat map to be : redbluecmap(10000) or redgreencmap(10000)
+% HeatMap(load('matlab/cost_map_64.txt'));
+HeatMap( load('matlab/cost_map_64.txt'), 'Symmetric', false, 'Colormap', colormap(jet(10000)) );
+HeatMap( load('matlab/cost_map_feat_64.txt'), 'Symmetric', false, 'Colormap', colormap(jet(10000)) );
+HeatMap( load('matlab/cost_map_derv_0_64.txt'), 'Symmetric', false, 'Colormap', colormap(jet(10000)) );
+HeatMap( load('matlab/cost_map_derv_1_64.txt'), 'Symmetric', false, 'Colormap', colormap(jet(10000)) );
 
 % figure
 % 
