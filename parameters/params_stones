@@ -18,6 +18,7 @@ drawDisabled=false
 drawFrame=true
 drawExploration=true
 drawGraph=true
+drawEdges=true
 drawTraj=true
 drawOTPTraj=false
 drawTrajVector=false
@@ -227,6 +228,7 @@ boolParameter\withStomp=false
 boolParameter\withDescent=false
 boolParameter\setRobotIK=false
 boolParameter\showExploration=false
+boolParameter\samplegraphMultiLoop=false
 boolParameter\starRRT=false
 boolParameter\starRewire=false
 boolParameter\withCurrentTraj=false
@@ -302,6 +304,8 @@ doubleParameter\trajOptimSmoothWeight=0
 doubleParameter\trajOptimObstacWeight=0
 doubleParameter\trajReplanningWindow=0
 doubleParameter\trajReplanningTotalTime=0
+doubleParameter\samplegraphVarianceA=0
+doubleParameter\samplegraphVarianceB=0
 doubleParameter\starRadius=0
 doubleParameter\starFinish=0
 doubleParameter\grid_pace=10
@@ -341,14 +345,17 @@ boolParameter\draw_current_occupancy=false
 boolParameter\draw_recorded_motion=false
 boolParameter\with_multiple_stomps=false
 boolParameter\parallelize_stomp=false
+boolParameter\print_debug=false
 intParameter\human_traj_id=0
 doubleParameter\tete=0
 stringParameter\titi=
 
 [HricsParam]
 boolParameter\init_spheres_cost=false
+boolParameter\ioc_single_iteration=false
 intParameter\ioc_phase=0
-doubleParameter\toto=0
+intParameter\ioc_sample_iteration=0
+doubleParameter\ioc_spheres_power=0
 stringParameter\titi=
 
 [Camera]
