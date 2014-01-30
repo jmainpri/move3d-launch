@@ -21,7 +21,7 @@ drawGraph=true
 drawEdges=true
 drawTraj=true
 drawOTPTraj=false
-drawTrajVector=false
+drawTrajVector=true
 drawAll=false
 drawLightSource=false
 drawGrid=true
@@ -57,7 +57,7 @@ ligandExitTrajectory=false
 useRefiRadius=false
 setActiveJointsGroup=false
 setStompPlanner=false
-debugCostOptim=false
+debugCostOptim=true
 trajCostRecompute=false
 isCostSpace=true
 isPasExtWhenAct=false
@@ -298,10 +298,10 @@ doubleParameter\MinStep=0
 doubleParameter\costTraj=0
 doubleParameter\costResolution=10
 doubleParameter\distMinToDraw=0
-doubleParameter\trajStompTimeLimit=5
+doubleParameter\trajStompTimeLimit=2
 doubleParameter\trajDuration=0
 doubleParameter\trajOptimStdDev=0.1
-doubleParameter\trajOptimSmoothWeight=1
+doubleParameter\trajOptimSmoothWeight=300
 doubleParameter\trajOptimObstacWeight=1
 doubleParameter\trajReplanningWindow=0
 doubleParameter\trajReplanningTotalTime=0
@@ -332,7 +332,7 @@ doubleParameter\env_futurX=0
 doubleParameter\env_futurY=0
 doubleParameter\env_futurZ=0
 doubleParameter\env_futurRZ=0
-stringParameter\active_cost_function=costSquaresJacobian
+stringParameter\active_cost_function=costSquares
 
 [GestParam]
 boolParameter\init_module_at_start=false
@@ -353,17 +353,24 @@ stringParameter\titi=
 
 [HricsParam]
 boolParameter\init_spheres_cost=true
-boolParameter\ioc_single_iteration=true
-intParameter\ioc_phase=0
+boolParameter\ioc_single_iteration=false
+boolParameter\ioc_load_samples_from_file=true
+boolParameter\ioc_draw_demonstrations=false
+boolParameter\ioc_draw_samples=true
+boolParameter\ioc_sample_around_demo=false
+boolParameter\ioc_exit_after_run=false
+intParameter\ioc_phase=2
 intParameter\ioc_sample_iteration=0
+intParameter\ioc_nb_of_way_points=100
 doubleParameter\ioc_spheres_power=2
+doubleParameter\ioc_sample_std_dev=0.02
 stringParameter\titi=
 
 [Camera]
 ox=5.94516372680664
 oy=-2.95691514015198
 oz=-3.73922896385193
-dist=151.499801635742
+dist=146.610138702393
 az=4.62568521499634
 el=1.18642139434814
 up0=0
