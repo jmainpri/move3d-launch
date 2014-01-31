@@ -20,6 +20,9 @@ nb_samples = 100;
 min_samples = 2;
 max_samples = nb_samples;
 
+% Set Learning parameters
+init_factor = 0.5;
+
 % Set the number of tests
 nb_tests = 6*50;
 results = zeros( nb_tests, nb_sampling_phase, 3 );
@@ -38,7 +41,7 @@ for i=1:nb_tests,
     system( strcat( move3d_cmd, sample_params ));
     
     cd( matlab_dir );
-    ioc_learning( nb_demo, nb_features, nb_sampling_phase, nb_samples, min_samples, max_samples );
+    ioc_learning( nb_demo, nb_features, nb_sampling_phase, nb_samples, min_samples, max_samples, init_factor );
     close
     
     cd( move3d_dir );

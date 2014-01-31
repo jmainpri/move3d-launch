@@ -1,4 +1,4 @@
-function ioc_learning( nb_demo, nb_features, nb_sampling_phase, nb_samples, min_samples, max_samples )
+function ioc_learning( nb_demo, nb_features, nb_sampling_phase, nb_samples, min_samples, max_samples, init_factor )
 
 global phi_demo
 global phi_k
@@ -29,7 +29,7 @@ for i=0:nb_sampling_phase-1,
     
     if use_constrainted_minimization == 1 ,
         % Execute constrainted minimization
-        w0 = 0.5*ones(1,nb_features);
+        w0 = init_factor*ones(1,nb_features);
         [w,fval,exitflag,output,lambda,grad,hessian] = constrainted_minimization( w0, lb, ub );
     else
         % Execute genetic algorithm
