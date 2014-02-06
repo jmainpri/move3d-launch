@@ -1,5 +1,5 @@
 %clear; clc;
-close all hidden
+%close all hidden
 
 % cost_map = load('cost_map_0.txt')
 % cost_map = load('cost_map_64.txt');
@@ -10,12 +10,58 @@ close all hidden
 % set heat map to be : redbluecmap(10000) or redgreencmap(10000)
 % HeatMap(load('matlab/cost_map_64.txt'));
 nb_colors = 1000;
-h1 = plot( HeatMap( load('matlab/cost_map_64.txt'), 'Symmetric', false, 'Colormap', colormap(jet(nb_colors)) ));
-h2 = HeatMap( load('matlab/cost_map_feat_64.txt'), 'Symmetric', false, 'Colormap', colormap(jet(nb_colors)) );
-h3 = HeatMap( load('matlab/cost_map_derv_0_64.txt'), 'Symmetric', false, 'Colormap', colormap(jet(nb_colors)) );
-h4 = HeatMap( load('matlab/cost_map_derv_1_64.txt'), 'Symmetric', false, 'Colormap', colormap(jet(nb_colors)) );
-h5 = HeatMap( load('matlab/cost_map_jac_mag_simple.txt'), 'Symmetric', false, 'Colormap', colormap(jet(nb_colors)) );
-h6 = HeatMap( load('matlab/cost_map_jac_mag_custom.txt'), 'Symmetric', false, 'Colormap', colormap(jet(nb_colors)) );
+formatSpec = '%02d';
+
+% x = 0:0.01:5;
+% y = exp(-x);
+% plot(x,y);
+
+% for i=0:15,
+%     subplot(4,4,i+1);
+%     filename = [['cost_maps/cost_map_feat_'] num2str(i,formatSpec) ['.txt']];
+%     display(['load : ' filename]);
+%     imagesc(load(filename),[0,1]);
+% end
+% 
+figure
+for i=0:15,
+    subplot(4,4,i+1);
+    filename = [['cost_maps/cost_map_'] num2str(i,formatSpec) ['.txt']];
+    display(['load : ' filename]);
+    imagesc(load(filename),[0,1]);
+    colorbar
+end
+
+% figure
+% for i=0:15,
+%     subplot(4,4,i+1);
+%     filename = [['cost_maps/cost_map_derv_0_'] num2str(i,formatSpec) ['.txt']];
+%     display(['load : ' filename]);
+%     imagesc(load(filename));
+% end
+% 
+% figure
+% for i=0:15,
+%     subplot(4,4,i+1);
+%     filename = [['cost_maps/cost_map_derv_1_'] num2str(i,formatSpec) ['.txt']];
+%     display(['load : ' filename]);
+%     imagesc(load(filename));
+% end
+
+% figure
+% for i=0:15,
+%     subplot(4,4,i+1);
+%     filename = [['cost_maps/cost_map_jac_mag_simple_'] num2str(i,formatSpec) ['.txt']];
+%     display(['load : ' filename]);
+%     imagesc(load(filename));
+% end
+
+% h1 = plot( HeatMap( load('matlab/cost_map_64.txt'), 'Symmetric', false, 'Colormap', colormap(jet(nb_colors)) ));
+% h2 = HeatMap( load('matlab/cost_map_feat_64.txt'), 'Symmetric', false, 'Colormap', colormap(jet(nb_colors)) );
+% h3 = HeatMap( load('matlab/cost_map_derv_0_64.txt'), 'Symmetric', false, 'Colormap', colormap(jet(nb_colors)) );
+% h4 = HeatMap( load('matlab/cost_map_derv_1_64.txt'), 'Symmetric', false, 'Colormap', colormap(jet(nb_colors)) );
+% h5 = HeatMap( load('matlab/cost_map_jac_mag_simple.txt'), 'Symmetric', false, 'Colormap', colormap(jet(nb_colors)) );
+% h6 = HeatMap( load('matlab/cost_map_jac_mag_custom.txt'), 'Symmetric', false, 'Colormap', colormap(jet(nb_colors)) );
 
 % print(h1, '-dpng', '/home/jmainpri/Pictures/Labmeeting/24.01.14/cost_map_64.png');
 % print(h2, '-dpng', '/home/jmainpri/Pictures/Labmeeting/24.01.14/cost_map_feat_64.png');

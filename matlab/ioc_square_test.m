@@ -50,25 +50,27 @@ for i=1:nb_tests,
     
     %waitforbuttonpress;
 
+    % EXECUTE PHASE EVALUTAION (sampling)
     cd( move3d_dir );
     move3d_set_variable( file_params, 'intParameter\\ioc_phase', '1' ); 
-    
     cmd = strcat( move3d_cmd, file_params );
     cmd = strcat( cmd, [' -s ' num2str(seed) ] );
     %display( cmd );
     system( cmd );
     
+    % LEARNING PHASE EVALUTAION (optimization)
     cd( matlab_dir );
     ioc_learning( nb_demo, nb_features, nb_sampling_phase, nb_samples, min_samples, max_samples, init_factor );
     close
     
+    % COMPARE WEIGHTS WITH PLANNING (compare)
     cd( move3d_dir );
     move3d_set_variable( file_params,'intParameter\\ioc_phase', '2' );
-    
     cmd = strcat( move3d_cmd, file_params );
     %display( cmd );
     system( cmd);
     
+    % LOAD RESULTS
     cd( matlab_dir );
     results(i,:,:) = load('data/result.txt');
 %     plot(results(i,:,3))
