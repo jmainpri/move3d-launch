@@ -353,13 +353,13 @@ stringParameter\titi=
 
 [HricsParam]
 boolParameter\init_spheres_cost=true
-boolParameter\ioc_single_iteration=false
-boolParameter\ioc_load_samples_from_file=false
+boolParameter\ioc_single_iteration=true
+boolParameter\ioc_load_samples_from_file=true
 boolParameter\ioc_draw_demonstrations=false
 boolParameter\ioc_draw_samples=true
 boolParameter\ioc_sample_around_demo=false
 boolParameter\ioc_exit_after_run=false
-intParameter\ioc_phase=2
+intParameter\ioc_phase=5
 intParameter\ioc_sample_iteration=0
 intParameter\ioc_nb_of_way_points=100
 intParameter\ioc_planner_type=0

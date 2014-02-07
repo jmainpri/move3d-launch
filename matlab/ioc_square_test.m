@@ -28,13 +28,13 @@ max_samples = nb_samples;
 init_factor = 0;
 
 % Set the number of tests
-nb_tests = 1;
+nb_tests = 8;
 results = zeros( nb_tests, nb_sampling_phase, 3 );
 
 cd( move3d_dir );
 move3d_set_variable( file_params, 'boolParameter\\ioc_exit_after_run', 'true' );
 move3d_set_variable( file_params, 'boolParameter\\ioc_single_iteration', 'false' );
-move3d_set_variable( file_params, 'boolParameter\\ioc_load_samples_from_file', 'false' );
+move3d_set_variable( file_params, 'boolParameter\\ioc_load_samples_from_file', 'true' );
 move3d_set_variable( file_params, 'stringParameter\\active_cost_function', 'costSquares' );
 
 for i=1:nb_tests,
