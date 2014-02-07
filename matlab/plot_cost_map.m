@@ -16,6 +16,17 @@ formatSpec = '%02d';
 % y = exp(-x);
 % plot(x,y);
 
+filename = [['cost_maps/cost_map_feat_'] num2str(0,formatSpec) ['.txt']];
+display(['load : ' filename]);
+imagesc(load(filename),[0,1]);
+colorbar
+
+figure
+filename = [['cost_maps/cost_map_'] num2str(0,formatSpec) ['.txt']];
+display(['load : ' filename]);
+imagesc(load(filename),[0,1]);
+colorbar
+    
 % for i=0:15,
 %     subplot(4,4,i+1);
 %     filename = [['cost_maps/cost_map_feat_'] num2str(i,formatSpec) ['.txt']];
@@ -23,14 +34,15 @@ formatSpec = '%02d';
 %     imagesc(load(filename),[0,1]);
 % end
 % 
-figure
-for i=0:15,
-    subplot(4,4,i+1);
-    filename = [['cost_maps/cost_map_'] num2str(i,formatSpec) ['.txt']];
-    display(['load : ' filename]);
-    imagesc(load(filename),[0,1]);
-    colorbar
-end
+% 
+% figure
+% for i=0:15,
+%     subplot(4,4,i+1);
+%     filename = [['cost_maps/cost_map_'] num2str(i,formatSpec) ['.txt']];
+%     display(['load : ' filename]);
+%     imagesc(load(filename),[0,1]);
+%     colorbar
+% end
 
 % figure
 % for i=0:15,

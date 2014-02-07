@@ -12,7 +12,7 @@ cd( matlab_dir );
 addpath('/home/jmainpri/workspace/move3d/move3d-launch/matlab/move3d_matlab_commands');
 
 % Set move3d calls
-move3d_cmd = 'move3d-qt-studio -nogui -launch SphereIOC -c pqp -f ../assets/IOC/Plane_Multi_squares.p3d -setgui -params ../move3d-launch/';
+move3d_cmd = 'move3d-qt-studio -launch SphereIOC -c pqp -f ../assets/IOC/Plane_Multi_squares.p3d -setgui -params ../move3d-launch/';
 file_params = 'parameters/params_spheres_ioc_squares';
 seed = 1391184849;
 
@@ -28,14 +28,13 @@ max_samples = nb_samples;
 init_factor = 0;
 
 % Set the number of tests
-nb_tests = 20;
+nb_tests = 1;
 results = zeros( nb_tests, nb_sampling_phase, 3 );
 
 cd( move3d_dir );
 move3d_set_variable( file_params, 'boolParameter\\ioc_exit_after_run', 'true' );
-move3d_set_variable( file_params, 'boolParameter\\ioc_single_iteration', 'true' );
+move3d_set_variable( file_params, 'boolParameter\\ioc_single_iteration', 'false' );
 move3d_set_variable( file_params, 'boolParameter\\ioc_load_samples_from_file', 'false' );
-move3d_set_variable( file_params, 'intParameter\\active_cost_function', 'costSquares' );
 move3d_set_variable( file_params, 'stringParameter\\active_cost_function', 'costSquares' );
 
 for i=1:nb_tests,
@@ -85,7 +84,12 @@ for i=0:nb_sampling_phase-1,
 end
 
 close
-plot(samples,mean(results(:,:,3)))
-hold on
-% errorbar(1:nb_tests,mean(results(:,:,3)),min(results(:,:,3)),max(results(:,:,3)))
-errorbar(samples,mean(results(:,:,3)),std(results(:,:,3)))
+
+if nb_tests > 1,
+    plot(samples,mean(results(:,:,3)))
+    hold on
+    % errorbar(1:nb_tests,mean(results(:,:,3)),min(results(:,:,3)),max(results(:,:,3)))
+    errorbar(samples,mean(results(:,:,3)),std(results(:,:,3)))
+else
+    plot(samples,results(:,:,3))
+end
