@@ -1,7 +1,8 @@
 clear; clc
 
 % Set the enviroment for move3d libraries
-setenv('LD_LIBRARY_PATH','/home/jmainpri/openrobots/lib')
+% setenv('LD_LIBRARY_PATH','/home/jmainpri/openrobots/lib')
+setenv('LD_LIBRARY_PATH','/home/jmainpri/workspace/move3d/dependencies/install/lib:/home/jmainpri/workspace/move3d/install/lib')
 
 % Set move3d and matlab working directories
 move3d_dir = '/home/jmainpri/workspace/move3d/move3d-launch/';
@@ -12,7 +13,7 @@ cd( matlab_dir );
 addpath('/home/jmainpri/workspace/move3d/move3d-launch/matlab/move3d_matlab_commands');
 
 % Set move3d calls
-move3d_cmd = 'move3d-qt-studio -launch SphereIOC -c pqp -f ../assets/IOC/Plane_Multi_squares.p3d -setgui -params ../move3d-launch/';
+move3d_cmd = 'move3d-qt-studio -nogui -launch SphereIOC -c pqp -f ../assets/IOC/Plane_Multi_squares.p3d -setgui -params ../move3d-launch/';
 file_params = 'parameters/params_spheres_ioc_squares';
 seed = 1391184849;
 
