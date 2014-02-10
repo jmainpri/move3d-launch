@@ -1,10 +1,8 @@
-function ioc_learning( nb_demo, nb_features, nb_sampling_phase, nb_samples, min_samples, max_samples, init_factor )
+function ioc_learning( nb_demo, nb_features, samples, init_factor )
 
 global phi_demo
 global phi_k
 global nb_used_samples
-
-nb_used_samples = nb_samples;
 
 % w = zeros(1,nb_features);
 % cost_function(w)
@@ -18,14 +16,17 @@ ub = max*ones(1,nb_features);
 % Use constrainted minimization
 use_constrainted_minimization = 1;
 
-% Multiple instance
-for i=0:nb_sampling_phase-1,
+% iteration
+i = 1;
+
+% Multiple instance with difference sizes of samples
+for s=samples,
     
-    nb_samples = floor( min_samples + i*(max_samples-min_samples)/(nb_sampling_phase-1) );
-    nb_used_samples = nb_samples;
+    % Can set number of used sample to be less than present in file
+    nb_used_samples = s;
     
     % Load file
-    [phi_demo, phi_k] = load_instance( nb_demo, nb_samples, nb_features );
+    [phi_demo, phi_k] = load_instance( nb_demo, s, nb_features );
     
     if use_constrainted_minimization == 1 ,
         % Execute constrainted minimization
@@ -41,12 +42,15 @@ for i=0:nb_sampling_phase-1,
     
     disp('---------------------------------------')
     disp(['finshed with iteration : ', num2str(i)])
-    disp(['nb of samples : ', num2str(nb_samples,'%03d')])
+    disp(['nb of samples : ', num2str(s,'%03d')])
 
     disp(['fval : ', num2str(fval)])
     disp('optimization done!!!');
 
     % Saving to file
     disp('writing weights to file');
-    csvwrite(['data/spheres_weights_', num2str(nb_samples,'%03d'), '.txt'],w);
+    csvwrite(['data/spheres_weights_', num2str(s,'%03d'), '.txt'],w);
+    
+    % Increment iteration
+    i = i + 1;
 end
