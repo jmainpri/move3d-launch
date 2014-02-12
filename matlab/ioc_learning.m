@@ -49,7 +49,7 @@ for s=samples,
 
     % Saving to file
     disp('writing weights to file');
-    csvwrite(['data/spheres_weights_', num2str(s,'%03d'), '.txt'],w);
+    csvwrite(['move3d_tmp_data/spheres_weights_', num2str(s,'%03d'), '.txt'],w);
     
     % Increment iteration
     i = i + 1;

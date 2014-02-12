@@ -2,7 +2,7 @@ function [phi_demo, phi_k] = load_instance( nb_demo, nb_samples, nb_features )
 
 formatSpec = '%03d';
 
-filename = ['data/spheres_features_', num2str(nb_samples,formatSpec), '.txt'];
+filename = ['move3d_tmp_data/spheres_features_', num2str(nb_samples,formatSpec), '.txt'];
 % display(filename)
 
 % load file according to the number of samples

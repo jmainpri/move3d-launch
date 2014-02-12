@@ -355,7 +355,7 @@ stringParameter\titi=
 [HricsParam]
 boolParameter\init_spheres_cost=true
 boolParameter\ioc_single_iteration=false
-boolParameter\ioc_load_samples_from_file=true
+boolParameter\ioc_load_samples_from_file=false
 boolParameter\ioc_draw_demonstrations=false
 boolParameter\ioc_draw_samples=true
 boolParameter\ioc_sample_around_demo=false
@@ -365,7 +365,7 @@ intParameter\ioc_sample_iteration=0
 intParameter\ioc_nb_of_way_points=100
 intParameter\ioc_planner_type=0
 doubleParameter\ioc_spheres_power=2
-doubleParameter\ioc_sample_std_dev=1.5
+doubleParameter\ioc_sample_std_dev=1.00
 stringParameter\titi=
 
 [Camera]
