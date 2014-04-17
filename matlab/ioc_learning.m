@@ -1,4 +1,4 @@
-function ioc_learning( nb_demo, nb_features, samples, init_factor )
+function ioc_learning( nb_demo, nb_features, samples, init_factor, data_folder )
 
 global phi_demo
 global phi_k
@@ -9,7 +9,7 @@ global nb_used_samples
 % w = ones(1,nb_features);
 % cost_function(w)
 
-max = 1;
+max = 1; % use 1
 lb = zeros(1,nb_features);
 ub = max*ones(1,nb_features);
 
@@ -26,7 +26,7 @@ for s=samples,
     nb_used_samples = s;
     
     % Load file
-    [phi_demo, phi_k] = load_instance( nb_demo, s, nb_features );
+    [phi_demo, phi_k] = ioc_load_instance( nb_demo, s, nb_features, data_folder );
     
     if use_constrainted_minimization == 1 ,
         % Execute constrainted minimization
@@ -46,11 +46,26 @@ for s=samples,
 
     disp(['fval : ', num2str(fval)])
     disp('optimization done!!!');
+    
+    disp(['weights are : ' num2str(w)]);
+    disp(['cost for demo ' num2str(i) ' : ' num2str(w * phi_demo')]);
 
     % Saving to file
     disp('writing weights to file');
-    csvwrite(['move3d_tmp_data/spheres_weights_', num2str(s,'%03d'), '.txt'],w);
+    csvwrite( [data_folder, 'spheres_weights_', num2str(s,'%03d'), '.txt'], w );
     
+    % Verify solutions
+    is_demo_hight_than_samples = false;
+    for i=1:s,
+        cost_sample = w * phi_k(i,:)';
+        % disp(['cost for sample ' num2str(i) ' : ' num2str(cost_sample)]);
+        if( cost_sample < w * phi_demo' ),
+            is_demo_hight_than_samples = true;
+        end
+    end
+    if is_demo_hight_than_samples,
+        disp('Demo is higher than samples!!!!')
+    end
     % Increment iteration
     i = i + 1;
 end

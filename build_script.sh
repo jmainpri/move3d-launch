@@ -1,18 +1,20 @@
 #!/bin/bash
 
-move3d_root=$HOME/workspace/move3d
+move3d_root=$HOME/Dropbox/move3d
 
 move3drecompile() 
 {
-    cd $move3d_root/libmove3d/build
+    echo "build release"
+    cd $move3d_root/libmove3d/build_release
     make install -j4
-    cd $move3d_root/libmove3d-hri/build
+#    cd $move3d_root/libmove3d-hri/build_release
+#    make install -j4
+    cd $move3d_root/libmove3d-planners/build_release
     make install -j4
-    cd $move3d_root/libmove3d-planners/build
-    make install -j4
-    cd $move3d_root/move3d-studio/build_move3d-qt
+    cd $move3d_root/move3d-studio/build_debug
     make install -j4
     cd $move3d_root
+    echo "DONE!!!"
 }
 
 move3dpull() 
