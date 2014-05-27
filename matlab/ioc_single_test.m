@@ -1,8 +1,9 @@
-function [ results, weights, feat_count, feat_jac] = ioc_single_test( move3d_dir, matlab_dir, move3d_cmd, file_params, ... 
+function [ results, weights, feat_count, feat_jac] = ioc_single_test( move3d_dir, matlab_dir, move3d_data_dir, move3d_cmd, file_params, ... 
     seed, nb_tests, nb_demo, nb_features, samples  )
 
 % Folder where move3d stores data
-data_folder = 'move3d_tmp_data_home/';
+% data_folder = 'move3d_tmp_data_home/';
+data_folder = move3d_data_dir;
 
 % Init result struct
 nb_runs = size(samples,2);
@@ -31,7 +32,7 @@ for i=1:nb_tests,
     % EXECUTE PHASE (sampling)
     % set offset to -1 for random tests
     move3d_set_variable( move3d_dir, file_params, 'intParameter\\ioc_from_file_offset', num2str((i-1)*160) );
-    move3d_set_variable( move3d_dir, file_params, 'intParameter\\ioc_phase', '5' ); % WARNING set to one for normal sampling
+    move3d_set_variable( move3d_dir, file_params, 'intParameter\\ioc_phase', '1' ); % WARNING set to one for normal sampling
     cd( move3d_dir );
     cmd = strcat( move3d_cmd, file_params );
     cmd = strcat( cmd, [' -s ' num2str(seed) ] );

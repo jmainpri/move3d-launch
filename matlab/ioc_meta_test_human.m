@@ -1,14 +1,13 @@
 clear; clc
 
 % Set the enviroment for move3d libraries
-setenv('LD_LIBRARY_PATH', '')
 setenv('LD_LIBRARY_PATH','/home/jmainpri/openrobots/lib:/home/jmainpri/workspace/move3d/dependencies/install/lib:/home/jmainpri/workspace/move3d/install/lib')
 setenv('HOME_MOVE3D','/home/jmainpri/Dropbox/move3d/libmove3d')
 
 % Set move3d and matlab working directories
 move3d_dir = '/home/jmainpri/Dropbox/move3d/move3d-launch/';
 matlab_dir = '/home/jmainpri/Dropbox/move3d/move3d-launch/matlab/';
-move3d_data_dir = 'move3d_tmp_data_home/';
+move3d_data_dir = 'move3d_tmp_data_human_trajs/';
 
 % Empty cache from move3d
 cd( [matlab_dir 'move3d_tmp_data_home'] );
@@ -16,7 +15,6 @@ system('rm *txt');
 
 % Add move3d matlab-commands to matlab path
 addpath('/home/jmainpri/Dropbox/move3d/move3d-launch/matlab/move3d_matlab_commands');
-addpath('/home/jmainpri/Dropbox/move3d/move3d-launch/matlab');
 
 % Comment it with gui
 use_gui = true;
@@ -27,8 +25,8 @@ else
 end
 
 % Set move3d system-command, files and seed
-move3d_cmd = ['move3d-qt-studio ' gui_str ' -launch SphereIOC -c pqp -f ../assets/IOC/Plane_Multi_squares.p3d -setgui -params ../move3d-launch/'];
-file_params = 'parameters/params_spheres_ioc_squares';
+move3d_cmd = ['move3d-qt-studio ' gui_str ' -launch SphereIOC -c pqp -f ../assets/Collaboration/TwoHumansPlanning.p3d -sc ../assets/Collaboration/SCENARIOS/collaboration_test_reach.sce -setgui -params ../move3d-launch/'];
+file_params = 'parameters/params_collaboration_planning';
 
 % Fix seed
 seed = 1391184849;
@@ -57,8 +55,9 @@ samples = 16*(1:10);
 
 % Set move3d variables ----------------------------------------------------
 
-move3d_set_variable( move3d_dir, file_params, 'stringParameter\\active_cost_function', 'costSquares' );
-move3d_set_variable( move3d_dir, file_params, 'boolParameter\\init_spheres_cost', 'true' );
+move3d_set_variable( move3d_dir, file_params, 'stringParameter\\active_cost_function', 'costHumanTrajectoryCost' );
+move3d_set_variable( move3d_dir, file_params, 'boolParameter\\init_spheres_cost', 'false' );
+move3d_set_variable( move3d_dir, file_params, 'boolParameter\\init_human_trajectory_cost', 'true' );
 move3d_set_variable( move3d_dir, file_params, 'boolParameter\\ioc_single_iteration', 'false' );
 move3d_set_variable( move3d_dir, file_params, 'boolParameter\\ioc_sample_around_demo', 'true' );
 move3d_set_variable( move3d_dir, file_params, 'intParameter\\ioc_from_file_offset', '0' );
@@ -69,11 +68,11 @@ move3d_set_variable( move3d_dir, file_params, 'intParameter\\ioc_sample_iteratio
 % -------------------------------------------------------------------------
 
 % move3d_set_variable( move3d_dir, file_params, 'boolParameter\\ioc_load_samples_from_file', 'true' );
-% [results1, recovered_weights, feat_count, feat_jac] = ioc_single_test( move3d_dir, matlab_dir, move3d_cmd, file_params, ... 
+% [results1, recovered_weights, feat_count, feat_jac] = ioc_single_test( move3d_dir, matlab_dir, move3d_data_dir,  move3d_cmd, file_params, ... 
 %      seed, nb_tests, nb_demo, nb_features, samples  );
 %  
 % move3d_set_variable( move3d_dir, file_params, 'boolParameter\\ioc_load_samples_from_file', 'false' );
-% [results2, recovered_weights, feat_count, feat_jac] = ioc_single_test( move3d_dir, matlab_dir, move3d_cmd, file_params, ... 
+% [results2, recovered_weights, feat_count, feat_jac] = ioc_single_test( move3d_dir, matlab_dir, move3d_data_dir,  move3d_cmd, file_params, ... 
 %      seed, nb_tests, nb_demo, nb_features, samples  );
 %  
 %  disp(['results1 : ' num2str( squeeze(results1)' )] )
@@ -85,7 +84,7 @@ move3d_set_variable( move3d_dir, file_params, 'intParameter\\ioc_sample_iteratio
 
 % move3d_set_variable( move3d_dir, file_params, 'boolParameter\\ioc_load_samples_from_file', 'true' );
 % 
-% [results, recovered_weights, feat_count, feat_jac] = ioc_single_test( move3d_dir, matlab_dir, move3d_cmd, file_params, ... 
+% [results, recovered_weights, feat_count, feat_jac] = ioc_single_test( move3d_dir, matlab_dir, move3d_data_dir,  move3d_cmd, file_params, ... 
 %     seed, nb_tests, nb_demo, nb_features, samples  );
 % 
 % % plot_ioc_results_function( samples, results )
@@ -121,7 +120,8 @@ move3d_set_variable( move3d_dir, file_params, 'boolParameter\\ioc_load_samples_f
 
 move3d_set_variable( move3d_dir, file_params, 'doubleParameter\\ioc_sample_std_dev', '0.05' );
 
-[results, recovered_weights, feat_count, feat_jac] = ioc_single_test( move3d_dir, matlab_dir, move3d_data_dir, move3d_cmd, file_params, seed, nb_tests, nb_demo, nb_features, samples  );
+[results, recovered_weights, feat_count, feat_jac] = ioc_single_test( move3d_dir, matlab_dir, move3d_data_dir, move3d_cmd, file_params, ... 
+    seed, nb_tests, nb_demo, nb_features, samples  );
 
 % plot_ioc_results_function( samples, results )
 % plot_weights( samples, recovered_weights )
@@ -138,7 +138,7 @@ save('results_current/feat_jac_0_05_monte_carlo.mat','feat_jac');
 
 % move3d_set_variable( move3d_dir, file_params, 'doubleParameter\\ioc_sample_std_dev', '1.00' );
 % 
-% [results, recovered_weights, feat_count, feat_jac] = ioc_single_test( move3d_dir, matlab_dir, move3d_data_dir, move3d_cmd, file_params, ... 
+% [results, recovered_weights, feat_count, feat_jac] = ioc_single_test( move3d_dir, matlab_dir, move3d_data_dir,  move3d_cmd, file_params, ... 
 %     seed, nb_tests, nb_demo, nb_features, samples  );
 % 
 % % plot_ioc_results_function( samples, results )
@@ -156,7 +156,7 @@ save('results_current/feat_jac_0_05_monte_carlo.mat','feat_jac');
 
 % move3d_set_variable( move3d_dir, file_params, 'doubleParameter\\ioc_sample_std_dev', '0.10' );
 % 
-% [results, recovered_weights, feat_count, feat_jac] = ioc_single_test( move3d_dir, matlab_dir, move3d_data_dir, move3d_cmd, file_params, ... 
+% [results, recovered_weights, feat_count, feat_jac] = ioc_single_test( move3d_dir, matlab_dir, move3d_data_dir,  move3d_cmd, file_params, ... 
 %     seed, nb_tests, nb_demo, nb_features, samples  );
 % 
 % % plot_ioc_results_function( samples, results )
@@ -174,7 +174,7 @@ save('results_current/feat_jac_0_05_monte_carlo.mat','feat_jac');
 
 % move3d_set_variable( move3d_dir, file_params, 'doubleParameter\\ioc_sample_std_dev', '0.05' );
 % 
-% [results, recovered_weights, feat_count, feat_jac] = ioc_single_test( move3d_dir, matlab_dir, move3d_data_dir, move3d_cmd, file_params, ... 
+% [results, recovered_weights, feat_count, feat_jac] = ioc_single_test( move3d_dir, matlab_dir, move3d_data_dir,  move3d_cmd, file_params, ... 
 %     seed, nb_tests, nb_demo, nb_features, samples  );
 % % 
 % % plot_ioc_results_function( samples, results )
@@ -195,7 +195,7 @@ save('results_current/feat_jac_0_05_monte_carlo.mat','feat_jac');
 
 % move3d_set_variable( move3d_dir, file_params, 'doubleParameter\\ioc_sample_std_dev', '0.03' );
 % 
-% [results, recovered_weights, feat_count, feat_jac] = ioc_single_test( move3d_dir, matlab_dir, move3d_data_dir, move3d_cmd, file_params, ... 
+% [results, recovered_weights, feat_count, feat_jac] = ioc_single_test( move3d_dir, matlab_dir, move3d_data_dir,  move3d_cmd, file_params, ... 
 %     seed, nb_tests, nb_demo, nb_features, samples  );
 % % 
 % % plot_ioc_results_function( samples, results )
@@ -213,7 +213,7 @@ save('results_current/feat_jac_0_05_monte_carlo.mat','feat_jac');
 
 % move3d_set_variable( move3d_dir, file_params, 'doubleParameter\\ioc_sample_std_dev', '0.01' );
 % 
-% [results,recovered_weights, feat_count, feat_jac] = ioc_single_test( move3d_dir, matlab_dir, move3d_data_dir, move3d_cmd, file_params, ... 
+% [results,recovered_weights, feat_count, feat_jac] = ioc_single_test( move3d_dir, matlab_dir, move3d_data_dir,  move3d_cmd, file_params, ... 
 %     seed, nb_tests, nb_demo, nb_features, samples  );
 % % 
 % % plot_ioc_results_function( samples, results )
@@ -237,7 +237,7 @@ save('results_current/feat_jac_0_05_monte_carlo.mat','feat_jac');
 
 % move3d_set_variable( move3d_dir, file_params, 'doubleParameter\\ioc_sample_std_dev', '0.03' );
 % 
-% [results,recovered_weights, jacob_feat] = ioc_single_test( move3d_dir, matlab_dir, move3d_data_dir, move3d_cmd, file_params, ... 
+% [results,recovered_weights, jacob_feat] = ioc_single_test( move3d_dir, matlab_dir, move3d_data_dir,  move3d_cmd, file_params, ... 
 %     seed, nb_tests, nb_demo, nb_features, samples  );
 % 
 % % plot_ioc_results_function( samples, results )
@@ -251,7 +251,7 @@ save('results_current/feat_jac_0_05_monte_carlo.mat','feat_jac');
 
 % move3d_set_variable( move3d_dir, file_params, 'doubleParameter\\ioc_sample_std_dev', '0.05' );
 % 
-% [results,recovered_weights, jacob_feat] = ioc_single_test( move3d_dir, matlab_dir, move3d_data_dir, move3d_cmd, file_params, ... 
+% [results,recovered_weights, jacob_feat] = ioc_single_test( move3d_dir, matlab_dir, move3d_data_dir,  move3d_cmd, file_params, ... 
 %     seed, nb_tests, nb_demo, nb_features, samples  );
 % 
 % % plot_ioc_results_function( samples, results )
@@ -265,7 +265,7 @@ save('results_current/feat_jac_0_05_monte_carlo.mat','feat_jac');
 
 % move3d_set_variable( move3d_dir, file_params, 'doubleParameter\\ioc_sample_std_dev', '1.00' );
 % 
-% [results,recovered_weights, jacob_feat] = ioc_single_test( move3d_dir, matlab_dir, move3d_data_dir, move3d_cmd, file_params, ... 
+% [results,recovered_weights, jacob_feat] = ioc_single_test( move3d_dir, matlab_dir, move3d_data_dir,  move3d_cmd, file_params, ... 
 %     seed, nb_tests, nb_demo, nb_features, samples  );
 % 
 % % plot_ioc_results_function( samples, results )
