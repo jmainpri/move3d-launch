@@ -117,7 +117,8 @@ MakeAndInstallRepos()
 InstallSysDep()
 {
     # Install system dependencies
-    # sudo apt-get update
+
+    sudo apt-get update
     # sudo apt-get install cmake cmake-curses-gui
     # sudo apt-get install autoconf libtool
     # sudo apt-get install build-essential
@@ -143,11 +144,12 @@ Install()
     # Check for environment settings
     if [ -z "$MOVE3D_INSTALL_DIR" ];
     then
-        echo 'export MOVE3D_INSTALL_DIR='$MOVE3D_DOWNLOAD_FOLDER/install >> ~/.bashrc
+	MOVE3D_INSTALL_DIR=$MOVE3D_DOWNLOAD_FOLDER/install
+        echo 'export MOVE3D_INSTALL_DIR='$MOVE3D_INSTALL_DIR >> ~/.bashrc
         # . ~/.bashrc
     else
 	MOVE3D_INSTALL_FOLDER=$MOVE3D_INSTALL_DIR
-    fi    
+    fi
 
     # Set environment
     echo 'export HOME_MOVE3D='$MOVE3D_DOWNLOAD_FOLDER/libmove3d >> ~/.bashrc
