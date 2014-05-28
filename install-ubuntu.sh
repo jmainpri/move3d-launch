@@ -139,7 +139,7 @@ InstallSysDep()
 Install()
 {
     echo '' >> ~/.bashrc
-    echo '------------- Move3D --------------' >> ~/.bashrc
+    echo '#------------- Move3D --------------' >> ~/.bashrc
 
     # Check for environment settings
     if [ -z "$MOVE3D_INSTALL_DIR" ];
