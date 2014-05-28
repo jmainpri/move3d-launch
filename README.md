@@ -31,7 +31,7 @@ Note: the script may work on other unix distributions.
 You should now be able to launch the examples, for instance try:
 
     cd launch_files
-    ./launch_trrt_costmap.sh
+    ./launch_justin_kitchen.sh
     
 The launch scripts supose that:
 
