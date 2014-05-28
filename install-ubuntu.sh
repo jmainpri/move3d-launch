@@ -107,8 +107,9 @@ Install()
 
     # Set environment
     echo 'export HOME_MOVE3D='$MOVE3D_DOWNLOAD_FOLDER/libmove3d >> ~/.bashrc
-    echo 'export LD_LIBRARY_PATH='$MOVE3D_INSTALL_FOLDER/lib >> ~/.bashrc
-    echo 'export PKG_CONFIG_PATH='${ROBOTPKG_BASE}/lib/pkgconfig:$PKG_CONFIG_PATH >> ~/.bashrc
+    echo 'export LD_LIBRARY_PATH='$MOVE3D_INSTALL_FOLDER/lib:'$LD_LIBRARY_PATH' >> ~/.bashrc
+    echo 'export PKG_CONFIG_PATH='${MOVE3D_INSTALL_FOLDER}/lib/pkgconfig:'$PKG_CONFIG_PATH' >> ~/.bashrc
+    echo 'export PATH='${MOVE3D_INSTALL_FOLDER}/bin:'$PATH' >> ~/.bashrc
 
     # Remove all installed software
     RemoveAll
