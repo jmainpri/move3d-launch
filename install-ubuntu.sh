@@ -57,7 +57,7 @@ PullRepos()
 
 RemoveAllRepos()
 {  
-    cd $MOVE3D_DOWNLOAD_FOLDER/src
+    cd $MOVE3D_DOWNLOAD_FOLDER
 
     for r in "${repo_names[@]}"
     do :
@@ -67,7 +67,7 @@ RemoveAllRepos()
 
 CompileRepos()
 {  
-    cd $MOVE3D_DOWNLOAD_FOLDER/src
+    cd $MOVE3D_DOWNLOAD_FOLDER
 
     for r in "${repo_names[@]}"
     do :
@@ -88,11 +88,11 @@ MakeAndInstallRepos()
 	cd build
 	autoreconf -i ..
 	../configure
-	if [ $r != move3d-studio ]
+	if [ $r != gbM ]
 	then
 	    ../configure --prefix=$MOVE3D_DOWNLOAD_FOLDER
 	else
-	    ../configure --prefix=$MOVE3D_DOWNLOAD_FOLDER 
+	    ../configure --prefix=$MOVE3D_DOWNLOAD_FOLDER --disable-gbtcl
 	fi
 	make install
 	cd ../..
