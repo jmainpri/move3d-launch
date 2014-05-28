@@ -9,16 +9,15 @@ The install-ubuntu.sh script sequences apt-get commands, git clone commands, and
 
     ./install-ubuntu.sh
     
-The script will append to ~/.bashrc, make sure the environment variables have been set:
+The script will append to ~/.bashrc, when the software is compiled, make sure the environment variables have been set:
 
     echo "HOME_MOVE3D= "$HOME_MOVE3D
     echo "LD_LIBRARY_PATH= " $LD_LIBRARY_PATH
     echo "PKG_CONFIG_PATH= " $PKG_CONFIG_PATH
     echo "PATH= "$PATH
     
-The variable should containts the paths of the newly installed software. 
-
-Once the software is compiled, you can download the assets along side move3d-launch.
+The variables should contain the paths of the newly installed software. 
+You can install the assets alongside move3d-launch.
 
     git clone https://github.com/jmainpri/move3d-assets.git
     
