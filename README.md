@@ -16,16 +16,25 @@ The script writes to the ~/.bashrc file, make sure the environment variables hav
     echo "PKG_CONFIG_PATH= " $PKG_CONFIG_PATH
     echo "PATH= "$PATH
     
-The variable should containts the paths of the newly installed software.
-Note: the script may work on other unix distributions.
+The variable should containts the paths of the newly installed software. 
 
-### Run
-
-Once the software is compiled, you can download the assets
+Once the software is compiled, you can download the assets along side move3d-launch.
 
     git clone https://github.com/jmainpri/move3d-assets.git
     
+Note: the script may work on other unix distributions.
+
+    
+### Run
+
+
 You should now be able to launch the examples, for instance try:
 
     cd launch_files
     ./launch_trrt_costmap.sh
+    
+The launch scripts supose that:
+
+* PATH contains the move3d-studio exec
+* HOME_MOVE3D points to move3d-launch or a floder along side it
+* move3d-assets is installed along side move3d-launch
