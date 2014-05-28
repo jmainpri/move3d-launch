@@ -9,7 +9,7 @@ The install-ubuntu.sh script sequences apt-get commands, git clone commands, and
 
     ./install-ubuntu.sh
     
-The script writes to the ~/.bashrc file, make sure the environment variables have been set:
+The script will append to ~/.bashrc, make sure the environment variables have been set:
 
     echo "HOME_MOVE3D= "$HOME_MOVE3D
     echo "LD_LIBRARY_PATH= " $LD_LIBRARY_PATH
