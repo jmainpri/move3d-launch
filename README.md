@@ -35,6 +35,6 @@ You should now be able to launch the examples, for instance try:
     
 The launch scripts supose that:
 
-* PATH contains the move3d-studio exec
+* PATH contains the move3d-studio executable
 * HOME_MOVE3D points to move3d-launch or a floder along side it
 * move3d-assets is installed along side move3d-launch
