@@ -55,13 +55,25 @@ PullRepos()
     done
 }
 
-RemoveRepos()
+RemoveAllRepos()
 {  
     cd $MOVE3D_DOWNLOAD_FOLDER/src
 
     for r in "${repo_names[@]}"
     do :
         rm -rf $r
+    done
+}
+
+CompileRepos()
+{  
+    cd $MOVE3D_DOWNLOAD_FOLDER/src
+
+    for r in "${repo_names[@]}"
+    do :
+        cd $r/build
+	make install
+	cd ../..
     done
 }
 
@@ -73,9 +85,17 @@ MakeAndInstallRepos()
     do :
 	cd $r
 	mkdir build
-	autoreconf -i
+	cd build
+	autoreconf -i ..
 	../configure
+	if [ $r != move3d-studio ]
+	then
+	    ../configure --prefix=$MOVE3D_DOWNLOAD_FOLDER
+	else
+	    ../configure --prefix=$MOVE3D_DOWNLOAD_FOLDER 
+	fi
 	make install
+	cd ../..
     done
 
     for r in "${cmake_repo_names[@]}"
@@ -83,8 +103,14 @@ MakeAndInstallRepos()
 	cd $r
 	mkdir build
 	cd build
-	cmake ..
+	if [ $r != move3d-studio ]
+	then
+	    cmake .. -DCMAKE_INSTALL_PREFIX:PATH=$MOVE3D_DOWNLOAD_FOLDER
+	else
+	    cmake .. -DCMAKE_INSTALL_PREFIX:PATH=$MOVE3D_DOWNLOAD_FOLDER -DMOVE3D_QT=ON -DUSE_QWT=OFF
+	fi
 	make install
+	cd ../..
     done
 }
 
@@ -92,15 +118,30 @@ InstallSysDep()
 {
     # Install system dependencies
     sudo apt-get update
+    sudo apt-get install cmake cmake-curses-gui
+    sudo apt-get install autoconf libtool
+    sudo apt-get install build-essential
+    sudo apt-get install libxml2-dev
+    sudo apt-get install doxygen
+    sudo apt-get install qt4-dev-tools
+    sudo apt-get install libxmp-dev
+    sudo apt-get install libgbm1 libgbm-dev libgsl0-dev glpk
+    sudo apt-get install libboost-dev
+    sudo apt-get install libgts-dev
+    sudo apt-get install freeglut3 freeglut-dev
+    sudo apt-get install libeigen3-dev
+    sudo apt-get install libboost-thread-dev
 }
 
 Install()
 {
+    echo '' >> ~/.bashrc
+
     # Check for environment settings
     if [ -z "$MOVE3D_INSTALL_DIR" ];
     then
         echo 'export MOVE3D_INSTALL_DIR='$MOVE3D_DOWNLOAD_FOLDER/install >> ~/.bashrc
-        . ~/.bashrc
+        # . ~/.bashrc
     elif
 	MOVE3D_INSTALL_FOLDER=$MOVE3D_INSTALL_DIR
     fi    
@@ -111,14 +152,16 @@ Install()
     echo 'export PKG_CONFIG_PATH='${MOVE3D_INSTALL_FOLDER}/lib/pkgconfig:'$PKG_CONFIG_PATH' >> ~/.bashrc
     echo 'export PATH='${MOVE3D_INSTALL_FOLDER}/bin:'$PATH' >> ~/.bashrc
 
+    source ~/.bashrc
+
     # Remove all installed software
-    RemoveAll
+    RemoveAllRepos
 
     # Install all system dependencies
     InstallSysDep
 
     # Pull repositories from github
-    GetAchReposFromGithub
+    GetReposFromGithub
 
     # Make and install repositories
     MakeAndInstallRepos
@@ -126,10 +169,12 @@ Install()
 
 ShowUsage()
 {
-    echo 'install-https : Removes all software, downloads the stable versions via HTTPS and compile'
-    echo 'install-ssh   : Removes all software, downloads the stable versions via SSH and compile'
-    echo 'pull-recompile: Pulls and recompiles current software stack'
-    echo 'recompile     : Recompiles current software stack'
+    echo '* 1st argument'
+    echo '    install-https : Removes all software, downloads the stable versions via HTTPS and compile'
+    echo '    install-ssh   : Removes all software, downloads the stable versions via SSH and compile'
+    echo '    pull-recompile: Pulls and recompiles current software stack'
+    echo '    recompile     : Recompiles current software stack'
+    echo '* 2st argument'
 }
 
 case "$1" in
