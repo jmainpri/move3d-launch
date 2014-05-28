@@ -81,7 +81,7 @@ MakeAndInstallRepos()
 {
     cd $MOVE3D_DOWNLOAD_FOLDER
 
-    for r in "${autotouls_repo_names[@]}"
+    for r in "${autotools_repo_names[@]}"
     do :
 	cd $r
 	mkdir build
@@ -90,9 +90,9 @@ MakeAndInstallRepos()
 	../configure
 	if [ $r != gbM ]
 	then
-	    ../configure --prefix=$MOVE3D_DOWNLOAD_FOLDER
+	    ../configure --prefix=$MOVE3D_INSTALL_FOLDER
 	else
-	    ../configure --prefix=$MOVE3D_DOWNLOAD_FOLDER --disable-gbtcl
+	    ../configure --prefix=$MOVE3D_INSTALL_FOLDER --disable-gbtcl
 	fi
 	make install
 	cd ../..
@@ -105,9 +105,9 @@ MakeAndInstallRepos()
 	cd build
 	if [ $r != move3d-studio ]
 	then
-	    cmake .. -DCMAKE_INSTALL_PREFIX:PATH=$MOVE3D_DOWNLOAD_FOLDER
+	    cmake .. -DCMAKE_INSTALL_PREFIX:PATH=$MOVE3D_INSTALL_FOLDER
 	else
-	    cmake .. -DCMAKE_INSTALL_PREFIX:PATH=$MOVE3D_DOWNLOAD_FOLDER -DMOVE3D_QT=ON -DUSE_QWT=OFF
+	    cmake .. -DCMAKE_INSTALL_PREFIX:PATH=$MOVE3D_INSTALL_FOLDER -DMOVE3D_QT=ON -DUSE_QWT=OFF
 	fi
 	make install
 	cd ../..
@@ -117,32 +117,35 @@ MakeAndInstallRepos()
 InstallSysDep()
 {
     # Install system dependencies
-    sudo apt-get update
-    sudo apt-get install cmake cmake-curses-gui
-    sudo apt-get install autoconf libtool
-    sudo apt-get install build-essential
-    sudo apt-get install libxml2-dev
-    sudo apt-get install doxygen
-    sudo apt-get install qt4-dev-tools
-    sudo apt-get install libxmp-dev
-    sudo apt-get install libgbm1 libgbm-dev libgsl0-dev glpk
-    sudo apt-get install libboost-dev
-    sudo apt-get install libgts-dev
-    sudo apt-get install freeglut3 freeglut-dev
-    sudo apt-get install libeigen3-dev
-    sudo apt-get install libboost-thread-dev
+    # sudo apt-get update
+    # sudo apt-get install cmake cmake-curses-gui
+    # sudo apt-get install autoconf libtool
+    # sudo apt-get install build-essential
+    # sudo apt-get install libxml2-dev
+    # sudo apt-get install doxygen
+    # sudo apt-get install qt4-dev-tools
+    # sudo apt-get install libxpm-dev
+    # sudo apt-get install libgbm1 libgbm-dev libgsl0-dev glpk
+    # sudo apt-get install libboost-dev
+    # sudo apt-get install libgts-dev
+    # sudo apt-get install freeglut3 freeglut3-dev
+    # sudo apt-get install libeigen3-dev
+    # sudo apt-get install libboost-thread-dev
+
+    sudo apt-get install cmake cmake-curses-gui autoconf libtool build-essential libxml2-dev doxygen qt4-dev-tools libxpm-dev libgbm1 libgbm-dev libgsl0-dev glpk libboost-dev libgts-dev freeglut3 freeglut3-dev libeigen3-dev libboost-thread-dev
 }
 
 Install()
 {
     echo '' >> ~/.bashrc
+    echo '------------- Move3D --------------' >> ~/.bashrc
 
     # Check for environment settings
     if [ -z "$MOVE3D_INSTALL_DIR" ];
     then
         echo 'export MOVE3D_INSTALL_DIR='$MOVE3D_DOWNLOAD_FOLDER/install >> ~/.bashrc
         # . ~/.bashrc
-    elif
+    else
 	MOVE3D_INSTALL_FOLDER=$MOVE3D_INSTALL_DIR
     fi    
 
