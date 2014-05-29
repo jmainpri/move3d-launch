@@ -8,8 +8,8 @@ USE_SSH=false
 USE_TARBALLS=false
 
 # Move3D install folder
-MOVE3D_INSTALL_FOLDER=$('pwd')/../install
 MOVE3D_DOWNLOAD_FOLDER=$('pwd')/..
+MOVE3D_INSTALL_FOLDER=$(MOVE3D_DOWNLOAD_FOLDER)/install
 
 SetReposNames()
 {
@@ -145,13 +145,13 @@ Install()
     if [ -z "$MOVE3D_INSTALL_DIR" ];
     then
 	MOVE3D_INSTALL_DIR=$MOVE3D_DOWNLOAD_FOLDER/install
-        echo 'export MOVE3D_INSTALL_DIR='$MOVE3D_INSTALL_DIR >> ~/.bashrc
         # . ~/.bashrc
     else
 	MOVE3D_INSTALL_FOLDER=$MOVE3D_INSTALL_DIR
     fi
 
     # Set environment
+    echo 'export MOVE3D_INSTALL_DIR='$MOVE3D_INSTALL_DIR >> ~/.bashrc
     echo 'export HOME_MOVE3D='$MOVE3D_DOWNLOAD_FOLDER/libmove3d >> ~/.bashrc
     echo 'export LD_LIBRARY_PATH='$MOVE3D_INSTALL_FOLDER/lib:'$LD_LIBRARY_PATH' >> ~/.bashrc
     echo 'export PKG_CONFIG_PATH='${MOVE3D_INSTALL_FOLDER}/lib/pkgconfig:'$PKG_CONFIG_PATH' >> ~/.bashrc
