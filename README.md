@@ -5,7 +5,11 @@ Launch files for move3d-studio
 
 ### Install
 
-The install-ubuntu.sh script sequences apt-get commands, git clone commands, and make commands to install the move3d suite to an arbitray folder. Before launching the install script, the default usage is to clone move3d-launch in a folder suited for holding the source code and 3d models of move3d (you can name it move3d). Then type:
+The install-ubuntu.sh script sequences apt-get commands, git clone commands, and make commands to install the move3d suite to an arbitray folder. The default folder will be ../install. But you can set it this way, where ~/move3d_install is the destination folder:
+
+    export MOVE3D_INSTALL_DIR=$HOME/move3d_install
+
+Before launching the install script, the default usage is to clone move3d-launch in a folder suited for holding the source code and 3d models of move3d (you can name it move3d). Then type:
 
     ./install-ubuntu.sh
 
