@@ -16,7 +16,7 @@ the proceedure can be quite long. The script may prompt for sudo privileges when
     echo "PKG_CONFIG_PATH= " $PKG_CONFIG_PATH
     echo "PATH= "$PATH
     
-The variables should contain the paths of the newly installed.
+The variables should contain the paths to the folders, executable and libraries.
 
 
 You can then install the assets alongside move3d-launch:
