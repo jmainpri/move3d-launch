@@ -4,9 +4,6 @@
 # Set if you want to download as ssh or http
 USE_SSH=false
 
-# Use tar
-USE_TARBALLS=false
-
 # Move3D install folder
 MOVE3D_DOWNLOAD_FOLDER=$('pwd')/..
 MOVE3D_INSTALL_FOLDER=${MOVE3D_DOWNLOAD_FOLDER}/install
