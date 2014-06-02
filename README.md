@@ -1,7 +1,7 @@
 move3d-launch
 =============
 
-Launch files for move3d-studio
+This project contains an install and launch scripts for move3d-studio
 
 ### Install
 
