@@ -36,3 +36,5 @@ for d=1:d_size(1),
          end
     end
 end
+
+loss = loss + norm(w,1); % add the l1 norm for sparsity

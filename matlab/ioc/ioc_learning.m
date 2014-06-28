@@ -14,7 +14,7 @@ lb = zeros(1,nb_features);
 ub = max*ones(1,nb_features);
 
 % Use constrainted minimization
-use_constrainted_minimization = false;
+use_constrainted_minimization = true;
 use_liblfgs = false;
 use_cmaes = true;
 

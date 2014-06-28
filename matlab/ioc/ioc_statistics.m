@@ -20,19 +20,32 @@ w_16 =[ 0.01, 0.80, 0.50, 0.80, ...
         0.50, 0.20, 0.50, 0.50, ...
         0.50, 0.50, 0.50, 0.20];
 
-w_1 = [[0.7]  1 * w_16];
+w_1 = [[0.8]  1 * w_16];
 
-t = 1; % test
-r = 1; % run
+t = 10; % test (id)
+r = 9; % run (sampling phase)
 features = load('results_current/feat_human_motion.mat');
 weights = load('results_current/weights_human_motion.mat');
 
-w_1 = squeeze(weights.recovered_weights(1,t,:))'
+w_1 = squeeze(weights.recovered_weights(t,r,:))';
 %w_1(2) = 0
 % w_1 = ones(size(w_1))
 
-print_stats( features.feat_count{r,t}(1,:), features.feat_count{r,t}(2:end,:), w_1 );
+print_stats(features.feat_count{t,r}(1,:), features.feat_count{t,r}(2:end,:), w_1 );
 
+% -------------------------------------------------------------------------
+
+w_1_weights = [[0.8]  1 * w_16];
+w_1_recovered = squeeze(weights.recovered_weights(t,r,:))';
+
+figure
+subplot(2,1,1)
+bar( w_1_weights )
+axis([0 18 0 1])
+title('Weights')
+subplot(2,1,2)
+bar( w_1_recovered )
+axis([0 18 0 1])
 
 % t = 10; % test
 % r = 1; % run

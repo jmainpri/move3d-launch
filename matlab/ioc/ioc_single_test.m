@@ -7,7 +7,7 @@ data_folder = move3d_data_dir;
 
 % Init result struct
 nb_runs = size(samples,2);
-results = zeros( nb_tests, nb_runs, 4 );
+results = zeros( nb_tests, nb_runs, 6 );
 weights = zeros( nb_tests, nb_runs, nb_features );
 feat_count = cell( nb_tests, nb_runs );
 feat_jac = cell( nb_tests, nb_runs );
@@ -20,7 +20,7 @@ move3d_set_variable( move3d_dir, file_params, 'boolParameter\\ioc_exit_after_run
 % move3d_set_variable( move3d_dir, file_params, 'boolParameter\\ioc_single_iteration', 'false' );
 
 sampling = true;
-compare = false;
+compare = true;
 
 for i=1:nb_tests,
     
@@ -54,6 +54,7 @@ for i=1:nb_tests,
         move3d_set_variable( move3d_dir, file_params,'intParameter\\ioc_phase', '2' );
         cd( move3d_dir );
         cmd = strcat( move3d_cmd, file_params );
+        cmd = strcat( cmd, [' -s ' num2str(seed) ] );
         %display( cmd );
         system( cmd);
 
@@ -64,7 +65,6 @@ for i=1:nb_tests,
         end
         results(i,:,:,:,:) = load([data_folder 'result.txt']);
     end
-    
     
     for r=1:size(samples,2),
         weights(i,r,:) = load([data_folder 'spheres_weights_', num2str(samples(r),'%03d'), '.txt']);
