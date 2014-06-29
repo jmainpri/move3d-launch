@@ -70,6 +70,8 @@ for s=samples,
     disp(['fval : ', num2str(fval)])
     disp('optimization done!!!');
     
+    cost_of_demos = w * phi_demo';
+    
     disp(['weights are : ' num2str(w)]);
     disp(['cost for demo ' num2str(i) ' : ' num2str(w * phi_demo')]);
 
@@ -78,15 +80,17 @@ for s=samples,
     csvwrite( [data_folder, 'spheres_weights_', num2str(s,'%03d'), '.txt'], w );
     
     % Verify solutions
-    is_demo_hight_than_samples = false;
-    for i=1:s,
-        cost_sample = w * phi_k(i,:)';
-        % disp(['cost for sample ' num2str(i) ' : ' num2str(cost_sample)]);
-        if( cost_sample < w * phi_demo' ),
-            is_demo_hight_than_samples = true;
+    is_demo_higher_than_samples = false;
+    for d=nb_demo,
+        for k=1:s,
+            cost_sample = w * phi_k(k,:,d)';
+            % disp(['cost for sample ' num2str(i) ' : ' num2str(cost_sample)]);
+            if( cost_sample < cost_of_demos(d) ),
+                is_demo_higher_than_samples = true;
+            end
         end
     end
-    if is_demo_hight_than_samples,
+    if is_demo_higher_than_samples,
         disp('Demo is higher than samples!!!!')
     end
     % Increment iteration

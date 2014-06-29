@@ -20,7 +20,7 @@ move3d_set_variable( move3d_dir, file_params, 'boolParameter\\ioc_exit_after_run
 % move3d_set_variable( move3d_dir, file_params, 'boolParameter\\ioc_single_iteration', 'false' );
 
 sampling = true;
-compare = true;
+compare = false;
 
 for i=1:nb_tests,
     

@@ -372,14 +372,14 @@ boolParameter\ioc_draw_samples=true
 boolParameter\ioc_sample_around_demo=true
 boolParameter\ioc_exit_after_run=false
 boolParameter\ioc_use_stomp_spetial_cost=false
-intParameter\ioc_phase=1
+intParameter\ioc_phase=-1
 intParameter\ioc_sample_iteration=100
 intParameter\ioc_nb_of_way_points=100
 intParameter\ioc_planner_type=0
 intParameter\ioc_spheres_to_draw=0
-intParameter\ioc_from_file_offset=1440
+intParameter\ioc_from_file_offset=0
 doubleParameter\ioc_spheres_power=0
-doubleParameter\ioc_sample_std_dev=0.0012
+doubleParameter\ioc_sample_std_dev=0.00015
 doubleParameter\ioc_cost_factor=0
 stringParameter\titi=
 

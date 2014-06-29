@@ -22,8 +22,8 @@ w_16 =[ 0.01, 0.80, 0.50, 0.80, ...
 
 w_1 = [[0.8]  1 * w_16];
 
-t = 10; % test (id)
-r = 9; % run (sampling phase)
+t = 1; % test (id)
+r = 1; % run (sampling phase)
 features = load('results_current/feat_human_motion.mat');
 weights = load('results_current/weights_human_motion.mat');
 
@@ -31,21 +31,46 @@ w_1 = squeeze(weights.recovered_weights(t,r,:))';
 %w_1(2) = 0
 % w_1 = ones(size(w_1))
 
-print_stats(features.feat_count{t,r}(1,:), features.feat_count{t,r}(2:end,:), w_1 );
+size_feature_data = size( features.feat_count{t,r} )
+nb_of_feature_vector = size_feature_data(1);
+nb_samples = ( nb_of_feature_vector / ( nb_demo ) ) - 1;
+    
+for i=1:nb_demo,
+    phi_demo = features.feat_count{r,t}(i,:);
+    id_start = (i-1)*nb_samples+nb_demo+1;
+    id_end = i*nb_samples+nb_demo+1;
+    phi_samples = features.feat_count{r,t}(id_start:id_end,:);
+    print_stats( i, phi_demo, phi_samples, w_1 );
+    
+    w = waitforbuttonpress;
+    
+    if w == 0
+        disp('Button click')
+    else
+        disp('Key press')
+    end
+    
+    close
+end
 
 % -------------------------------------------------------------------------
 
-w_1_weights = [[0.8]  1 * w_16];
-w_1_recovered = squeeze(weights.recovered_weights(t,r,:))';
+%w_1_recovered = squeeze(weights.recovered_weights(t,r,:))';
 
-figure
-subplot(2,1,1)
-bar( w_1_weights )
-axis([0 18 0 1])
-title('Weights')
-subplot(2,1,2)
-bar( w_1_recovered )
-axis([0 18 0 1])
+% TEST DEMOS
+% w_1_weights = [[0.8]  1 * w_16];
+% w_1_recovered = squeeze(weights.recovered_weights(t,r,:))';
+% 
+% figure
+% subplot(2,1,1)
+% bar( w_1_weights )
+% axis([0 18 0 1])
+% title('Weights')
+% subplot(2,1,2)
+% bar( w_1_recovered )
+% axis([0 18 0 1])
+
+% -------------------------------------------------------------------------
 
 % t = 10; % test
 % r = 1; % run

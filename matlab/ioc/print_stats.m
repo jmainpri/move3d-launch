@@ -1,4 +1,4 @@
-function print_stats( phi_demo, phi_samples, w_o )
+function print_stats( demo_id, phi_demo, phi_samples, w_o )
 
 phi_mean = mean(phi_samples);
 phi_variance = var(phi_samples);
@@ -34,22 +34,6 @@ end
 % disp(['deltas : ' num2str(mean( deltas )) ] )
 % disp('---------------------------------------------')
 % disp(['mean deltas sum : ' num2str(mean( sumss )) ] )
-
-figure
-subplot(4,1,1)
-bar( w_o )
-title('Weights')
-subplot(4,1,2)
-bar( phi_demo )
-title('Phi demo')
-subplot(4,1,3)
-bar(phi_mean)
-% bar(mean(deltas))
-title('Phi mean')
-subplot(4,1,4)
-bar( phi_variance )
-title('Phi var')
-%axis([0 16 0 30])
 
 disp('*********************************************')
 disp(['NB SAMPLES : ' num2str( size( phi_samples, 1 ) ) ' NB FEATURES : ' num2str( size( phi_samples, 2 ) )] )
@@ -88,7 +72,23 @@ disp(['number of degenration : ' num2str(number_of_degeneration)])
 
 
 % plot the cost of sampled trajectories compared to the demonstration
-figure
+
+FigHandle = figure('name', ['DEMONSTRATION : ' num2str(demo_id)], 'Position', [1000, 50, 1000, 1400]);
+subplot(5,1,1)
+bar( w_o )
+title('Weights')
+subplot(5,1,2)
+bar( phi_demo )
+title('Phi demo')
+subplot(5,1,3)
+bar(phi_mean)
+% bar(mean(deltas))
+title('Phi mean')
+subplot(5,1,4)
+bar( phi_variance )
+title('Phi var')
+%axis([0 16 0 30])
+subplot(5,1,5)
 plot( costs )
 hold on
 plot( 1:size(costs,2), demo_cost*ones(size(costs,2)), 'r' )
