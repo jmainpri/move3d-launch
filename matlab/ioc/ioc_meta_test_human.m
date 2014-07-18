@@ -17,7 +17,7 @@ system('rm *txt');
 addpath('/home/jmainpri/Dropbox/move3d/move3d-launch/matlab/move3d_matlab_commands');
 
 % Comment it with gui
-use_gui = false;
+use_gui = true;
 if use_gui,
     gui_str='';
 else
@@ -26,7 +26,7 @@ end
 
 % Set move3d system-command, files and seed
 move3d_cmd = ['move3d-qt-studio ' gui_str ' -launch SphereIOC -c pqp -f ../assets/Collaboration/TwoHumansTableKinect.p3d -sc ../assets/Collaboration/SCENARIOS/collaboration_test_kinect.sce -setgui -params ../move3d-launch/'];
-file_params = 'parameters/params_collaboration_planning';
+file_params = 'parameters/params_collaboration_planning_bis';
 
 % Fix seed
 seed = 1391184850;
@@ -39,7 +39,7 @@ nb_tests = 1; % number of calls to each sampling phase
 % Set IOC variables (should be matched in move3d)
 % -------------------------------------------------------------------------
 nb_demo = 24;
-nb_features = 17; % 16 + 1 (length)
+nb_features = 29; % 16 + 1 (length)
 
 % Get samples sequence
 
@@ -48,9 +48,9 @@ nb_features = 17; % 16 + 1 (length)
 %     samples(i+1) = floor( min_samples + i*(max_samples-min_samples)/(nb_sampling_phase-1) );
 % end
 iteration = 100;
-%samples = [2, 10, 50, 100, 300, 400, 600, 800, 1000];
-%samples = [10 50 100];
-samples = [100];
+samples = [2, 10, 50, 100, 300, 400, 600, 800, 1000];
+% samples = [10 50 100];
+samples = [300];
 csvwrite( [matlab_dir, move3d_data_dir, 'samples_tmp.txt'], samples );
 
 % Set move3d variables ----------------------------------------------------
@@ -87,8 +87,7 @@ cd( matlab_dir );
 save('results_current/feat_human_motion.mat','feat_count');
 save('results_current/weights_human_motion.mat','recovered_weights');
 
-%plot_ioc_results_function( samples, results )
-
+plot_ioc_results_function( samples, results )
 
 % plot_weights( samples, recovered_weights )
 % plot_feature_gradient_sum( samples, feat_count )

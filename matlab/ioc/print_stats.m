@@ -73,26 +73,68 @@ disp(['number of degenration : ' num2str(number_of_degeneration)])
 
 % plot the cost of sampled trajectories compared to the demonstration
 
+Labels = {'Length', ...                 % 01
+    'Smoothness', ...                   % 02
+    'Collision', ...                    % 03
+    'd(Pelvis, Pelvis)', ...            % 04    00
+    'd(Pelvis , rWristX)', ...          % 05    01
+    'd(Pelvis , rElbowZ)', ...          % 06    02
+    'd(Pelvis , rShoulderX)', ...       % 07    03
+    'd(rWristX , Pelvis)', ...          % 08    04
+    'd(rWristX , rWristX)', ...         % 08    05
+    'd(rWristX , rElbowZ)', ...         % 08    06
+    'd(rWristX , rShoulderX)', ...      % 08    07
+    'd(rElbowZ , Pelvis)', ...          % 08    08
+    'd(rElbowZ , rWristX)', ...         % 08    09
+    'd(rElbowZ , rElbowZ)', ...         % 08    10
+    'd(rElbowZ , rShoulderX)', ...      % 08    11
+    'd(rShoulderX , Pelvis)', ...       % 08    12
+    'd(rShoulderX , rWristX)', ...      % 08    13
+    'd(rShoulderX , rElbowZ)', ...      % 08    14
+    'd(rShoulderX , rShoulderX)', ...   % 08    15
+    'v(Pelvis)', ...                    % 08      
+    'v(rShoulderX)', ...                % 08      
+    'v(rElbowZ)', ...                   % 08      
+    'v(rWristX)', ...                   % 08      
+    'v(lShoulderX)', ...                % 08      
+    'v(lElbowZ)', ...                   % 08      
+    'v(lWristX)', ...                   % 08     
+    'musc 1', ...                       % 08      
+    'musc 2', ...                       % 08      
+    'musc 3', ...                       % 08      
+    };
+
 FigHandle = figure('name', ['DEMONSTRATION : ' num2str(demo_id)], 'Position', [1000, 50, 1000, 1400]);
-subplot(5,1,1)
-bar( w_o )
-title('Weights')
-subplot(5,1,2)
+subplot(6,1,1)
+bar( w_o' )
+
+% set(gca,'XTickLabel',Labels)
+set(gca,'XTick',1:29)
+RotateXLabel(90,Labels)
+
+ylabel('Weights')
+subplot(6,1,3)
 bar( phi_demo )
-title('Phi demo')
-subplot(5,1,3)
+set(gca,'XTick',1:29)
+% RotateXLabel(90,Labels)
+ylabel('Phi demo')
+subplot(6,1,4)
 bar(phi_mean)
+set(gca,'XTick',1:29)
+% RotateXLabel(90,Labels)
 % bar(mean(deltas))
-title('Phi mean')
-subplot(5,1,4)
+ylabel('Phi mean')
+subplot(6,1,5)
 bar( phi_variance )
-title('Phi var')
+set(gca,'XTick',1:29)
+% RotateXLabel(90,Labels)
+ylabel('Phi var')
 %axis([0 16 0 30])
-subplot(5,1,5)
+subplot(6,1,6)
 plot( costs )
 hold on
 plot( 1:size(costs,2), demo_cost*ones(size(costs,2)), 'r' )
-
+ylabel('Cost of samples')
 % phi_mean
 
 % % histograms
@@ -150,3 +192,25 @@ for i=1:size( deltas ),
     % costs(i) = exp( -1.0 * w * deltas(i,:)' );
     costs(i) = w * deltas(i,:)';
 end
+
+function result = RotateXLabel(degrees,newlabels)
+
+xtl = get(gca,'XTickLabel');
+set(gca,'XTickLabel','');
+lxtl = length(xtl);
+if nargin>1
+    lnl = length(newlabels);
+    if lnl~=lxtl
+        error('Number of new labels must equal number of old');
+    end;
+    xtl = newlabels;
+end;
+
+hxLabel=get(gca,'XLabel');
+xLP=get(hxLabel,'Position');
+y=xLP(2);
+XTick=get(gca,'XTick');
+y=repmat(y,length(XTick),1);
+fs=get(gca,'fontsize');
+hText=text(XTick,y,xtl,'fontsize',fs);
+set(hText,'Rotation',degrees,'HorizontalAlignment','right');
