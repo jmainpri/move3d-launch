@@ -16,7 +16,7 @@ struct('m',6,...                % The number of corrections to approximate the i
     'wolfe',0.9,...             % A coefficient for the Wolfe condition.
     'gtol',0.9,...              % A parameter to control the accuracy of the line search routine.
     'xtol',1e-16,...            % The machine precision for floating-point values.
-    'orthantwise_c',0,...   	% Coefficient for the L1 norm of variables.
+    'orthantwise_c',10,...   	% Coefficient for the L1 norm of variables.
     'orthantwise_start',0,...   % First index for the parameters subject to L1-penalty
     'orthantwise_end',(size(x0)-1),...    % Last index for the parameters subject to L1-penalty
     'DerivativeCheck','off',... % Derivative check using finite differences  ('on','off')

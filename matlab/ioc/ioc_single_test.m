@@ -1,26 +1,43 @@
 function [ results, weights, feat_count, feat_jac] = ioc_single_test( move3d_dir, matlab_dir, move3d_data_dir, move3d_cmd, file_params, ... 
-    seed, nb_tests, nb_demo, nb_features, samples  )
+    seed, nb_tests, samples  )
 
 % Folder where move3d stores data
 % data_folder = 'move3d_tmp_data_home/';
 data_folder = move3d_data_dir;
 
+% Set move3d basic parameters
+move3d_set_variable( move3d_dir, file_params, 'boolParameter\\ioc_exit_after_run', 'true' );
+% move3d_set_variable( move3d_dir, file_params, 'boolParameter\\ioc_single_iteration', 'false' );
+
+% Get number of demos and number of features from move3d
+move3d_set_variable( move3d_dir, file_params, 'intParameter\\ioc_phase', '7' ); % save_feature_and_demo_size
+move3d_set_variable( move3d_dir, file_params, 'boolParameter\\ioc_single_iteration', 'true' );
+cd( move3d_dir );
+system( strcat( move3d_cmd, file_params ) );
+cd( matlab_dir );
+prob = load('problem.txt');
+size(prob)
+if ~isequal(size(prob), [2 1]),
+    error('problem size not loaded correctly!!!')
+end
+nb_demo = prob(1);
+nb_features = prob(2);
+
+move3d_set_variable( move3d_dir, file_params, 'boolParameter\\ioc_single_iteration', 'false' );
+        
 % Init result struct
 nb_runs = size(samples,2);
 results = zeros( nb_tests, nb_runs, 6 );
 weights = zeros( nb_tests, nb_runs, nb_features );
 feat_count = cell( nb_tests, nb_runs );
 feat_jac = cell( nb_tests, nb_runs );
-
+    
 % Set Learning parameters
 init_factor = 0.5;
 
-% Set move3d basic parameters
-move3d_set_variable( move3d_dir, file_params, 'boolParameter\\ioc_exit_after_run', 'true' );
-% move3d_set_variable( move3d_dir, file_params, 'boolParameter\\ioc_single_iteration', 'false' );
-
 sampling = true;
 compare = false;
+learning = true;
 
 for i=1:nb_tests,
     
@@ -44,10 +61,12 @@ for i=1:nb_tests,
         system( cmd );
     end
     
-    % LEARNING PHASE (optimization)
-    cd( matlab_dir );
-    ioc_learning( nb_demo, nb_features, samples, init_factor, data_folder );
-    close
+    if learning,
+        % LEARNING PHASE (optimization)
+        cd( matlab_dir );
+        ioc_learning( nb_demo, nb_features, samples, init_factor, data_folder );
+        close
+    end
     
     if compare,
         % COMPARE PLANNING TO DEMONSTRATION (compare)

@@ -1,4 +1,4 @@
-function print_stats( demo_id, phi_demo, phi_samples, w_o )
+function print_stats( demo_id, phi_demo, phi_samples, w_o, w_1 )
 
 phi_mean = mean(phi_samples);
 phi_variance = var(phi_samples);
@@ -72,10 +72,42 @@ disp(['number of degenration : ' num2str(number_of_degeneration)])
 
 
 % plot the cost of sampled trajectories compared to the demonstration
+% nb_label = 29
+nb_label = 17;
 
-Labels = {'Length', ...                 % 01
-    'Smoothness', ...                   % 02
-    'Collision', ...                    % 03
+% Labels = {'Length', ...                 % 01
+%     'Smoothness', ...                   % 02
+%     'Collision', ...                    % 03
+%     'd(Pelvis, Pelvis)', ...            % 04    00
+%     'd(Pelvis , rWristX)', ...          % 05    01
+%     'd(Pelvis , rElbowZ)', ...          % 06    02
+%     'd(Pelvis , rShoulderX)', ...       % 07    03
+%     'd(rWristX , Pelvis)', ...          % 08    04
+%     'd(rWristX , rWristX)', ...         % 08    05
+%     'd(rWristX , rElbowZ)', ...         % 08    06
+%     'd(rWristX , rShoulderX)', ...      % 08    07
+%     'd(rElbowZ , Pelvis)', ...          % 08    08
+%     'd(rElbowZ , rWristX)', ...         % 08    09
+%     'd(rElbowZ , rElbowZ)', ...         % 08    10
+%     'd(rElbowZ , rShoulderX)', ...      % 08    11
+%     'd(rShoulderX , Pelvis)', ...       % 08    12
+%     'd(rShoulderX , rWristX)', ...      % 08    13
+%     'd(rShoulderX , rElbowZ)', ...      % 08    14
+%     'd(rShoulderX , rShoulderX)', ...   % 08    15
+%     'v(Pelvis)', ...                    % 08      
+%     'v(rShoulderX)', ...                % 08      
+%     'v(rElbowZ)', ...                   % 08      
+%     'v(rWristX)', ...                   % 08      
+%     'v(lShoulderX)', ...                % 08      
+%     'v(lElbowZ)', ...                   % 08      
+%     'v(lWristX)', ...                   % 08     
+%     'musc 1', ...                       % 08      
+%     'musc 2', ...                       % 08      
+%     'musc 3', ...                       % 08      
+%     };
+
+Labels = {
+    'Length', ...                 % 01
     'd(Pelvis, Pelvis)', ...            % 04    00
     'd(Pelvis , rWristX)', ...          % 05    01
     'd(Pelvis , rElbowZ)', ...          % 06    02
@@ -91,50 +123,49 @@ Labels = {'Length', ...                 % 01
     'd(rShoulderX , Pelvis)', ...       % 08    12
     'd(rShoulderX , rWristX)', ...      % 08    13
     'd(rShoulderX , rElbowZ)', ...      % 08    14
-    'd(rShoulderX , rShoulderX)', ...   % 08    15
-    'v(Pelvis)', ...                    % 08      
-    'v(rShoulderX)', ...                % 08      
-    'v(rElbowZ)', ...                   % 08      
-    'v(rWristX)', ...                   % 08      
-    'v(lShoulderX)', ...                % 08      
-    'v(lElbowZ)', ...                   % 08      
-    'v(lWristX)', ...                   % 08     
-    'musc 1', ...                       % 08      
-    'musc 2', ...                       % 08      
-    'musc 3', ...                       % 08      
+    'd(rShoulderX , rShoulderX)' 
     };
 
 FigHandle = figure('name', ['DEMONSTRATION : ' num2str(demo_id)], 'Position', [1000, 50, 1000, 1400]);
-subplot(6,1,1)
+subplot(7,1,1)
 bar( w_o' )
+ylabel('Recovered Weights')
 
-% set(gca,'XTickLabel',Labels)
-set(gca,'XTick',1:29)
-RotateXLabel(90,Labels)
+subplot(7,1,2)
+bar( w_1' )
+ylabel('Original Weights')
 
-ylabel('Weights')
-subplot(6,1,3)
+if size(phi_mean) == nb_label,
+    % set(gca,'XTickLabel',Labels)
+    set(gca,'XTick',1:nb_label)
+    RotateXLabel(90,Labels)
+end
+
+subplot(7,1,4)
 bar( phi_demo )
-set(gca,'XTick',1:29)
+set(gca,'XTick',1:nb_label)
 % RotateXLabel(90,Labels)
 ylabel('Phi demo')
-subplot(6,1,4)
+subplot(7,1,5)
 bar(phi_mean)
-set(gca,'XTick',1:29)
+set(gca,'XTick',1:nb_label)
 % RotateXLabel(90,Labels)
 % bar(mean(deltas))
 ylabel('Phi mean')
-subplot(6,1,5)
+subplot(7,1,6)
 bar( phi_variance )
-set(gca,'XTick',1:29)
+set(gca,'XTick',1:nb_label)
 % RotateXLabel(90,Labels)
 ylabel('Phi var')
 %axis([0 16 0 30])
-subplot(6,1,6)
+subplot(7,1,7)
 plot( costs )
 hold on
 plot( 1:size(costs,2), demo_cost*ones(size(costs,2)), 'r' )
 ylabel('Cost of samples')
+
+
+
 % phi_mean
 
 % % histograms

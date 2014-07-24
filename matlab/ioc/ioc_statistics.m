@@ -20,14 +20,31 @@ w_16 =[ 0.01, 0.80, 0.50, 0.80, ...
         0.50, 0.20, 0.50, 0.50, ...
         0.50, 0.50, 0.50, 0.20];
 
-w_1 = [[0.8]  1 * w_16];
+
 
 t = 1; % test (id)
 r = 1; % run (sampling phase)
-features = load('results_current/feat_human_motion.mat');
-weights = load('results_current/weights_human_motion.mat');
 
-w_1 = squeeze(weights.recovered_weights(t,r,:))';
+% HUMANS
+% w_1 = [[0.4]  1 * w_16];
+% features = load('results_current/feat_human_motion.mat');
+% weights = load('results_current/weights_human_motion.mat');
+
+% 3 spheres
+% w_1 = [0.3 1.0 0.5];
+% nb_demo = 1;
+% features = load('results_current/feat_count_spheres.mat');
+% weights = load('results_current/weights_spheres.mat');
+
+% 16 spheres
+w_1 = [1.000 1.000 1.000 1.000 1.000 0.500 0.080 1.000 1.000 0.300 0.500 1.000 1.000 1.000 1.000 1.000];
+nb_demo = 1;
+features = load('results_current/feat_count_spheres.mat');
+weights = load('results_current/weights_spheres.mat');
+
+% -------------------------------------------------------------------------
+
+w_o = squeeze(weights.recovered_weights(t,r,:))';
 %w_1(2) = 0
 % w_1 = ones(size(w_1))
 
@@ -44,7 +61,7 @@ for i=1:nb_demo,
     phi_samples = features.feat_count{t,r}(id_start:id_end,:);
     
     % print statistics
-    print_stats( i, phi_demo, phi_samples, w_1 );
+    print_stats( i, phi_demo, phi_samples, w_o, w_1 );
     
     w = waitforbuttonpress;
     

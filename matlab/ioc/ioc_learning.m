@@ -9,14 +9,15 @@ global nb_used_samples
 % w = ones(1,nb_features);
 % cost_function(w)
 
-max = 1; % use 1
-lb = zeros(1,nb_features);
+min = 0;
+max = 100; % use 1
+lb = min*ones(1,nb_features);
 ub = max*ones(1,nb_features);
 
 % Use constrainted minimization
-use_constrainted_minimization = true;
+use_constrainted_minimization = false;
 use_liblfgs = false;
-use_cmaes = true;
+use_cmaes = false;
 
 % iteration
 i = 1;
@@ -52,14 +53,13 @@ for s=samples,
         if use_cmaes,
             opts.LBounds = lb'; 
             opts.UBounds = ub';
-            [w, fval, counteval, stopflag, out, bestever ] = cmaes( 'genetic_cost_function', w0, 0.3, opts );
+            [w, fval, counteval, stopflag, out, bestever ] = cmaes( 'genetic_cost_function', w0, 0.01*max*0.3, opts );
             w = w';
         else
             % Execute genetic algorithm
             Generations_Data = 2000;
             TolFun_Data = 1e-12;
-            TolFun_Data = 0;
-        
+%             TolFun_Data = 0;
             [w, fval, exitflag, output, population, score] = genetic_algo( nb_features, lb, ub, Generations_Data, TolFun_Data );
         end
     end

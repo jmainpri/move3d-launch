@@ -25,8 +25,12 @@ else
 end
 
 % Set move3d system-command, files and seed
-move3d_cmd = ['move3d-qt-studio ' gui_str ' -launch SphereIOC -c pqp -f ../assets/Collaboration/TwoHumansTableKinect.p3d -sc ../assets/Collaboration/SCENARIOS/collaboration_test_kinect.sce -setgui -params ../move3d-launch/'];
-file_params = 'parameters/params_collaboration_planning_bis';
+% move3d_cmd = ['move3d-qt-studio ' gui_str ' -launch SphereIOC -c pqp -f ../assets/Collaboration/TwoHumansTableKinect.p3d 
+% -sc ../assets/Collaboration/SCENARIOS/collaboration_test_kinect.sce -setgui -params ../move3d-launch/'];
+% file_params = 'parameters/params_collaboration_planning_bis';
+move3d_scenario = '-sc ../assets/Collaboration/SCENARIOS/collaboration_test_reach.sce';
+move3d_cmd = ['move3d-qt-studio ' gui_str ' -launch SphereIOC -c pqp -f ../assets/Collaboration/TwoHumansPlanning.p3d ' move3d_scenario ' -setgui -params ../move3d-launch/'];
+file_params = 'parameters/params_collaboration_planning';
 
 % Fix seed
 seed = 1391184850;
@@ -38,8 +42,10 @@ nb_tests = 1; % number of calls to each sampling phase
 
 % Set IOC variables (should be matched in move3d)
 % -------------------------------------------------------------------------
-nb_demo = 24;
-nb_features = 29; % 16 + 1 (length)
+nb_demo = 1;
+nb_features = 17;
+% nb_demo = 24;
+% nb_features = 29; % 16 + 1 (length)
 
 % Get samples sequence
 
@@ -50,7 +56,7 @@ nb_features = 29; % 16 + 1 (length)
 iteration = 100;
 samples = [2, 10, 50, 100, 300, 400, 600, 800, 1000];
 % samples = [10 50 100];
-samples = [300];
+samples = [1000];
 csvwrite( [matlab_dir, move3d_data_dir, 'samples_tmp.txt'], samples );
 
 % Set move3d variables ----------------------------------------------------
@@ -74,13 +80,13 @@ move3d_set_variable( move3d_dir, file_params, 'boolParameter\\ioc_load_samples_f
 
 % DEFINITION OF THE NOISE
 move3d_set_variable( move3d_dir, file_params, 'doubleParameter\\ioc_sample_std_dev', '0.00015' );  
+% move3d_set_variable( move3d_dir, file_params, 'doubleParameter\\ioc_sample_std_dev', '0.0003' ); 
 
 % -------------------------------------------------------------------------
 % Call a serie of tests ---------------------------------------------------
 % -------------------------------------------------------------------------
 
-[results, recovered_weights, feat_count, feat_jac] = ioc_single_test( move3d_dir, matlab_dir, move3d_data_dir, move3d_cmd, file_params, ... 
-    seed, nb_tests, nb_demo, nb_features, samples  );
+[results, recovered_weights, feat_count, feat_jac] = ioc_single_test( move3d_dir, matlab_dir, move3d_data_dir, move3d_cmd, file_params, seed, nb_tests, samples  );
 
 cd( matlab_dir );
 % save('results_current/test_human_motion.mat','results');

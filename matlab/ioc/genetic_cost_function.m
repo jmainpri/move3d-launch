@@ -11,7 +11,7 @@ if w_size(2) < w_size(1),
 end
 
 alpha = 10;
-beta = 100;
+beta = 1000;
 gamma = 10;
 loss = 0;
 
@@ -30,7 +30,7 @@ for d=1:d_size(1),
              loss = loss + alpha * ( gamma * beta );
           
          else
-             
+         
              loss = loss + alpha * ( gamma * exp( -delta ) );
              
          end

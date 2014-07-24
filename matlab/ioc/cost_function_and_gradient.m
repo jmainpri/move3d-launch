@@ -25,6 +25,11 @@ for d=1:d_size(1),
             for k=1:nb_used_samples,
                 numerator = numerator + exp(-1.0*w*phi_k(k,:,d)') * phi_k(k,i,d);
             end
+            
+            if denominator == 0 ,
+               denominator = realmin;
+            end
+            
             dw(i) = dw(i) + phi_demo(d,i) - ( numerator /  denominator );
         end
 end
