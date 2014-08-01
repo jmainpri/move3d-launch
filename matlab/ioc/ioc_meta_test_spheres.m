@@ -19,7 +19,7 @@ addpath('/home/jmainpri/Dropbox/move3d/move3d-launch/matlab/move3d_matlab_comman
 addpath('/home/jmainpri/Dropbox/move3d/move3d-launch/matlab');
 
 % Comment it with gui
-use_gui = true;
+use_gui = false;
 if use_gui,
     gui_str='';
 else
@@ -27,13 +27,27 @@ else
 end
 
 % Set move3d system-command, files and seed
+
+%% SQUARES
 move3d_cmd = ['move3d-qt-studio ' gui_str ' -launch SphereIOC -c pqp -f ../assets/IOC/Plane_Multi_squares.p3d -setgui -params ../move3d-launch/'];
 file_params = 'parameters/params_spheres_ioc_squares';
+move3d_set_variable( move3d_dir, file_params, 'stringParameter\\active_cost_function', 'costSquares' );
+move3d_set_variable( move3d_dir, file_params, 'doubleParameter\\ioc_sample_std_dev', '0.02' );
 
+%% 3 SPHERES
 % move3d_sce = '-sc ../assets/IOC/SCENARIOS/very_small_spheres';
 % move3d_cmd = ['move3d-qt-studio ' gui_str ' -launch SphereIOC -c pqp -f ../assets/IOC/Plane_Multi_very_small.p3d ' move3d_sce ' -setgui -params ../move3d-launch/'];
 % file_params = 'parameters/params_spheres_ioc_3';
+% move3d_set_variable( move3d_dir, file_params, 'stringParameter\\active_cost_function', 'costSpheres' );
+% move3d_set_variable( move3d_dir, file_params, 'doubleParameter\\ioc_sample_std_dev', '0.0007' );
 
+%% 64 SPHERES
+move3d_cmd = ['move3d-qt-studio ' gui_str ' -launch SphereIOC -c pqp -f ../assets/IOC/Plane_Multi.p3d -setgui -params ../move3d-launch/'];
+file_params = 'parameters/params_spheres_ioc_compare';
+move3d_set_variable( move3d_dir, file_params, 'stringParameter\\active_cost_function', 'costSpheres' );
+move3d_set_variable( move3d_dir, file_params, 'doubleParameter\\ioc_sample_std_dev', '0.02' );
+
+%% -------------------------------------------------------------------------
 % Fix seed
 seed = 1391184849;
 
@@ -43,14 +57,18 @@ nb_tests = 1;
 
 % Set IOC variables (should be matched in move3d)
 % -------------------------------------------------------------------------
-samples = [2, 10, 50, 100, 300, 400, 600, 800, 1000];
+samples = [2, 10, 50, 100, 300, 400, 600, 1000];
 % samples = [10 50 100];
-samples = [300];
+samples = [100];
 csvwrite( [matlab_dir, move3d_data_dir, 'samples_tmp.txt'], samples );
+
+ phases(1) = true; % sampling
+ phases(2) = true; % learning
+ phases(3) = false; % compare
 
 % Set move3d variables ----------------------------------------------------
 
-move3d_set_variable( move3d_dir, file_params, 'stringParameter\\active_cost_function', 'costSpheres' );
+
 move3d_set_variable( move3d_dir, file_params, 'boolParameter\\init_spheres_cost', 'true' );
 move3d_set_variable( move3d_dir, file_params, 'boolParameter\\ioc_sample_around_demo', 'true' );
 move3d_set_variable( move3d_dir, file_params, 'intParameter\\ioc_from_file_offset', '0' );
@@ -110,9 +128,7 @@ move3d_set_variable( move3d_dir, file_params, 'boolParameter\\ioc_load_samples_f
 % Call a serie of tests ---------------------------------------------------
 % -------------------------------------------------------------------------
 
-move3d_set_variable( move3d_dir, file_params, 'doubleParameter\\ioc_sample_std_dev', '0.05' );
-
-[results, recovered_weights, feat_count, feat_jac] = ioc_single_test( move3d_dir, matlab_dir, move3d_data_dir, move3d_cmd, file_params, seed, nb_tests, samples  );
+[nb_demo, nb_feature, results, recovered_weights, feat_count, feat_jac] = ioc_single_test( move3d_dir, matlab_dir, move3d_data_dir, move3d_cmd, file_params, seed, nb_tests, samples, phases  );
 
 % plot_ioc_results_function( samples, results )
 % plot_weights( samples, recovered_weights )
@@ -120,10 +136,11 @@ move3d_set_variable( move3d_dir, file_params, 'doubleParameter\\ioc_sample_std_d
 % plot_feature_gradient_sum( samples, feat_jac )
 
 cd( matlab_dir );
-% save('results_current/test_spheres.mat','results');
+save('results_current/test_spheres.mat','results');
 save('results_current/weights_spheres.mat','recovered_weights');
 save('results_current/feat_count_spheres.mat','feat_count');
-
+save('results_current/test_spheres.mat','results');
+% plot_ioc_results_function( samples, results );
 
 % save('results_current/test_0_05_monte_carlo.mat','results');
 % save('results_current/weights_0_05_monte_carlo.mat','recovered_weights');

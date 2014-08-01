@@ -13,36 +13,39 @@ w_0 = [0.00, 0.50, 0.20, 0.60, 1.00, 0.60, 0.30, 1.00, 0.20, 0.70, 0.60, 0.20, 0
     0.80, 0.80, 0.50, 0.30, 0.20, 0.20, 0.30, 0.20, 0.20, 1.00, 1.00, 1.00, 1.00, ... 
     1.00, 1.00, 0.80, 1.00, 1.00, 1.00, 0.50, 0.80, 0.80, 0.10 ];
 
-clc
-
 w_16 =[ 0.01, 0.80, 0.50, 0.80, ...
         0.50, 0.20, 0.20, 0.50, ...
         0.50, 0.20, 0.50, 0.50, ...
         0.50, 0.50, 0.50, 0.20];
 
-
+print_markers = false;
 
 t = 1; % test (id)
 r = 1; % run (sampling phase)
 
-% HUMANS
+%% HUMANS
 % w_1 = [[0.4]  1 * w_16];
+
+% w_1 = [[100] w_16];
 % features = load('results_current/feat_human_motion.mat');
 % weights = load('results_current/weights_human_motion.mat');
 
-% 3 spheres
+%% 3 SPHERES
 % w_1 = [0.3 1.0 0.5];
-% nb_demo = 1;
 % features = load('results_current/feat_count_spheres.mat');
 % weights = load('results_current/weights_spheres.mat');
 
-% 16 spheres
-w_1 = [1.000 1.000 1.000 1.000 1.000 0.500 0.080 1.000 1.000 0.300 0.500 1.000 1.000 1.000 1.000 1.000];
-nb_demo = 1;
+%% 16 SQUARES / SPHERES
+% w_1 = [1.000 1.000 1.000 1.000 1.000 0.500 0.080 1.000 1.000 0.300 0.500 1.000 1.000 1.000 1.000 1.000];
+% features = load('results_current/feat_count_spheres.mat');
+% weights = load('results_current/weights_spheres.mat');
+
+%% 64 SPHERES
+w_1 = [0.080 0.080 0.080 0.080 0.080 0.080 0.080 0.080 0.080 0.010 0.010 0.010 0.020 0.010 0.010 0.400 1.000 1.000 1.000 0.600 0.500 0.060 0.010 0.400 1.000 1.000 0.500 0.300 0.010 0.010 0.010 0.500 1.000 0.010 0.050 0.050 0.500 1.000 1.000 1.000 0.080 0.010 0.300 0.990 0.990 1.000 1.000 1.000 0.500 0.010 0.010 0.010 0.030 0.010 0.010 0.100 1.000 1.000 0.120 0.100 0.100 0.100 0.120 0.100];
 features = load('results_current/feat_count_spheres.mat');
 weights = load('results_current/weights_spheres.mat');
 
-% -------------------------------------------------------------------------
+%% -------------------------------------------------------------------------
 
 w_o = squeeze(weights.recovered_weights(t,r,:))';
 %w_1(2) = 0
@@ -51,7 +54,7 @@ w_o = squeeze(weights.recovered_weights(t,r,:))';
 size_feature_data = size( features.feat_count{t,r} );
 nb_of_feature_vector = size_feature_data(1);
 nb_samples = ( nb_of_feature_vector / ( nb_demo ) ) - 1;
-    
+
 for i=1:nb_demo,
     
     % get feature values
@@ -61,7 +64,7 @@ for i=1:nb_demo,
     phi_samples = features.feat_count{t,r}(id_start:id_end,:);
     
     % print statistics
-    print_stats( i, phi_demo, phi_samples, w_o, w_1 );
+    print_stats( i, phi_demo, phi_samples, w_o, w_1, print_markers );
     
     w = waitforbuttonpress;
     

@@ -10,10 +10,13 @@ if w_size(2) < w_size(1),
     w = w';
 end
 
-alpha = 10;
+alpha = 1;
 beta = 1000;
-gamma = 10;
+gamma = 500;
+theta = 0;
 loss = 0;
+
+% disp('--------------------------------')
 
 for d=1:d_size(1),
     
@@ -21,20 +24,21 @@ for d=1:d_size(1),
     
     for k=1:nb_used_samples,
         
-        cost_sample = w*phi_k(k,:,d)';
-        
-        delta = abs( cost_sample - cost_demo );
-        
-         if cost_sample < cost_demo,
-             
-             loss = loss + alpha * ( gamma * beta );
-          
-         else
+         cost_sample = w*phi_k(k,:,d)';
+         delta = cost_sample - cost_demo;
          
-             loss = loss + alpha * ( gamma * exp( -delta ) );
+%          delta
+         
+         loss = loss + alpha * exp( -delta );
+         
+        
+%          if delta < 0, % demo has higher cost
+%              
+%              loss = loss + beta;
+%          else
              
-         end
+%          end
     end
 end
 
-loss = loss + norm(w,1); % add the l1 norm for sparsity
+loss = loss + theta * norm(w,1); % add the l1 norm for sparsity

@@ -18,5 +18,6 @@ if size(results,1) > 1,
     
 else
     plot(samples,results(:,:,3))
-    plot(samples,results(:,:,4))
+%     hold on
+%     plot(samples,results(:,:,4),'r')
 end

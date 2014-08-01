@@ -17,7 +17,7 @@ ub = max*ones(1,nb_features);
 % Use constrainted minimization
 use_constrainted_minimization = false;
 use_liblfgs = false;
-use_cmaes = false;
+use_cmaes = true;
 
 % iteration
 i = 1;
@@ -33,7 +33,7 @@ for s=samples,
     % Load file
     [phi_demo, phi_k] = ioc_load_instance( nb_demo, s, nb_features, data_folder );
     
-    w0 = init_factor*ones(1,nb_features);
+    w0 = (max-min)*ones(1,nb_features);
     
     if use_constrainted_minimization ,
         
@@ -53,11 +53,12 @@ for s=samples,
         if use_cmaes,
             opts.LBounds = lb'; 
             opts.UBounds = ub';
-            [w, fval, counteval, stopflag, out, bestever ] = cmaes( 'genetic_cost_function', w0, 0.01*max*0.3, opts );
+            opts.MaxIter = 1000;
+            [w, fval, counteval, stopflag, out, bestever ] = cmaes( 'genetic_cost_function', w0, max*0.3, opts );
             w = w';
         else
             % Execute genetic algorithm
-            Generations_Data = 2000;
+            Generations_Data = 1000;
             TolFun_Data = 1e-12;
 %             TolFun_Data = 0;
             [w, fval, exitflag, output, population, score] = genetic_algo( nb_features, lb, ub, Generations_Data, TolFun_Data );

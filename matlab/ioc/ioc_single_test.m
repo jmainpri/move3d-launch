@@ -1,5 +1,5 @@
-function [ results, weights, feat_count, feat_jac] = ioc_single_test( move3d_dir, matlab_dir, move3d_data_dir, move3d_cmd, file_params, ... 
-    seed, nb_tests, samples  )
+function [ nb_demo, nb_feature, results, weights, feat_count, feat_jac] = ioc_single_test( move3d_dir, matlab_dir, move3d_data_dir, move3d_cmd, file_params, ... 
+    seed, nb_tests, samples, phases  )
 
 % Folder where move3d stores data
 % data_folder = 'move3d_tmp_data_home/';
@@ -21,27 +21,27 @@ if ~isequal(size(prob), [2 1]),
     error('problem size not loaded correctly!!!')
 end
 nb_demo = prob(1);
-nb_features = prob(2);
+nb_feature = prob(2);
 
 move3d_set_variable( move3d_dir, file_params, 'boolParameter\\ioc_single_iteration', 'false' );
         
 % Init result struct
-nb_runs = size(samples,2);
+nb_runs = size(samples,2); % number of phases
 results = zeros( nb_tests, nb_runs, 6 );
-weights = zeros( nb_tests, nb_runs, nb_features );
+weights = zeros( nb_tests, nb_runs, nb_feature );
 feat_count = cell( nb_tests, nb_runs );
 feat_jac = cell( nb_tests, nb_runs );
     
 % Set Learning parameters
 init_factor = 0.5;
 
-sampling = true;
-compare = false;
-learning = true;
+sampling = phases(1);
+learning = phases(2);
+compare = phases(3);
 
 for i=1:nb_tests,
     
-    clc
+%     clc
     
     seed = seed + 1;
     
@@ -64,7 +64,7 @@ for i=1:nb_tests,
     if learning,
         % LEARNING PHASE (optimization)
         cd( matlab_dir );
-        ioc_learning( nb_demo, nb_features, samples, init_factor, data_folder );
+        ioc_learning( nb_demo, nb_feature, samples, init_factor, data_folder );
         close
     end
     

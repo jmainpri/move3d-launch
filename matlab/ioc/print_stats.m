@@ -1,4 +1,4 @@
-function print_stats( demo_id, phi_demo, phi_samples, w_o, w_1 )
+function print_stats( demo_id, phi_demo, phi_samples, w_o, w_1, plot_markers )
 
 phi_mean = mean(phi_samples);
 phi_variance = var(phi_samples);
@@ -106,8 +106,9 @@ nb_label = 17;
 %     'musc 3', ...                       % 08      
 %     };
 
+% 
 Labels = {
-    'Length', ...                 % 01
+    'Smoothness', ...                       % 01
     'd(Pelvis, Pelvis)', ...            % 04    00
     'd(Pelvis , rWristX)', ...          % 05    01
     'd(Pelvis , rElbowZ)', ...          % 06    02
@@ -123,19 +124,20 @@ Labels = {
     'd(rShoulderX , Pelvis)', ...       % 08    12
     'd(rShoulderX , rWristX)', ...      % 08    13
     'd(rShoulderX , rElbowZ)', ...      % 08    14
-    'd(rShoulderX , rShoulderX)' 
+    'd(rShoulderX , rShoulderX)'        
     };
 
 FigHandle = figure('name', ['DEMONSTRATION : ' num2str(demo_id)], 'Position', [1000, 50, 1000, 1400]);
-subplot(7,1,1)
-bar( w_o' )
-ylabel('Recovered Weights')
 
-subplot(7,1,2)
+subplot(7,1,1)
 bar( w_1' )
 ylabel('Original Weights')
 
-if size(phi_mean) == nb_label,
+subplot(7,1,2)
+bar( w_o' )
+ylabel('Recovered Weights')
+
+if plot_markers, % size(phi_mean) == nb_label,
     % set(gca,'XTickLabel',Labels)
     set(gca,'XTick',1:nb_label)
     RotateXLabel(90,Labels)
@@ -143,18 +145,18 @@ end
 
 subplot(7,1,4)
 bar( phi_demo )
-set(gca,'XTick',1:nb_label)
+% set(gca,'XTick',1:size(phi_demo,2))
 % RotateXLabel(90,Labels)
 ylabel('Phi demo')
 subplot(7,1,5)
 bar(phi_mean)
-set(gca,'XTick',1:nb_label)
+% set(gca,'XTick',1:size(phi_demo,2))
 % RotateXLabel(90,Labels)
 % bar(mean(deltas))
 ylabel('Phi mean')
 subplot(7,1,6)
 bar( phi_variance )
-set(gca,'XTick',1:nb_label)
+% set(gca,'XTick',1:size(phi_demo,2))
 % RotateXLabel(90,Labels)
 ylabel('Phi var')
 %axis([0 16 0 30])
@@ -163,7 +165,6 @@ plot( costs )
 hold on
 plot( 1:size(costs,2), demo_cost*ones(size(costs,2)), 'r' )
 ylabel('Cost of samples')
-
 
 
 % phi_mean
