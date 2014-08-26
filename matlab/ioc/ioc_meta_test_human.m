@@ -28,14 +28,14 @@ end
 % Set move3d system-command, files and seed
 
 %% KINECT DATA
-move3d_scenario = '-sc ../assets/Collaboration/SCENARIOS/collaboration_test_kinect.sce';
-move3d_cmd = ['move3d-qt-studio ' gui_str ' -launch SphereIOC -c pqp -f ../assets/Collaboration/TwoHumansTableKinect.p3d ' move3d_scenario ' -setgui -params ../move3d-launch/'];
-file_params = 'parameters/params_collaboration_planning_bis';
+% move3d_scenario = '-sc ../assets/Collaboration/SCENARIOS/collaboration_test_kinect.sce';
+% move3d_cmd = ['move3d-qt-studio ' gui_str ' -launch SphereIOC -c pqp -f ../assets/Collaboration/TwoHumansTableKinect.p3d ' move3d_scenario ' -setgui -params ../move3d-launch/'];
+% file_params = 'parameters/params_collaboration_planning_bis';
 
 %% SIMULATION DATA
-% move3d_scenario = '-sc ../assets/Collaboration/SCENARIOS/collaboration_test_reach.sce';
-% move3d_cmd = ['move3d-qt-studio ' gui_str ' -launch SphereIOC -c pqp -f ../assets/Collaboration/TwoHumansPlanning.p3d ' move3d_scenario ' -setgui -params ../move3d-launch/'];
-% file_params = 'parameters/params_collaboration_planning';
+move3d_scenario = '-sc ../assets/Collaboration/SCENARIOS/collaboration_test_reach.sce';
+move3d_cmd = ['move3d-qt-studio ' gui_str ' -launch SphereIOC -c pqp -f ../assets/Collaboration/TwoHumansPlanning.p3d ' move3d_scenario ' -setgui -params ../move3d-launch/'];
+file_params = 'parameters/params_collaboration_planning';
 
 %% IOC PARAMETERS
 % Fix seed
@@ -48,7 +48,7 @@ nb_tests = 1; % number of calls to each sampling phase
 % Get samples sequence
 samples = [2, 10, 50, 100, 300, 600, 800];
 % samples = [10 50 100];
-% samples = [600];
+samples = [600];
 csvwrite( [matlab_dir, move3d_data_dir, 'samples_tmp.txt'], samples );
 
  phases(1) = true; % sampling

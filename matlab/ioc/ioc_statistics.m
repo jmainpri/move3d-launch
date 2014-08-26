@@ -24,11 +24,12 @@ t = 1; % test (id)
 r = 1; % run (sampling phase)
 
 %% HUMANS
-% w_1 = [[0.4]  1 * w_16];
+w_1 = [[1]  1 * w_16];
 
 % w_1 = [[100] w_16];
-% features = load('results_current/feat_human_motion.mat');
-% weights = load('results_current/weights_human_motion.mat');
+features = load('results_current/feat_human_motion.mat');
+weights = load('results_current/weights_human_motion.mat');
+print_markers = true;
 
 %% 3 SPHERES
 % w_1 = [0.3 1.0 0.5];
@@ -41,9 +42,9 @@ r = 1; % run (sampling phase)
 % weights = load('results_current/weights_spheres.mat');
 
 %% 64 SPHERES
-w_1 = [0.080 0.080 0.080 0.080 0.080 0.080 0.080 0.080 0.080 0.010 0.010 0.010 0.020 0.010 0.010 0.400 1.000 1.000 1.000 0.600 0.500 0.060 0.010 0.400 1.000 1.000 0.500 0.300 0.010 0.010 0.010 0.500 1.000 0.010 0.050 0.050 0.500 1.000 1.000 1.000 0.080 0.010 0.300 0.990 0.990 1.000 1.000 1.000 0.500 0.010 0.010 0.010 0.030 0.010 0.010 0.100 1.000 1.000 0.120 0.100 0.100 0.100 0.120 0.100];
-features = load('results_current/feat_count_spheres.mat');
-weights = load('results_current/weights_spheres.mat');
+% w_1 = [0.080 0.080 0.080 0.080 0.080 0.080 0.080 0.080 0.080 0.010 0.010 0.010 0.020 0.010 0.010 0.400 1.000 1.000 1.000 0.600 0.500 0.060 0.010 0.400 1.000 1.000 0.500 0.300 0.010 0.010 0.010 0.500 1.000 0.010 0.050 0.050 0.500 1.000 1.000 1.000 0.080 0.010 0.300 0.990 0.990 1.000 1.000 1.000 0.500 0.010 0.010 0.010 0.030 0.010 0.010 0.100 1.000 1.000 0.120 0.100 0.100 0.100 0.120 0.100];
+% features = load('results_current/feat_count_spheres.mat');
+% weights = load('results_current/weights_spheres.mat');
 
 %% -------------------------------------------------------------------------
 
