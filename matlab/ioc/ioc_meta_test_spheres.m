@@ -29,10 +29,10 @@ end
 % Set move3d system-command, files and seed
 
 %% SQUARES
-move3d_cmd = ['move3d-qt-studio ' gui_str ' -launch SphereIOC -c pqp -f ../assets/IOC/Plane_Multi_squares.p3d -setgui -params ../move3d-launch/'];
-file_params = 'parameters/params_spheres_ioc_squares';
-move3d_set_variable( move3d_dir, file_params, 'stringParameter\\active_cost_function', 'costSquares' );
-move3d_set_variable( move3d_dir, file_params, 'doubleParameter\\ioc_sample_std_dev', '0.02' );
+% move3d_cmd = ['move3d-qt-studio ' gui_str ' -launch SphereIOC -c pqp -f ../assets/IOC/Plane_Multi_squares.p3d -setgui -params ../move3d-launch/'];
+% file_params = 'parameters/params_spheres_ioc_squares';
+% move3d_set_variable( move3d_dir, file_params, 'stringParameter\\active_cost_function', 'costSquares' );
+% move3d_set_variable( move3d_dir, file_params, 'doubleParameter\\ioc_sample_std_dev', '0.02' );
 
 %% 3 SPHERES
 % move3d_sce = '-sc ../assets/IOC/SCENARIOS/very_small_spheres';
@@ -59,7 +59,7 @@ nb_tests = 1;
 % -------------------------------------------------------------------------
 samples = [2, 10, 50, 100, 300, 400, 600, 1000];
 % samples = [10 50 100];
-samples = [100];
+samples = [1000];
 csvwrite( [matlab_dir, move3d_data_dir, 'samples_tmp.txt'], samples );
 
  phases(1) = true; % sampling

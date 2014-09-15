@@ -24,7 +24,7 @@ t = 1; % test (id)
 r = 1; % run (sampling phase)
 
 %% HUMANS
-w_1 = [[1]  1 * w_16];
+w_1 = [[1 1 1 1]  1 * w_16];
 
 % w_1 = [[100] w_16];
 features = load('results_current/feat_human_motion.mat');
