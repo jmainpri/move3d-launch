@@ -53,7 +53,7 @@ nb_tests = 1; % number of calls to each sampling phase
 % Get samples sequence
 samples = [2, 10, 50, 100, 300, 600, 800];
 % samples = [10 50 100];
-samples = [100];
+samples = [700];
 csvwrite( [matlab_dir, move3d_data_dir, 'samples_tmp.txt'], samples );
 
  phases(1) = false; % sampling
@@ -79,7 +79,8 @@ move3d_set_variable( move3d_dir, file_params, 'drawTrajVector', 'false' );
 move3d_set_variable( move3d_dir, file_params, 'boolParameter\\ioc_load_samples_from_file', 'false' );
 
 % DEFINITION OF THE NOISE
-move3d_set_variable( move3d_dir, file_params, 'doubleParameter\\ioc_sample_std_dev', '0.00015' );  
+move3d_set_variable( move3d_dir, file_params, 'doubleParameter\\ioc_sample_std_dev', '0.00015' );
+% move3d_set_variable( move3d_dir, file_params, 'doubleParameter\\ioc_sample_std_dev', '0.00007' );
 % move3d_set_variable( move3d_dir, file_params, 'doubleParameter\\ioc_sample_std_dev', '0.0003' ); 
 
 % -------------------------------------------------------------------------

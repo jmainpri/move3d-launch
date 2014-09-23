@@ -10,7 +10,7 @@ global nb_used_samples
 % cost_function(w)
 
 min = 0;
-max = 100; % use 1
+max = 300; % use 1
 lb = min*ones(1,nb_features);
 ub = max*ones(1,nb_features);
 
