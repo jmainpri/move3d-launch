@@ -1,5 +1,25 @@
 figure
 
+vel_0 = load('../launch_files/task_vel/stomp_vel_000.txt');
+vel_1 = load('../launch_files/task_vel/stomp_vel_001.txt');
+vel_2 = load('../launch_files/task_vel/stomp_vel_002.txt');
+
+xmin = 1;
+xmax = 100;
+ymin = 0;
+ymax = 3*1e-01;
+
+subplot(3,1,1)
+plot(vel_0)
+%axis([xmin xmax ymin ymax])
+subplot(3,1,2)
+plot(vel_1)
+%axis([xmin xmax ymin ymax])
+subplot(3,1,3)
+plot(vel_2)
+
+
+%%
 vel_0 = load('../launch_files/stomp_vel_000.txt');
 vel_1 = load('../launch_files/stomp_vel_001.txt');
 vel_2 = load('../launch_files/stomp_vel_002.txt');
@@ -52,8 +72,9 @@ jerk_6 = load('../launch_files/stomp_jerk_006.txt');
 xmin = 1;
 xmax = 100;
 ymin = 0;
-ymax = 3*1e-04;
+ymax = 3*1e-01;
 
+figure
 subplot(6,1,1)
 plot(vel_0)
 axis([xmin xmax ymin ymax])
@@ -127,6 +148,7 @@ subplot(6,1,4)
 plot(vel_22)
 axis([xmin xmax ymin ymax])
 
+%%
 % subplot(6,1,1)
 % plot(vel_0)
 % subplot(6,1,2)

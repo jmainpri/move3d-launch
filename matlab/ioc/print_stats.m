@@ -73,7 +73,7 @@ disp(['number of degenration : ' num2str(number_of_degeneration)])
 
 % plot the cost of sampled trajectories compared to the demonstration
 % nb_label = 29
-nb_label = 20;
+nb_label = 24;
 
 % Labels = {'Length', ...                 % 01
 %     'Smoothness', ...                   % 02
@@ -108,10 +108,14 @@ nb_label = 20;
 
 % 
 Labels = {
-    'Length', ...                       % 01
-    'Velocity', ...                     % 01
-    'Acceleration', ...                 % 01
-    'Jerk', ...                         % 01
+    'JLength', ...                       % 01
+    'JVelocity', ...                     % 01
+    'JAcceleration', ...                 % 01
+    'JJerk', ...                         % 01
+    'TLength', ...                       % 01
+    'TVelocity', ...                     % 01
+    'TAcceleration', ...                 % 01
+    'TJerk', ...                         % 01
     'd(Pelvis, Pelvis)', ...            % 04    00
     'd(Pelvis , rWristX)', ...          % 05    01
     'd(Pelvis , rElbowZ)', ...          % 06    02

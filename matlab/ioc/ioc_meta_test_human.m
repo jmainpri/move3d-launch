@@ -56,7 +56,7 @@ samples = [2, 10, 50, 100, 300, 600, 800];
 samples = [700];
 csvwrite( [matlab_dir, move3d_data_dir, 'samples_tmp.txt'], samples );
 
- phases(1) = false; % sampling
+ phases(1) = true; % sampling
  phases(2) = true; % learning
  phases(3) = false; % compare
 
