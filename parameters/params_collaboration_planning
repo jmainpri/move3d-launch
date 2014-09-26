@@ -310,7 +310,7 @@ doubleParameter\trajDuration=1
 doubleParameter\trajOptimStdDev=0.001
 doubleParameter\trajOptimSmoothWeight=1
 doubleParameter\trajOptimObstacWeight=1
-doubleParameter\trajOptimGlobalWeight=0.02
+doubleParameter\trajOptimGlobalWeight=0.0199999996
 doubleParameter\trajOptimSmoothFactor=1000
 doubleParameter\trajOptimObstacFactor=1
 doubleParameter\trajReplanningWindow=1
@@ -342,7 +342,7 @@ doubleParameter\env_futurX=0
 doubleParameter\env_futurY=0
 doubleParameter\env_futurZ=0
 doubleParameter\env_futurRZ=0
-stringParameter\active_cost_function=costHumanTrajectoryCost
+stringParameter\active_cost_function=costHumanWorkspaceOccupancy
 
 [GestParam]
 boolParameter\init_module_at_start=false
@@ -358,6 +358,7 @@ boolParameter\with_multiple_stomps=false
 boolParameter\parallelize_stomp=false
 boolParameter\print_debug=false
 boolParameter\play_next=false
+boolParameter\play_repeat=false
 intParameter\human_traj_id=0
 doubleParameter\tete=0
 stringParameter\titi=
@@ -386,12 +387,12 @@ doubleParameter\ioc_cost_factor=0
 stringParameter\titi=
 
 [Camera]
-ox=1.06370586843402
-oy=0.439207773489742
-oz=1.10516479974145
-dist=1.88558664364391
-az=4.44562440872192
-el=0.721250050067902
+ox=1.0637059211731
+oy=0.439207762479782
+oz=1.10516476631165
+dist=1.88558661937714
+az=4.44562435150146
+el=0.721250057220459
 up0=0
 up1=0
 up2=1
