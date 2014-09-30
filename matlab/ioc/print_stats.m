@@ -134,7 +134,7 @@ Labels = {
     'd(rShoulderX , rShoulderX)'        
     };
 
-FigHandle = figure('name', ['DEMONSTRATION : ' num2str(demo_id)], 'Position', [1000, 50, 1000, 1400]);
+FigHandle = figure('name', ['DEMONSTRATION : ' num2str(demo_id)], 'Position', [600, 50, 1000, 1000]);
 
 subplot(7,1,1)
 bar( w_1' )
