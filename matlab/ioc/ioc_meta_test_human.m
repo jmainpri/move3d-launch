@@ -1,11 +1,11 @@
 clear; clc
 
 % Set the enviroment for move3d libraries
-setenv('LD_LIBRARY_PATH','/home/rafi/workspace/move3d/install/lib:/home/rafi/catkin_ws/devel/lib:/opt/ros/groovy/lib')
-setenv('HOME_MOVE3D','/home/rafi/workspace/move3d/libmove3d')
+setenv('LD_LIBRARY_PATH','/home/jmainpri/openrobots/lib:/home/rafi/catkin_ws/devel/lib:/opt/ros/groovy/lib')
+setenv('HOME_MOVE3D','/home/jmainpri/Dropbox/move3d/libmove3d')
 
 % Set move3d and matlab working directories
-move3d_dir = '/home/rafi/workspace/move3d/move3d-launch/';
+move3d_dir = '/home/jmainpri/Dropbox/move3d/move3d-launch/';
 matlab_dir = [move3d_dir 'matlab/'];
 ioc_dir = [matlab_dir 'ioc/'];
 move3d_data_dir = 'move3d_tmp_data_human_trajs/';
@@ -15,8 +15,8 @@ cd( [matlab_dir 'move3d_tmp_data_home'] );
 system('rm *txt');
 
 % Add move3d matlab-commands to matlab path
-addpath('/home/rafi/workspace/move3d/move3d-launch/matlab/ioc');
-addpath('/home/rafi/workspace/move3d/move3d-launch/matlab/move3d_matlab_commands');
+addpath('/home/jmainpri/Dropbox/move3d/move3d-launch/matlab/ioc');
+addpath('/home/jmainpri/Dropbox/move3d/move3d-launch/matlab/move3d_matlab_commands');
 
 % Comment it with gui
 use_gui = false;
