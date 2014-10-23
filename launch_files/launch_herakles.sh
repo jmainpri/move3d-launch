@@ -1,4 +1,3 @@
-# move3d-qt-studio -setgui -c pqp -f ../../assets/Achile/HumanTestNoGraphics.p3d  -params ../move3d-launch/parameters/params_human
-move3d-qt-studio -setgui -c pqp -f ../../assets/Achile/HumanTestBio.p3d  -params ../move3d-launch/parameters/params_human -sc ../../assets/Achile/SCENARII/HeraklesBio.sce
+move3d-qt-studio -setgui -c pqp -f ../../assets/Achile/HumanTestNoGraphics.p3d -sc ../../assets/Achile/SCENARII/HeraklesNoGraphics.sce -params ../move3d-launch/parameters/params_herakles
 # -sc ../../assets/Collaboration/SCENARIOS/collaboration_test_reach.sce
 # -launch HumanPlanning 
