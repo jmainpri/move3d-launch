@@ -54,7 +54,7 @@ nb_tests = 1; % number of calls to each sampling phase
 % Get samples sequence
 samples = [2, 10, 50, 100, 300, 600, 800];
 % samples = [10 50 100];
-samples = [700];
+samples = [100];
 csvwrite( [matlab_dir, move3d_data_dir, 'samples_tmp.txt'], samples );
 
  phases(1) = true; % sampling
@@ -63,6 +63,7 @@ csvwrite( [matlab_dir, move3d_data_dir, 'samples_tmp.txt'], samples );
 
 % Set move3d variables ----------------------------------------------------
 
+move3d_set_variable( move3d_dir, file_params, 'intParameter\\ioc_ik', '1' ); % 0 : no ik, 1 : only ik, 2 : both
 move3d_set_variable( move3d_dir, file_params, 'stringParameter\\active_cost_function', 'costHumanTrajectoryCost' );
 move3d_set_variable( move3d_dir, file_params, 'boolParameter\\init_spheres_cost', 'false' );
 move3d_set_variable( move3d_dir, file_params, 'boolParameter\\init_human_trajectory_cost', 'true' );
