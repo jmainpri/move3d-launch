@@ -1,12 +1,19 @@
 #!/bin/bash
 # Jim Mainprice ( mainprice@gmail.com ) 
 
+#------------------------------------
+
 # Set if you want to download as ssh or http
 USE_SSH=false
 
 # Move3D install folder
 MOVE3D_DOWNLOAD_FOLDER=$('pwd')/..
 MOVE3D_INSTALL_FOLDER=${MOVE3D_DOWNLOAD_FOLDER}/install
+
+# Machine type
+OS="linux"
+
+#------------------------------------
 
 SetReposNames()
 {
@@ -113,6 +120,8 @@ MakeAndInstallRepos()
 
 InstallSysDep()
 {
+
+if [[OS == "linux"]]; then
     # Install system dependencies
 
     sudo apt-get update
@@ -131,6 +140,8 @@ InstallSysDep()
     # sudo apt-get install libboost-thread-dev
 
     sudo apt-get install cmake cmake-curses-gui autoconf libtool build-essential libxml2-dev doxygen qt4-dev-tools libxpm-dev libgbm1 libgbm-dev libgsl0-dev glpk libboost-dev libgts-dev freeglut3 freeglut3-dev libeigen3-dev libboost-thread-dev
+fi
+
 }
 
 Install()
@@ -178,7 +189,14 @@ ShowUsage()
     echo '* 2st argument'
 }
 
+# Set OS (i.e., operating system)
+if [[ "$(uname)" == "Darwin" ]] ; then
+    OS=Darwin
+fi
+echo OS is set to $OS
+
 case "$1" in
+
 
 # Removes everything and install
     'install-https' )
