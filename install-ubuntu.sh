@@ -1,12 +1,19 @@
 #!/bin/bash
 # Jim Mainprice ( mainprice@gmail.com ) 
 
+#------------------------------------
+
 # Set if you want to download as ssh or http
 USE_SSH=false
 
 # Move3D install folder
 MOVE3D_DOWNLOAD_FOLDER=$('pwd')/..
 MOVE3D_INSTALL_FOLDER=${MOVE3D_DOWNLOAD_FOLDER}/install
+
+# Machine type
+OS="linux"
+
+#------------------------------------
 
 SetReposNames()
 {
@@ -113,6 +120,8 @@ MakeAndInstallRepos()
 
 InstallSysDep()
 {
+
+if [[OS == "linux"]]; then
     # Install system dependencies
 
     sudo apt-get update
@@ -131,6 +140,8 @@ InstallSysDep()
     # sudo apt-get install libboost-thread-dev
 
     sudo apt-get install cmake cmake-curses-gui autoconf libtool build-essential libxml2-dev doxygen qt4-dev-tools libxpm-dev libgbm1 libgbm-dev libgsl0-dev glpk libboost-dev libgts-dev freeglut3 freeglut3-dev libeigen3-dev libboost-thread-dev
+fi
+
 }
 
 Install()
@@ -149,9 +160,15 @@ Install()
     echo '#------------- Move3D --------------' >> ~/.bashrc
     echo 'export MOVE3D_INSTALL_DIR='$MOVE3D_INSTALL_DIR >> ~/.bashrc
     echo 'export HOME_MOVE3D='$MOVE3D_DOWNLOAD_FOLDER/libmove3d >> ~/.bashrc
-    echo 'export LD_LIBRARY_PATH='$MOVE3D_INSTALL_FOLDER/lib:'$LD_LIBRARY_PATH' >> ~/.bashrc
     echo 'export PKG_CONFIG_PATH='${MOVE3D_INSTALL_FOLDER}/lib/pkgconfig:'$PKG_CONFIG_PATH' >> ~/.bashrc
     echo 'export PATH='${MOVE3D_INSTALL_FOLDER}/bin:'$PATH' >> ~/.bashrc
+
+    # Special case of DYLIB in MACOS
+    if [[OS == "Darwin"]]; then
+        echo 'export DYLD_LIBRARY_PATH='$MOVE3D_INSTALL_FOLDER/lib:'$DYLD_LIBRARY_PATH' >> ~/.bashrc
+    else
+        echo 'export LD_LIBRARY_PATH='$MOVE3D_INSTALL_FOLDER/lib:'$LD_LIBRARY_PATH' >> ~/.bashrc
+    fi
 
     source ~/.bashrc
 
@@ -178,7 +195,14 @@ ShowUsage()
     echo '* 2st argument'
 }
 
+# Set OS (i.e., operating system)
+if [[ "$(uname)" == "Darwin" ]] ; then
+    OS=Darwin
+fi
+echo OS is set to $OS
+
 case "$1" in
+
 
 # Removes everything and install
     'install-https' )
