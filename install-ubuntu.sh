@@ -160,9 +160,15 @@ Install()
     echo '#------------- Move3D --------------' >> ~/.bashrc
     echo 'export MOVE3D_INSTALL_DIR='$MOVE3D_INSTALL_DIR >> ~/.bashrc
     echo 'export HOME_MOVE3D='$MOVE3D_DOWNLOAD_FOLDER/libmove3d >> ~/.bashrc
-    echo 'export LD_LIBRARY_PATH='$MOVE3D_INSTALL_FOLDER/lib:'$LD_LIBRARY_PATH' >> ~/.bashrc
     echo 'export PKG_CONFIG_PATH='${MOVE3D_INSTALL_FOLDER}/lib/pkgconfig:'$PKG_CONFIG_PATH' >> ~/.bashrc
     echo 'export PATH='${MOVE3D_INSTALL_FOLDER}/bin:'$PATH' >> ~/.bashrc
+
+    # Special case of DYLIB in MACOS
+    if [[OS == "Darwin"]]; then
+        echo 'export DYLD_LIBRARY_PATH='$MOVE3D_INSTALL_FOLDER/lib:'$DYLD_LIBRARY_PATH' >> ~/.bashrc
+    else
+        echo 'export LD_LIBRARY_PATH='$MOVE3D_INSTALL_FOLDER/lib:'$LD_LIBRARY_PATH' >> ~/.bashrc
+    fi
 
     source ~/.bashrc
 
