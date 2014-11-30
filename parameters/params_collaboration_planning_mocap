@@ -15,7 +15,7 @@ findLowCostConf=false
 isManhattan=false
 isMultiRRT=false
 drawDisabled=false
-drawFrame=false
+drawFrame=true
 drawExploration=false
 drawGraph=true
 drawEdges=true
@@ -394,12 +394,12 @@ doubleParameter\ioc_cost_factor=0
 stringParameter\titi=
 
 [Camera]
-ox=2.04199576377869
-oy=1.22242081165314
-oz=1.35020172595978
-dist=1.91361653804779
-az=0.894375026226044
-el=0.419374823570251
+ox=1.80191898345947
+oy=1.27427959442139
+oz=1.11276388168335
+dist=1.73126101493835
+az=0.830625057220459
+el=0.651874780654907
 up0=0
 up1=0
 up2=1

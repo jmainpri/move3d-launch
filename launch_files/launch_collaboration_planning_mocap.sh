@@ -7,6 +7,8 @@ do
 			background="-launch RunIOC -nogui";;
         "--debug" )
            debug="gdb -ex run --args";;
+        "--valgrind" )
+           debug="valgrind";;
         "--other" )
            END_DATE=$arg;;
    esac
