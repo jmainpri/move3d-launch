@@ -36,7 +36,7 @@ drawMultiColorLocalpath=true
 useHriDis=false
 useHriPen=false
 useHriNat=false
-enableHri=false
+enableHri=true
 computeGrid=false
 HRIPlannerTS=false
 HRIPlannerWS=true
@@ -59,7 +59,7 @@ setActiveJointsGroup=true
 setStompPlanner=false
 debugCostOptim=false
 trajCostRecompute=false
-isCostSpace=false
+isCostSpace=true
 isPasExtWhenAct=false
 useDist=true
 costBeforeColl=true
@@ -146,7 +146,7 @@ temperatureStart=9.99999997475243e-07
 temperatureGoal=9.99999997475243e-07
 initialTemperature=9.99999997475243e-07
 alpha=0.5
-zone_size=0.800000011920929
+zone_size=0.8
 coeffPen=50
 coeffDis=50
 coeffNat=50
@@ -164,7 +164,7 @@ MaxFactor=1
 MinStep=2
 refiRadius=2
 manhatRatio=1
-dist=10.232271194458
+dist=10.2322711488856
 visThresh=10
 PlanCellSize=0.5
 CellSize=0.400000005960464
@@ -367,8 +367,8 @@ doubleParameter\tete=0
 stringParameter\titi=
 
 [HricsParam]
-boolParameter\init_spheres_cost=false
-boolParameter\init_human_trajectory_cost=false
+boolParameter\init_spheres_cost=true
+boolParameter\init_human_trajectory_cost=true
 boolParameter\ioc_single_iteration=false
 boolParameter\ioc_load_samples_from_file=false
 boolParameter\ioc_draw_demonstrations=false
@@ -396,7 +396,7 @@ stringParameter\titi=
 [ActiveRobotCntrts]
 RobotName=PR2_ROBOT
 p3d_lin_rel_dofs=false
-p3d_pr2_arm_ik=true
+p3d_pr2_arm_ik=false
 
 [ActiveRobotLocalpath]
 RobotName=PR2_ROBOT
@@ -407,12 +407,12 @@ upBodySm=false
 jointsToExport=false
 
 [Camera]
-ox=1.32719582326981
-oy=1.06318123445843
-oz=0.799418936794173
-dist=3.35354963916398
-az=1.239375
-el=1.0739213267949
+ox=1.68086290359497
+oy=1.46272325515747
+oz=0.941058397293091
+dist=2.76466107368469
+az=0.556874990463257
+el=0.875171303749084
 up0=0
 up1=0
 up2=1
