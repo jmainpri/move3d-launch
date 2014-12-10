@@ -13,6 +13,9 @@ MOVE3D_INSTALL_FOLDER=${MOVE3D_DOWNLOAD_FOLDER}/install
 # Machine type
 OS="linux"
 
+# install sysdep
+SYS_DEP=true
+
 #------------------------------------
 
 SetReposNames()
@@ -28,7 +31,7 @@ SetReposNames()
     libmove3d-hri
     libmove3d-planners
     move3d-studio
-    )    
+    )
 
     repo_names=( ${autotools_repo_names[@]} ${cmake_repo_names[@]} )
 }
@@ -121,7 +124,7 @@ MakeAndInstallRepos()
 InstallSysDep()
 {
 
-if [[OS == "linux"]]; then
+if [ "$OS" == "linux" ]; then
     # Install system dependencies
 
     sudo apt-get update
@@ -164,7 +167,7 @@ Install()
     echo 'export PATH='${MOVE3D_INSTALL_FOLDER}/bin:'$PATH' >> ~/.bashrc
 
     # Special case of DYLIB in MACOS
-    if [[OS == "Darwin"]]; then
+    if [ "$OS" == "Darwin" ]; then
         echo 'export DYLD_LIBRARY_PATH='$MOVE3D_INSTALL_FOLDER/lib:'$DYLD_LIBRARY_PATH' >> ~/.bashrc
     else
         echo 'export LD_LIBRARY_PATH='$MOVE3D_INSTALL_FOLDER/lib:'$LD_LIBRARY_PATH' >> ~/.bashrc
@@ -176,7 +179,9 @@ Install()
     RemoveAllRepos
 
     # Install all system dependencies
-    InstallSysDep
+    if [ $SYS_DEP = true ]; then  
+        InstallSysDep
+    fi
 
     # Pull repositories from github
     GetReposFromGithub
@@ -193,13 +198,30 @@ ShowUsage()
     echo '    pull-recompile: Pulls and recompiles current software stack'
     echo '    recompile     : Recompiles current software stack'
     echo '* 2st argument'
+    echo '    no_sysdep     : Will not download system dependencies'
 }
+
+
 
 # Set OS (i.e., operating system)
 if [[ "$(uname)" == "Darwin" ]] ; then
     OS=Darwin
+    echo "set OS to Darwin"
 fi
 echo OS is set to $OS
+
+
+
+case "$2" in
+
+# no sysdep
+    'no_sysdep' )
+        SYS_DEP=false
+        echo "set no sysdep"
+    ;;
+esac
+
+
 
 case "$1" in
 
