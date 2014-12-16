@@ -1,23 +1,26 @@
 figure
 
-vel_0 = load('../launch_files/task_vel/stomp_vel_000.txt');
-vel_1 = load('../launch_files/task_vel/stomp_vel_001.txt');
-vel_2 = load('../launch_files/task_vel/stomp_vel_002.txt');
+% folder = '../launch_files/'
+folder = '/home/jmainpri/Desktop/stomp_profiles/'
 
-xmin = 1;
-xmax = 100;
+vel_0 = load([folder 'task_acc/stomp_vel_000.txt']);
+vel_1 = load([folder 'task_acc/stomp_vel_001.txt']);
+vel_2 = load([folder 'task_acc/stomp_vel_002.txt']);
+
+xmin = 60;
+xmax = 200;
 ymin = 0;
-ymax = 3*1e-01;
+ymax = 1000*1e-01;
 
 subplot(3,1,1)
 plot(vel_0)
-%axis([xmin xmax ymin ymax])
+axis([xmin xmax ymin ymax])
 subplot(3,1,2)
 plot(vel_1)
-%axis([xmin xmax ymin ymax])
+axis([xmin xmax ymin ymax])
 subplot(3,1,3)
 plot(vel_2)
-
+axis([xmin xmax ymin ymax])
 
 %%
 vel_0 = load('../launch_files/stomp_vel_000.txt');
