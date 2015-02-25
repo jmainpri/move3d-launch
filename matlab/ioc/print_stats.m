@@ -104,35 +104,6 @@ disp(['number of degenration : ' num2str(number_of_degeneration)])
 %     'musc 3', ...                       % 08      
 %     };
 
-% PAPER
-% nb_label = 24;
-% Labels = {
-%     'JLength', ...                       % 01
-%     'JVelocity', ...                     % 01
-%     'JAcceleration', ...                 % 01
-%     'JJerk', ...                         % 01
-%     'TLength', ...                       % 01
-%     'TVelocity', ...                     % 01
-%     'TAcceleration', ...                 % 01
-%     'TJerk', ...                         % 01
-%     'd(Pelvis, Pelvis)', ...            % 04    00
-%     'd(Pelvis , rWristX)', ...          % 05    01
-%     'd(Pelvis , rElbowZ)', ...          % 06    02
-%     'd(Pelvis , rShoulderX)', ...       % 07    03
-%     'd(rWristX , Pelvis)', ...          % 08    04
-%     'd(rWristX , rWristX)', ...         % 08    05
-%     'd(rWristX , rElbowZ)', ...         % 08    06
-%     'd(rWristX , rShoulderX)', ...      % 08    07
-%     'd(rElbowZ , Pelvis)', ...          % 08    08
-%     'd(rElbowZ , rWristX)', ...         % 08    09
-%     'd(rElbowZ , rElbowZ)', ...         % 08    10
-%     'd(rElbowZ , rShoulderX)', ...      % 08    11
-%     'd(rShoulderX , Pelvis)', ...       % 08    12
-%     'd(rShoulderX , rWristX)', ...      % 08    13
-%     'd(rShoulderX , rElbowZ)', ...      % 08    14
-%     'd(rShoulderX , rShoulderX)'        
-%     };
-
 % IK
 nb_label = 19;
 Labels = {
@@ -155,6 +126,35 @@ Labels = {
     'Joints displacement', ...
     'Energy', ...
     'Discomfort'       
+    };
+
+%% PAPER
+nb_label = 24;
+Labels = {
+    'JLength', ...                       % 01
+    'JVelocity', ...                     % 01
+    'JAcceleration', ...                 % 01
+    'JJerk', ...                         % 01
+    'TLength', ...                       % 01
+    'TVelocity', ...                     % 01
+    'TAcceleration', ...                 % 01
+    'TJerk', ...                         % 01
+    'd(Pelvis, Pelvis)', ...            % 04    00
+    'd(Pelvis , rWristX)', ...          % 05    01
+    'd(Pelvis , rElbowZ)', ...          % 06    02
+    'd(Pelvis , rShoulderX)', ...       % 07    03
+    'd(rWristX , Pelvis)', ...          % 08    04
+    'd(rWristX , rWristX)', ...         % 08    05
+    'd(rWristX , rElbowZ)', ...         % 08    06
+    'd(rWristX , rShoulderX)', ...      % 08    07
+    'd(rElbowZ , Pelvis)', ...          % 08    08
+    'd(rElbowZ , rWristX)', ...         % 08    09
+    'd(rElbowZ , rElbowZ)', ...         % 08    10
+    'd(rElbowZ , rShoulderX)', ...      % 08    11
+    'd(rShoulderX , Pelvis)', ...       % 08    12
+    'd(rShoulderX , rWristX)', ...      % 08    13
+    'd(rShoulderX , rElbowZ)', ...      % 08    14
+    'd(rShoulderX , rShoulderX)'        
     };
 
 FigHandle = figure('name', ['DEMONSTRATION : ' num2str(demo_id)], 'Position', [600, 50, 1000, 1000]);

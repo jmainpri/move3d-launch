@@ -27,8 +27,9 @@ r = 1; % run (sampling phase)
 w_1 = [[1 1 1 1 1 1 1 1]  1 * w_16];
 
 % w_1 = [[100] w_16];
-features = load('results_current/feat_human_motion.mat');
-weights = load('results_current/weights_human_motion.mat');
+ith = 1;
+features = load(['results_current/feat_human_motion' loo_splits(ith,:) '.mat']);
+weights = load(['results_current/weig_human_motion' loo_splits(ith,:) '.mat']);
 print_markers = true;
 
 %% 3 SPHERES
@@ -55,6 +56,8 @@ w_o = squeeze(weights.recovered_weights(t,r,:))';
 size_feature_data = size( features.feat_count{t,r} );
 nb_of_feature_vector = size_feature_data(1);
 nb_samples = ( nb_of_feature_vector / ( nb_demo ) ) - 1;
+
+display(['nb of demo : ' nb_demo]);
 
 for i=1:nb_demo,
     

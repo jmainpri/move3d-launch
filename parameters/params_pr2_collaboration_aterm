@@ -378,7 +378,7 @@ boolParameter\ioc_exit_after_run=false
 boolParameter\ioc_use_stomp_spetial_cost=false
 boolParameter\ioc_use_simulation_demos=false
 boolParameter\ioc_user_set_pelvis_bounds=false
-boolParameter\ioc_use_baseline=true
+boolParameter\ioc_use_baseline=false
 boolParameter\ioc_no_replanning=false
 intParameter\ioc_phase=6
 intParameter\ioc_sample_iteration=0
@@ -407,12 +407,12 @@ upBodySm=false
 jointsToExport=false
 
 [Camera]
-ox=1.69850978886558
-oy=1.33952020275393
-oz=1.11313247011465
-dist=2.48205772080696
-az=0.159375
-el=0.663296303749084
+ox=1.69850981235504
+oy=1.33952021598816
+oz=1.11313247680664
+dist=2.48205780982971
+az=0.159374997019768
+el=0.663296282291412
 up0=0
 up1=0
 up2=1

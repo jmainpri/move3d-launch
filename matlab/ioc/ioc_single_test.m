@@ -16,12 +16,12 @@ cd( move3d_dir );
 system( strcat( move3d_cmd, file_params ) );
 cd( matlab_dir );
 prob = load('problem.txt');
-size(prob)
 if ~isequal(size(prob), [2 1]),
     error('problem size not loaded correctly!!!')
 end
 nb_demo = prob(1);
 nb_feature = prob(2);
+display(['Number of demos ' num2str(nb_demo)])
 
 move3d_set_variable( move3d_dir, file_params, 'boolParameter\\ioc_single_iteration', 'false' );
         
