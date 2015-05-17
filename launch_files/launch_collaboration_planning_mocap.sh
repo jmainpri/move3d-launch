@@ -14,6 +14,6 @@ do
    esac
 done
 
-$debug  move3d-qt-studio -setgui $background -c pqp -f ../../assets/Collaboration/TwoHumansTableMocap.p3d  -params ../move3d-launch/parameters/params_collaboration_planning_mocap -sc ../../assets/Collaboration/SCENARIOS/collaboration_test_mocap.sce
+$debug  move3d-qt-studio -setgui $background -c pqp -f ../../assets/Collaboration/TwoHumansTableMocap.p3d  -params ../move3d-launch/parameters/params_collaboration_planning_mocap -sc ../../assets/Collaboration/SCENARIOS/collaboration_test_mocap_resized.sce
 # -launch RunIOC -nogui
 
