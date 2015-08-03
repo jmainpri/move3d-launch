@@ -26,11 +26,10 @@ for d=1:d_size(1),
         
          cost_sample = w*phi_k(k,:,d)';
          delta = cost_sample - cost_demo;
-         
+
 %          delta
          
          loss = loss + alpha * exp( -delta );
-         
         
 %          if delta < 0, % demo has higher cost
 %              

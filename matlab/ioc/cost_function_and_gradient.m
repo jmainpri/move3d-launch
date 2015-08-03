@@ -5,6 +5,8 @@ global phi_k
 global nb_used_samples
 
 d_size = size(phi_demo);
+
+% Flip vector for CMA
 w_size = size(w);
 if w_size(2) < w_size(1),
     w = w';
@@ -12,6 +14,7 @@ end
 
 % Cost
 loss = cost_function(w);
+genetic_cost_function(w)
 
 % Gradient
 dw = zeros( size(w) );
@@ -33,3 +36,6 @@ for d=1:d_size(1),
             dw(i) = dw(i) + phi_demo(d,i) - ( numerator /  denominator );
         end
 end
+
+loss
+dw

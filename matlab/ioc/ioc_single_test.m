@@ -1,5 +1,5 @@
 function [ nb_demo, nb_feature, results, weights, feat_count, feat_jac] = ioc_single_test( move3d_dir, matlab_dir, move3d_data_dir, move3d_cmd, file_params, ... 
-    seed, nb_tests, samples, phases  )
+    seed, nb_tests, samples, phases, demo_id  )
 
 % Folder where move3d stores data
 % data_folder = 'move3d_tmp_data_home/';
@@ -64,7 +64,7 @@ for i=1:nb_tests,
     if learning,
         % LEARNING PHASE (optimization)
         cd( matlab_dir );
-        ioc_learning( nb_demo, nb_feature, samples, init_factor, data_folder );
+        ioc_learning( nb_demo, nb_feature, samples, init_factor, data_folder, demo_id );
         close
     end
     

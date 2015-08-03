@@ -48,6 +48,7 @@ disp(['MIN MIN : ' num2str( min( minimus ) ) ] )
 disp('---------------------------------------------')
     
 % costs = delta_exponential_cost( w_o, deltas );
+size(phi_samples)
 costs = delta_exponential_cost( w_o, phi_samples );
 demo_cost = delta_exponential_cost( w_o, phi_demo );
 

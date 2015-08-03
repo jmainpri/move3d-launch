@@ -27,10 +27,20 @@ r = 1; % run (sampling phase)
 w_1 = [[1 1 1 1 1 1 1 1]  1 * w_16];
 
 % w_1 = [[100] w_16];
-ith = 1;
-features = load(['results_current/feat_human_motion' loo_splits(ith,:) '.mat']);
-weights = load(['results_current/weig_human_motion' loo_splits(ith,:) '.mat']);
+ith = 2;
+split = loo_splits(ith,:);
 print_markers = true;
+
+with_replan = 'replan';
+
+nb_demos = load(['results_current/tmp_results_' with_replan '/nb_demos_human_motion_' with_replan '_' split '.mat']);
+features = load(['results_current/tmp_results_' with_replan '/feat_human_motion_' with_replan '_' split '.mat']);
+weights  = load(['results_current/tmp_results_' with_replan '/weig_human_motion_' with_replan '_' split '.mat']);
+
+nb_demos.nb_demo
+
+% features = load(['results_current/tmp_results_replan/feat_human_motion_replan_' split '.mat']);
+% weights = load(['results_current/tmp_results_replan/weig_human_motion_replan_' split '.mat']);
 
 %% 3 SPHERES
 % w_1 = [0.3 1.0 0.5];
@@ -54,17 +64,17 @@ w_o = squeeze(weights.recovered_weights(t,r,:))';
 % w_1 = ones(size(w_1))
 
 size_feature_data = size( features.feat_count{t,r} );
-nb_of_feature_vector = size_feature_data(1);
-nb_samples = ( nb_of_feature_vector / ( nb_demo ) ) - 1;
+nb_of_feature_vector = size_feature_data(1)
+nb_samples = ( nb_of_feature_vector / ( nb_demos.nb_demo ) ) - 1
 
-display(['nb of demo : ' nb_demo]);
+display(['nb of demo : ' nb_demos.nb_demo]);
 
-for i=1:nb_demo,
+for i=1:nb_demos.nb_demo,
     
     % get feature values
     phi_demo = features.feat_count{t,r}(i,:);
-    id_start = (i-1)*nb_samples+nb_demo+1;
-    id_end = i*nb_samples+nb_demo;
+    id_start = (i-1)*nb_samples+nb_demos.nb_demo+1;
+    id_end = i*nb_samples+nb_demos.nb_demo;
     phi_samples = features.feat_count{t,r}(id_start:id_end,:);
     
     % print statistics

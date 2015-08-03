@@ -6,6 +6,12 @@ global nb_used_samples
 
 d_size = size(phi_demo);
 
+% Flip vector for CMA
+w_size = size(w);
+if w_size(2) < w_size(1),
+    w = w';
+end
+
 % Cost function
 loss = 0;
 for d=1:d_size(1),
@@ -18,8 +24,13 @@ for d=1:d_size(1),
     if denominator == 0 ,
         denominator = realmin;
     end
+    
+    numerator = exp(-1.0*w*phi_demo(d,:)');
+    if numerator < 1e-60 ,
+        numerator = 1e-60;
+    end
             
-    loss = loss - log( exp(-1.0*w*phi_demo(d,:)') / denominator );
+    loss = loss - log( numerator / denominator );
 end
 
 % w

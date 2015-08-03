@@ -1,4 +1,4 @@
-function ioc_learning( nb_demo, nb_features, samples, init_factor, data_folder )
+function ioc_learning( nb_demo, nb_features, samples, init_factor, data_folder, demo_id )
 
 global phi_demo
 global phi_k
@@ -18,6 +18,7 @@ ub = max*ones(1,nb_features);
 use_constrainted_minimization = false;
 use_liblfgs = false;
 use_cmaes = true;
+single_file_sampling_no_loo = true;
 
 % iteration
 i = 1;
@@ -31,7 +32,12 @@ for s=samples,
     nb_used_samples = s;
     
     % Load file
-    [phi_demo, phi_k] = ioc_load_instance( nb_demo, s, nb_features, data_folder );
+    if( demo_id > -1 || single_file_sampling_no_loo ),
+        % load demos and remove the demo_id
+        [phi_demo, phi_k] = ioc_load_instance_remove_demo( s, nb_features, data_folder, demo_id, nb_demo );
+    else
+        [phi_demo, phi_k] = ioc_load_instance( nb_demo, s, nb_features, data_folder );
+    end
     
     w0 = (max-min)*ones(1,nb_features);
     
@@ -53,8 +59,11 @@ for s=samples,
         if use_cmaes,
             opts.LBounds = lb'; 
             opts.UBounds = ub';
-            opts.MaxIter = 1000;
+            opts.MaxIter = 1000; %1000
+            w = w0';
+            fval = 0;
             [w, fval, counteval, stopflag, out, bestever ] = cmaes( 'genetic_cost_function', w0, max*0.3, opts );
+           
             w = w';
         else
             % Execute genetic algorithm
@@ -82,7 +91,7 @@ for s=samples,
     
     % Verify solutions
     is_demo_higher_than_samples = false;
-    for d=nb_demo,
+    for d=size(phi_demo,1),
         for k=1:s,
             cost_sample = w * phi_k(k,:,d)';
             % disp(['cost for sample ' num2str(i) ' : ' num2str(cost_sample)]);
