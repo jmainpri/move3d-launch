@@ -106,7 +106,7 @@ MakeAndInstallRepos()
 	else
 	    ../configure --prefix=$MOVE3D_INSTALL_FOLDER --disable-gbtcl
 	fi
-	make install $JOBS
+	make install
 	cd ../..
     done
 
