@@ -13,7 +13,7 @@ Where ~/move3d_install is the destination folder. Before launching the install s
 
     ./install-ubuntu.sh
 
-the proceedure can be quite long. The script may prompt for sudo privileges when installing system dependencies. It will append to ~/.bashrc, so when the software is compiled, make sure the environment variables have been set correctly:
+The proceedure can be quite long. The script may prompt for sudo privileges or whether to proceed when installing system dependencies. It will append to ~/.bashrc, so when the software is compiled, make sure the environment variables have been set correctly:
 
     source ~/.bashrc
     echo "HOME_MOVE3D= "$HOME_MOVE3D
@@ -24,7 +24,7 @@ the proceedure can be quite long. The script may prompt for sudo privileges when
 The variables should contain the paths to the folders, executable and libraries.
 
 
-You can then install the assets alongside move3d-launch:
+You can now clone the assets next to move3d-launch:
 
     git clone https://github.com/jmainpri/move3d-assets.git assets
     
@@ -42,4 +42,4 @@ The launch files supose that:
 
 * PATH contains the move3d-studio executable
 * HOME_MOVE3D points to move3d-launch or a floder along side it
-* move3d-assets is installed along side move3d-launch
+* move3d-assets is installed next to move3d-launch
