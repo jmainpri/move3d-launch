@@ -93,10 +93,6 @@ MakeAndInstallRepos()
 {
     cd $MOVE3D_DOWNLOAD_FOLDER
 
-    echo "2"
-    echo MOVE3D_INSTALL_DIR=$MOVE3D_INSTALL_DIR
-    echo PKG_CONFIG_PATH=$PKG_CONFIG_PATH
-
     for r in "${autotools_repo_names[@]}"
     do :
 	cd $r
