@@ -110,7 +110,7 @@ MakeAndInstallRepos()
 	else
 	    ../configure --prefix=$MOVE3D_INSTALL_FOLDER --disable-gbtcl
 	fi
-	#make install $JOBS
+	make install $JOBS
 	cd ../..
     done
 
@@ -126,9 +126,8 @@ MakeAndInstallRepos()
 	    cmake .. -DCMAKE_INSTALL_PREFIX:PATH=$MOVE3D_INSTALL_FOLDER -DCMAKE_BUILD_TYPE=Release -DMOVE3D_QT=ON -DUSE_QWT=OFF 
             # Todo don't know why line is necessary
 	    cmake ..
-            make install $JOBS
 	fi
-	#make install $JOBS
+	make install $JOBS
 	cd ../..
     done
 }
