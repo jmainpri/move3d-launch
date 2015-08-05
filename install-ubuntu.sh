@@ -1,3 +1,4 @@
+
 #!/bin/bash
 # Jim Mainprice ( mainprice@gmail.com ) 
 
@@ -15,6 +16,10 @@ OS="linux"
 
 # install sysdep
 SYS_DEP=true
+
+# Set nb of jobs
+JOBS="-j15"
+
 
 #------------------------------------
 
@@ -79,7 +84,7 @@ CompileRepos()
     for r in "${repo_names[@]}"
     do :
         cd $r/build
-	make install
+	make install $JOBS
 	cd ../..
     done
 }
@@ -87,6 +92,10 @@ CompileRepos()
 MakeAndInstallRepos()
 {
     cd $MOVE3D_DOWNLOAD_FOLDER
+
+    echo "2"
+    echo MOVE3D_INSTALL_DIR=$MOVE3D_INSTALL_DIR
+    echo PKG_CONFIG_PATH=$PKG_CONFIG_PATH
 
     for r in "${autotools_repo_names[@]}"
     do :
@@ -101,7 +110,7 @@ MakeAndInstallRepos()
 	else
 	    ../configure --prefix=$MOVE3D_INSTALL_FOLDER --disable-gbtcl
 	fi
-	make install
+	#make install $JOBS
 	cd ../..
     done
 
@@ -112,11 +121,14 @@ MakeAndInstallRepos()
 	cd build
 	if [ $r != move3d-studio ]
 	then
-	    cmake .. -DCMAKE_INSTALL_PREFIX:PATH=$MOVE3D_INSTALL_FOLDER
+	    cmake .. -DCMAKE_INSTALL_PREFIX:PATH=$MOVE3D_INSTALL_FOLDER -DCMAKE_BUILD_TYPE=Release
 	else
-	    cmake .. -DCMAKE_INSTALL_PREFIX:PATH=$MOVE3D_INSTALL_FOLDER -DMOVE3D_QT=ON -DUSE_QWT=OFF
+	    cmake .. -DCMAKE_INSTALL_PREFIX:PATH=$MOVE3D_INSTALL_FOLDER -DCMAKE_BUILD_TYPE=Release -DMOVE3D_QT=ON -DUSE_QWT=OFF 
+            # Todo don't know why line is necessary
+	    cmake ..
+            make install $JOBS
 	fi
-	make install
+	#make install $JOBS
 	cd ../..
     done
 }
@@ -142,7 +154,11 @@ if [ "$OS" == "linux" ]; then
     # sudo apt-get install libeigen3-dev
     # sudo apt-get install libboost-thread-dev
 
-    sudo apt-get install cmake cmake-curses-gui autoconf libtool build-essential libxml2-dev doxygen qt4-dev-tools libxpm-dev libgbm1 libgbm-dev libgsl0-dev glpk libboost-dev libgts-dev freeglut3 freeglut3-dev libeigen3-dev libboost-thread-dev
+    echo "-----------------------------------------"
+    echo " INSTALL DEPENDENCIES"
+    echo "-----------------------------------------"
+
+    sudo apt-get install cmake cmake-curses-gui autoconf libtool build-essential libxml2-dev doxygen qt4-dev-tools libxpm-dev libgbm1 libgbm-dev libgsl0-dev libglpk-dev libboost-dev libgts-dev freeglut3 freeglut3-dev libeigen3-dev libboost-thread-dev
 fi
 
 }
@@ -158,6 +174,9 @@ Install()
 	MOVE3D_INSTALL_FOLDER=$MOVE3D_INSTALL_DIR
     fi
 
+    # For install set pkgconfig dir
+    export PKG_CONFIG_PATH=${MOVE3D_INSTALL_FOLDER}/lib/pkgconfig:$PKG_CONFIG_PATH
+
     # Set environment
     echo '' >> ~/.bashrc
     echo '#------------- Move3D --------------' >> ~/.bashrc
@@ -166,14 +185,13 @@ Install()
     echo 'export PKG_CONFIG_PATH='${MOVE3D_INSTALL_FOLDER}/lib/pkgconfig:'$PKG_CONFIG_PATH' >> ~/.bashrc
     echo 'export PATH='${MOVE3D_INSTALL_FOLDER}/bin:'$PATH' >> ~/.bashrc
 
+
     # Special case of DYLIB in MACOS
     if [ "$OS" == "Darwin" ]; then
         echo 'export DYLD_LIBRARY_PATH='$MOVE3D_INSTALL_FOLDER/lib:'$DYLD_LIBRARY_PATH' >> ~/.bashrc
     else
         echo 'export LD_LIBRARY_PATH='$MOVE3D_INSTALL_FOLDER/lib:'$LD_LIBRARY_PATH' >> ~/.bashrc
     fi
-
-    source ~/.bashrc
 
     # Remove all installed software
     RemoveAllRepos
@@ -208,8 +226,10 @@ if [[ "$(uname)" == "Darwin" ]] ; then
     OS=Darwin
     echo "set OS to Darwin"
 fi
-echo OS is set to $OS
 
+echo "-----------------------------------------"
+echo OS is set to $OS
+echo "-----------------------------------------"
 
 
 case "$2" in
