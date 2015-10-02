@@ -9,7 +9,11 @@ The install-ubuntu.sh script sequences apt-get commands for ubuntu 14.04, git cl
 
     export MOVE3D_INSTALL_DIR=$HOME/move3d_install
 
-Where ~/move3d_install is the destination folder. Before launching the install script, the default usage is to clone move3d-launch in a folder suited for holding the source code and 3d models of move3d (you can name it move3d). Then type:
+Where ~/move3d_install is the destination folder. Before launching the install script, the default usage is to clone move3d-launch in a folder suited for holding the source code and 3d models of move3d (you can name it move3d). You may need to edit the maximal number of jobs to reflect what your machine is capable of (maybe -j4):
+
+https://github.com/jmainpri/move3d-launch/blob/master/install-ubuntu.sh#L21 
+
+Then type:
 
     ./install-ubuntu.sh install-https
 
