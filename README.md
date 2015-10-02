@@ -11,7 +11,7 @@ The install-ubuntu.sh script sequences apt-get commands for ubuntu 14.04, git cl
 
 Where ~/move3d_install is the destination folder. Before launching the install script, the default usage is to clone move3d-launch in a folder suited for holding the source code and 3d models of move3d (you can name it move3d). Then type:
 
-    ./install-ubuntu.sh
+    ./install-ubuntu.sh install-https
 
 The proceedure can be quite long. The script may prompt for sudo privileges or whether to proceed when installing system dependencies. It will append to ~/.bashrc, so when the software is compiled, make sure the environment variables have been set correctly:
 
