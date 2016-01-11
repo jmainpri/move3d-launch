@@ -6,3 +6,4 @@ move3d-qt-studio -setgui -c pqp \
 # -sc ../../assets/Collaboration/SCENARIOS/collaboration_test_reach.sce
 # -launch HumanPlanning 
 # -launch runStomp
+# -s 1452275371 (weird issue with IK)
