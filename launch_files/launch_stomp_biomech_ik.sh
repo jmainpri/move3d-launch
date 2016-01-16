@@ -1,5 +1,18 @@
 #!/bin/bash
-move3d-qt-studio -setgui -c pqp \
+
+for arg in "$@"
+do
+    case $arg in
+        "--debug" )
+           debug="gdb -ex run --args";;
+        "--other" )
+           END_DATE=$arg;;
+   esac
+done
+
+
+$debug move3d-qt-studio -setgui $background $seed -setgui -c pqp \
+-launch runStomp \
 -f ../../assets/Achile/HumanTestBioWithObstacle.p3d \
 -params ../move3d-launch/parameters/params_human_stomp_ik \
 -sc ../../assets/Achile/SCENARII/HeraklesBioStompIK.sce

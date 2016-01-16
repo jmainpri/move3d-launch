@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 for arg in "$@"
 do
@@ -14,4 +14,8 @@ do
    esac
 done
 
-$debug move3d-qt-studio -setgui $background -params ../move3d-launch/parameters/params_pr2_shelf_ik -c pqp -f ../../assets/CostHriFunction/PR2/Pr2_Shelf_IK.p3d -sc ../../assets/CostHriFunction/PR2/SCENARIOS/Pr2ShelfIKKitchen.sce
+$debug move3d-qt-studio -setgui $background \
+-launch runStomp \
+-params ../move3d-launch/parameters/params_pr2_shelf_ik -c pqp \
+-f ../../assets/CostHriFunction/PR2/Pr2_Shelf_IK.p3d \
+-sc ../../assets/CostHriFunction/PR2/SCENARIOS/Pr2ShelfIKKitchen.sce
