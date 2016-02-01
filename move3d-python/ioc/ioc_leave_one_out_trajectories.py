@@ -33,7 +33,7 @@ class Move3DIOCHumanTrajectories():
 
         #----------------------------------------------
         # SELECT the data set here !!!!
-        test = "human_robot_experiment"
+        test = "september"
         #----------------------------------------------
 
         if test == "september":
@@ -48,6 +48,7 @@ class Move3DIOCHumanTrajectories():
                 "[0780-0871]",
                 "[1537-1608]",
                 "[2711-2823]"]
+            #self.loo_splits = ["[0444-0585]"]
             self.param_file = "params_collaboration_planning_aterm"
 
         elif test == "february":
@@ -66,29 +67,42 @@ class Move3DIOCHumanTrajectories():
             self.p3d_file = "../assets/Collaboration/TwoHumansUserExp.p3d"
             self.sce_file = "../assets/Collaboration/SCENARIOS/collaboration_test_user_experiment.sce"
             self.id = 0
-            # self.loo_splits = ["[1648-1802]"]
+            #splelf.loo_splits = ["[0904-1027]"]
             self.loo_splits = [
-                 # "[0612-0703]",
-                 # "[0904-1027]",
-                 # "[0921-1010]",
-                 # "[1018-1131]",
-                 # "[1159-1255]",
-                 # "[1197-1363]",
-                 # "[1248-1428]",
-                 # "[1496-1591]",
-                 # "[1595-1694]",
-                 # "[1639-1779]",
-                 # "[1648-1802]",
-                 # "[1809-1897]",
-                 # "[1881-1970]",
-                 # "[1896-2006]",
-                 # "[2020-2116]",
-                 # "[2142-2234]",
-                 # "[2259-2349]",
-                 # "[2483-2568]",
-                 # "[2550-2642]",
-                 # "[2556-2697]",
+                 "[0612-0703]",
+                 "[0904-1027]",
+                 "[0921-1010]",
+                 "[1018-1131]",
+                 "[1159-1255]",
+                 "[1197-1363]",
+                 "[1248-1428]",
+                 "[1496-1591]",
+                 "[1595-1694]",
+                 "[1639-1779]",
+                 "[1648-1802]",
+                 "[1809-1897]",
+                 "[1881-1970]",
+                 "[1896-2006]",
+                 "[2020-2116]",
+                 "[2142-2234]",
+                 "[2259-2349]",
+                 "[2483-2568]",
+                 "[2550-2642]",
+                 "[2556-2697]",
                  "[3124-3230]"]
+
+            # self.loo_splits = ["[1896-2006]"]
+            # self.loo_splits = ["[3124-3230]"]
+            # self.loo_splits = ["[0904-1027]"]
+            # self.loo_splits = ["[1248-1428]"]
+            # self.loo_splits = ["[2556-2697]"]
+            # self.loo_splits = ["[0921-1010]"]
+            # self.loo_splits = ["[1496-1591]"]
+            # self.loo_splits = ["[0612-0703]"]
+            # self.loo_splits = ["[2020-2116]"]
+            # self.loo_splits = ["[1648-1802]"]
+            # self.loo_splits = ["[1197-1363]"]
+
             self.param_file = "params_collaboration_planning_user_experiment"
 
         elif test == "human_robot_experiment":
@@ -135,9 +149,14 @@ class Move3DIOCHumanTrajectories():
         options += " -sc " + self.sce_file
 
         debug = ""
-        # debug = "gdb -ex run --args "
-
-        subprocess.call(shlex.split( debug + "move3d-qt-studio" + options))
+        #debug = "gdb -ex run --args "
+        #debug = "gdb -ex \"set disable-randomization off\" -ex run --args "
+        debug = "gdb -ex run --args "
+        command = shlex.split(debug + "move3d-qt-studio" + options)
+        
+        p = subprocess.Popen(command, stdin=sys.stdin, stdout=sys.stdout)
+        p.wait()
+        # p = subprocess.call(command)
 
     def stomp_noreplan(self, name, parameter_filename, args):
 
@@ -242,12 +261,14 @@ class Move3DIOCHumanTrajectories():
         # the function with the new tmp file as argument
         return move3d.launch(self.param_file, function, args, return_dict)
 
+
 def mkdir_recursive(path):
     sub_path = os.path.dirname(path)
     if not os.path.exists(sub_path):
         mkdir_recursive(sub_path)
     if not os.path.exists(path):
         os.mkdir(path)
+
 
 def set_basic_parameters(parameter_filename, args):
 
@@ -263,6 +284,7 @@ def set_basic_parameters(parameter_filename, args):
     move3d_set_variable(parameter_filename, 'boolParameter\ioc_exit_after_run', 'true')
     move3d_set_variable(parameter_filename, 'boolParameter\ioc_split_motions', 'false')
     move3d_set_variable(parameter_filename, 'boolParameter\ioc_parallel_job', 'true')
+    move3d_set_variable(parameter_filename, 'boolParameter\ioc_training_dataset', 'false')
     move3d_set_variable(parameter_filename, 'drawDisabled', 'true')
 
 
@@ -281,17 +303,17 @@ def run_icra_feb_motions():
         print "Launch split : " + split
 
         jobs.append(move3d_test.run_one_test(move3d, move3d_test.stomp_noreplan,
-                                             split, return_dict))
+                                            split, return_dict))
         jobs.append(move3d_test.run_one_test(move3d, move3d_test.stomp_baseline_agressive_noreplan,
                                              split, return_dict))
         jobs.append(move3d_test.run_one_test(move3d, move3d_test.stomp_baseline_conservative_noreplan,
+                                            split, return_dict))
+        jobs.append(move3d_test.run_one_test(move3d, move3d_test.stomp_replan,
+                                           split, return_dict))
+        jobs.append(move3d_test.run_one_test(move3d, move3d_test.stomp_baseline_agressive_replan,
                                              split, return_dict))
-        # jobs.append(move3d_test.run_one_test(move3d, move3d_test.stomp_replan,
-        #                                      split, return_dict))
-        # jobs.append(move3d_test.run_one_test(move3d, move3d_test.stomp_baseline_agressive_replan,
-        #                                       split, return_dict))
-        # jobs.append(move3d_test.run_one_test(move3d, move3d_test.stomp_baseline_conservative_replan,
-        #                                       split, return_dict))
+        jobs.append(move3d_test.run_one_test(move3d, move3d_test.stomp_baseline_conservative_replan,
+                                            split, return_dict))
 
     for proc in jobs:
         proc.join()

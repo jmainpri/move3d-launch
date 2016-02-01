@@ -3,6 +3,7 @@ function loss = genetic_cost_function(w)
 global phi_demo
 global phi_k
 global nb_used_samples
+global ioc_regularizer
 
 d_size = size(phi_demo);
 w_size = size(w);
@@ -13,7 +14,7 @@ end
 alpha = 1;
 beta = 1000;
 gamma = 500;
-theta = 0;
+theta = ioc_regularizer;
 loss = 0;
 
 % disp('--------------------------------')

@@ -1,3 +1,7 @@
+move3d_base_dir = '/usr/local/jim_local/Dropbox/move3d/';
+move3d_dir = [move3d_base_dir 'move3d-launch/'];
+matlab_dir = [move3d_dir 'matlab/'];
+
 cd( matlab_dir );
 
 % sephere
@@ -23,21 +27,38 @@ print_markers = false;
 t = 1; % test (id)
 r = 1; % run (sampling phase)
 
+% Add the 12 dimension of the bio-kinematics
+w_12 =[ 0.50, 0.50, 0.50, 0.50, ...
+        0.50, 0.50, 0.50, 0.50, ...
+        0.50, 0.50, 0.50, 0.50];
+
+
 %% HUMANS
-w_1 = [[1 1 1 1 1 1 1 1]  1 * w_16];
+w_1 = [[1 1 1 1 1 1 1 1]  1 * w_16 1 * w_12];
+
+% Original Motions
+loo_splits =[];
+loo_splits = [loo_splits ; '[0444-0585]'];
+loo_splits = [loo_splits ; '[0446-0578]'];
+loo_splits = [loo_splits ; '[0489-0589]'];
+loo_splits = [loo_splits ; '[0525-0657]'];
+loo_splits = [loo_splits ; '[0780-0871]'];
+loo_splits = [loo_splits ; '[1537-1608]'];
+loo_splits = [loo_splits ; '[2711-2823]'];
 
 % w_1 = [[100] w_16];
-ith = 2;
+ith = 7;
 split = loo_splits(ith,:);
 print_markers = true;
 
-with_replan = 'replan';
+with_replan = 'noreplan';
 
-nb_demos = load(['results_current/tmp_results_' with_replan '/nb_demos_human_motion_' with_replan '_' split '.mat']);
-features = load(['results_current/tmp_results_' with_replan '/feat_human_motion_' with_replan '_' split '.mat']);
-weights  = load(['results_current/tmp_results_' with_replan '/weig_human_motion_' with_replan '_' split '.mat']);
-
-nb_demos.nb_demo
+nb_demos = load(['results_current/tmp_results_' with_replan ...
+    '/nb_demos_human_motion_' with_replan '_' split '.mat']);
+features = load(['results_current/tmp_results_' with_replan ...
+    '/feat_human_motion_' with_replan '_' split '.mat']);
+weights  = load(['results_current/tmp_results_' with_replan ...
+    '/weig_human_motion_' with_replan '_' split '.mat']);
 
 % features = load(['results_current/tmp_results_replan/feat_human_motion_replan_' split '.mat']);
 % weights = load(['results_current/tmp_results_replan/weig_human_motion_replan_' split '.mat']);
@@ -59,26 +80,54 @@ nb_demos.nb_demo
 
 %% -------------------------------------------------------------------------
 
+display = true;
+
 w_o = squeeze(weights.recovered_weights(t,r,:))';
 %w_1(2) = 0
 % w_1 = ones(size(w_1))
 
 size_feature_data = size( features.feat_count{t,r} );
-nb_of_feature_vector = size_feature_data(1)
-nb_samples = ( nb_of_feature_vector / ( nb_demos.nb_demo ) ) - 1
+nb_of_feature_vector = size_feature_data(1);
+nb_samples = ( nb_of_feature_vector / ( nb_demos.nb_demo ) ) - 1;
 
-display(['nb of demo : ' nb_demos.nb_demo]);
+% TODO this does not work for the no replan ...
+% nb_samples = 300 should use the ids to compute this
+
+nb_demos.nb_demo
+
+if strcmp(with_replan, 'replan'),
+    w_o = w_o;
+    nb_demo = nb_demos.nb_demo;
+    nb_samples = 330;
+else
+    nb_samples = 330;
+    nb_demo = 7;
+end
+
+%% ------------------------------------------------------------------------
+% Save the w vector to text file for the validation phase
+% you then have to move the files to the tmp_weights folder to use them
+
+csvwrite( [matlab_dir 'move3d_tmp_data_human_trajs/' ...
+        'user_study_' with_replan '_spheres_weights_' ...
+        num2str(nb_samples,'%03d'), ...
+        '_', split, '_.txt'], w_o );
+
+disp(['nb of demo : ' num2str(nb_demos.nb_demo)]);
+disp(['nb of samples : ' num2str(nb_samples)]);
+
 
 for i=1:nb_demos.nb_demo,
     
     % get feature values
     phi_demo = features.feat_count{t,r}(i,:);
     id_start = (i-1)*nb_samples+nb_demos.nb_demo+1;
-    id_end = i*nb_samples+nb_demos.nb_demo;
+    id_end = i*nb_samples+nb_demo;
     phi_samples = features.feat_count{t,r}(id_start:id_end,:);
     
     % print statistics
-    print_stats( i, phi_demo, phi_samples, w_o, w_1, print_markers );
+    print_stats( i, phi_demo, phi_samples, w_o, w_1, ...
+        print_markers, display);
     
     w = waitforbuttonpress;
     

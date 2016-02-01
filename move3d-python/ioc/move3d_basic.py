@@ -51,16 +51,19 @@ class Move3D:
         self.folder_tmp_files = os.environ['MOVE3D_TMP_FILES']
         self.folder_tmp_param_files = self.folder_tmp_files + "/params_files"
 
+    # filename : the Qt params filename
+    # program : is the python function pointer
+    # args : the arguments of the function
+    # return_dict : not used
     def launch(self, filename, program, args, return_dict):
 
         self.id += 1
 
-        # Get fullpath of the parameter file
+        # Get full path of the parameter file
         param_filename = self.folder_param_files + "/" + filename
 
-        # Copy the file to a temporary directory
-        # to allow changes
-        tmp_param_file  = self.folder_tmp_param_files + "/" + filename
+        # Copy the file to a temporary directory to allow changes
+        tmp_param_file = self.folder_tmp_param_files + "/" + filename
         tmp_param_file += "%06d" % self.id
 
         print "copy " + param_filename + " to " + tmp_param_file
@@ -68,6 +71,7 @@ class Move3D:
 
         # Launch the program in a new process
         # with the copied parameter file as argument
+        # it has to be called with a name as first argument
         p = multiprocessing.Process(target=program, args=('move3d_process', tmp_param_file, args))
         p.start()
         return p

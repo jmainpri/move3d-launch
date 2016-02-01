@@ -1,4 +1,6 @@
-function print_stats( demo_id, phi_demo, phi_samples, w_o, w_1, plot_markers )
+function [number_of_degeneration] = print_stats( ...
+    demo_id, phi_demo, phi_samples, w_o, w_1, ...
+    plot_markers, display_figure )
 
 phi_mean = mean(phi_samples);
 phi_variance = var(phi_samples);
@@ -36,7 +38,8 @@ end
 % disp(['mean deltas sum : ' num2str(mean( sumss )) ] )
 
 disp('*********************************************')
-disp(['NB SAMPLES : ' num2str( size( phi_samples, 1 ) ) ' NB FEATURES : ' num2str( size( phi_samples, 2 ) )] )
+disp(['NB SAMPLES : ' num2str( size( phi_samples, 1 ) ) ...
+    ' NB FEATURES : ' num2str( size( phi_samples, 2 ) )] )
 disp('---------------------------------------------')
 disp('DELTAS STATISTICS:')
 disp(['MEAN : ' num2str( norm( phi_mean ) ) ] )
@@ -69,9 +72,8 @@ end
 
 index = find(costs < demo_cost);
 number_of_degeneration = length(index);
-disp(['number of degenration : ' num2str(number_of_degeneration)])
 
-
+if display_figure,
 % plot the cost of sampled trajectories compared to the demonstration
 % nb_label = 29
 % Labels = {'Length', ...                 % 01
@@ -129,6 +131,7 @@ Labels = {
     'Discomfort'       
     };
 
+
 %% PAPER
 nb_label = 24;
 Labels = {
@@ -158,7 +161,49 @@ Labels = {
     'd(rShoulderX , rShoulderX)'        
     };
 
-FigHandle = figure('name', ['DEMONSTRATION : ' num2str(demo_id)], 'Position', [600, 50, 1000, 1000]);
+%% TRO February 2016
+nb_label = 36;
+Labels = {
+    'JLength', ...                       % 01
+    'JVelocity', ...                     % 01
+    'JAcceleration', ...                 % 01
+    'JJerk', ...                         % 01
+    'TLength', ...                       % 01
+    'TVelocity', ...                     % 01
+    'TAcceleration', ...                 % 01
+    'TJerk', ...                         % 01
+    'd(Pelvis, Pelvis)', ...            % 04    00
+    'd(Pelvis , rWristX)', ...          % 05    01
+    'd(Pelvis , rElbowZ)', ...          % 06    02
+    'd(Pelvis , rShoulderX)', ...       % 07    03
+    'd(rWristX , Pelvis)', ...          % 08    04
+    'd(rWristX , rWristX)', ...         % 08    05
+    'd(rWristX , rElbowZ)', ...         % 08    06
+    'd(rWristX , rShoulderX)', ...      % 08    07
+    'd(rElbowZ , Pelvis)', ...          % 08    08
+    'd(rElbowZ , rWristX)', ...         % 08    09
+    'd(rElbowZ , rElbowZ)', ...         % 08    10
+    'd(rElbowZ , rShoulderX)', ...      % 08    11
+    'd(rShoulderX , Pelvis)', ...       % 08    12
+    'd(rShoulderX , rWristX)', ...      % 08    13
+    'd(rShoulderX , rElbowZ)', ...      % 08    14
+    'd(rShoulderX , rShoulderX)', ...
+    'CONFIG INDEX SPINE 0', ...          % 08    04
+    'CONFIG INDEX SPINE 1', ...         % 08    05
+    'CONFIG INDEX SPINE 2', ...         % 08    06
+    'CONFIG INDEX ARM RIGTH SHOULDER 0', ...      % 08    07
+    'CONFIG INDEX ARM RIGTH SHOULDER 1', ...          % 08    08
+    'CONFIG INDEX ARM RIGTH SHOULDER 2', ...         % 08    09
+    'CONFIG INDEX ARM RIGTH ELBOW 0', ...         % 08    10
+    'CONFIG INDEX ARM RIGTH ELBOW 1', ...      % 08    11
+    'CONFIG INDEX ARM RIGTH ELBOW 2', ...       % 08    12
+    'CONFIG INDEX ARM RIGTH WRIST 0', ...      % 08    13
+    'CONFIG INDEX ARM RIGTH WRIST 1', ...      % 08    14
+    'CONFIG INDEX ARM RIGTH WRIST 2'        
+    };
+
+FigHandle = figure('name', ['DEMONSTRATION : ' num2str(demo_id)], ...
+    'Position', [600, 50, 1000, 1000]);
 
 subplot(7,1,1)
 bar( w_1' )
@@ -211,7 +256,8 @@ ylabel('Cost of samples')
 % %     plot( binCenters, counts );
 %     
 %     binWidth = diff(binCenters);
-%     binWidth = [binWidth(end),binWidth]; % Replicate last bin width for first, which is indeterminate.
+% % Replicate last bin width for first, which is indeterminate.
+%     binWidth = [binWidth(end),binWidth]; 
 %     nz = counts>0; % Index to non-zero bins
 %     frequency = counts(nz)/sum(counts(nz));
 %     phi_entropy(i) = -sum(frequency.*( log(frequency./binWidth(nz)) ) );
@@ -246,6 +292,8 @@ ylabel('Cost of samples')
 % sum( exp(-binCenters)/factor )
 % factor
 % % w_o*phi_demo'
+
+end
 
 function costs = delta_exponential_cost(w,deltas)
 

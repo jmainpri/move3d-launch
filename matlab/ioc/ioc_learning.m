@@ -1,8 +1,10 @@
-function ioc_learning( nb_demo, nb_features, samples, init_factor, data_folder, demo_id )
+function ioc_learning( nb_demo, nb_features, samples, init_factor, ...
+    data_folder, demo_id )
 
 global phi_demo
 global phi_k
 global nb_used_samples
+global ioc_regularizer
 
 % w = zeros(1,nb_features);
 % cost_function(w)
@@ -34,20 +36,23 @@ for s=samples,
     % Load file
     if( demo_id > -1 || single_file_sampling_no_loo ),
         % load demos and remove the demo_id
-        [phi_demo, phi_k] = ioc_load_instance_remove_demo( s, nb_features, data_folder, demo_id, nb_demo );
+        [phi_demo, phi_k] = ioc_load_instance_remove_demo( ... 
+            s, nb_features, data_folder, demo_id, nb_demo );
     else
-        [phi_demo, phi_k] = ioc_load_instance( nb_demo, s, nb_features, data_folder );
+        [phi_demo, phi_k] = ioc_load_instance( ...
+            nb_demo, s, nb_features, data_folder );
     end
     
     w0 = (max-min)*ones(1,nb_features);
     
-    if use_constrainted_minimization ,
+    if use_constrainted_minimization,
         
-        if use_liblfgs ,
+        if use_liblfgs,
             % Execute constrainted minimization with liblfgs
             [w,fval] = constrainted_minimization_liblbfgs( w0, lb, ub );
         else
-            [w,fval,exitflag,output,lambda,grad,hessian] = constrainted_minimization( w0, lb, ub );
+            [w,fval,exitflag,output,lambda,grad,hessian] = ... 
+                constrainted_minimization( w0, lb, ub );
         end
         
         w_size = size(w); % transpose vector if not collumn
@@ -59,10 +64,11 @@ for s=samples,
         if use_cmaes,
             opts.LBounds = lb'; 
             opts.UBounds = ub';
-            opts.MaxIter = 1000; %1000
+            opts.MaxIter = 800; %1000
             w = w0';
             fval = 0;
-            [w, fval, counteval, stopflag, out, bestever ] = cmaes( 'genetic_cost_function', w0, max*0.3, opts );
+            [w, fval, counteval, stopflag, out, bestever ] = ... 
+                cmaes( 'genetic_cost_function', w0, max*0.3, opts );
            
             w = w';
         else
@@ -70,7 +76,9 @@ for s=samples,
             Generations_Data = 1000;
             TolFun_Data = 1e-12;
 %             TolFun_Data = 0;
-            [w, fval, exitflag, output, population, score] = genetic_algo( nb_features, lb, ub, Generations_Data, TolFun_Data );
+            [w, fval, exitflag, output, population, score] = ... 
+                genetic_algo( nb_features, lb, ub, ... 
+                Generations_Data, TolFun_Data );
         end
     end
     
@@ -87,14 +95,17 @@ for s=samples,
 
     % Saving to file
     disp('writing weights to file');
-    csvwrite( [data_folder, 'spheres_weights_', num2str(s,'%03d'), '.txt'], w );
+    csvwrite( [data_folder, ...
+        'spheres_weights_', num2str(s,'%03d'), ...
+        '_', num2str(ioc_regularizer), '_.txt'], w );
     
     % Verify solutions
     is_demo_higher_than_samples = false;
     for d=size(phi_demo,1),
         for k=1:s,
             cost_sample = w * phi_k(k,:,d)';
-            % disp(['cost for sample ' num2str(i) ' : ' num2str(cost_sample)]);
+            % disp(['cost for sample ' num2str(i) 
+            % ' : ' num2str(cost_sample)]);
             if( cost_sample < cost_of_demos(d) ),
                 is_demo_higher_than_samples = true;
             end

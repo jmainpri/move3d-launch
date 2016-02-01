@@ -5,26 +5,37 @@ function [ nb_demo, nb_feature, results, weights, feat_count, feat_jac] = ioc_si
 % data_folder = 'move3d_tmp_data_home/';
 data_folder = move3d_data_dir;
 
-% Set move3d basic parameters
-move3d_set_variable( move3d_dir, file_params, 'boolParameter\\ioc_exit_after_run', 'true' );
-% move3d_set_variable( move3d_dir, file_params, 'boolParameter\\ioc_single_iteration', 'false' );
+global ioc_regularizer;
 
-% Get number of demos and number of features from move3d
-move3d_set_variable( move3d_dir, file_params, 'intParameter\\ioc_phase', '7' ); % save_feature_and_demo_size
-move3d_set_variable( move3d_dir, file_params, 'boolParameter\\ioc_single_iteration', 'true' );
-cd( move3d_dir );
-system( strcat( move3d_cmd, file_params ) );
-cd( matlab_dir );
-prob = load('problem.txt');
-if ~isequal(size(prob), [2 1]),
-    error('problem size not loaded correctly!!!')
+if( phases(1) == true ),
+    % Set move3d basic parameters
+    move3d_set_variable( move3d_dir, file_params, 'boolParameter\\ioc_exit_after_run', 'true' );
+    % move3d_set_variable( move3d_dir, file_params, 'boolParameter\\ioc_single_iteration', 'false' );
+
+    % Get number of demos and number of features from move3d
+    move3d_set_variable( move3d_dir, file_params, 'intParameter\\ioc_phase', '7' ); % save_feature_and_demo_size
+    move3d_set_variable( move3d_dir, file_params, 'boolParameter\\ioc_single_iteration', 'true' );
 end
-nb_demo = prob(1);
-nb_feature = prob(2);
-display(['Number of demos ' num2str(nb_demo)])
 
-move3d_set_variable( move3d_dir, file_params, 'boolParameter\\ioc_single_iteration', 'false' );
-        
+if( phases(1) == true ),
+    cd( move3d_dir );
+    system( strcat( move3d_cmd, file_params ) );
+    cd( matlab_dir );
+    prob = load('problem.txt');
+    if ~isequal(size(prob), [2 1]),
+        error('problem size not loaded correctly!!!')
+    end
+    nb_demo = prob(1);
+    nb_feature = prob(2);
+    display(['Number of demos ' num2str(nb_demo)])
+    
+    move3d_set_variable( move3d_dir, file_params, 'boolParameter\\ioc_single_iteration', 'false' );
+      
+else
+   nb_demo = 7;
+   nb_feature = 36;
+end
+  
 % Init result struct
 nb_runs = size(samples,2); % number of phases
 results = zeros( nb_tests, nb_runs, 6 );
@@ -85,13 +96,19 @@ for i=1:nb_tests,
         results(i,:,:,:,:) = load([data_folder 'result.txt']);
     end
     
+    matlab_dir
+    cd( matlab_dir );
     for r=1:size(samples,2),
-        weights(i,r,:) = load([data_folder 'spheres_weights_', num2str(samples(r),'%03d'), '.txt']);
-        feat_count(i,r) = { load([data_folder 'spheres_features_', num2str(samples(r),'%03d'), '.txt']) };
+        weights(i,r,:) = load([data_folder 'spheres_weights_', ...
+            num2str(samples(r),'%03d'), '_', num2str(ioc_regularizer), '_.txt']);
+        feat_count(i,r) = { load([data_folder 'spheres_features_', ...
+            num2str(samples(r),'%03d'), '.txt']) };
         % feat_jac(i,r) = { load([data_folder 'spheres_jac_sum_', num2str(samples(r),'%03d'), '.txt']) };
     end
 end
 
-cd( move3d_dir );
-move3d_set_variable( move3d_dir, file_params, 'boolParameter\\ioc_exit_after_run', 'false' );
-move3d_set_variable( move3d_dir, file_params, 'intParameter\\ioc_phase', '-1' );
+if sampling,
+    cd( move3d_dir );
+    move3d_set_variable( move3d_dir, file_params, 'boolParameter\\ioc_exit_after_run', 'false' );
+    move3d_set_variable( move3d_dir, file_params, 'intParameter\\ioc_phase', '-1' );
+end

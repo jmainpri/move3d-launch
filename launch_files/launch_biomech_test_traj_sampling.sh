@@ -8,9 +8,7 @@ do
        "--debug" )
            debug="gdb -ex run --args";;
        "--valgrind" )
-           debug="valgrind"
-           seed="-s 1437922374"
-           background="-launch RunIOC -nogui";;
+           debug="valgrind";;
 	     "--seed" )
 	         seed="-s 1453465123";;
        "--other" )
@@ -23,8 +21,7 @@ done
 
 $debug  move3d-qt-studio -setgui $background \
 $seed -c pqp -f ../../assets/Collaboration/TwoHumansUserExp.p3d \
--params ../move3d-launch/parameters/params_collaboration_planning_user_experiment \
--sc ../../assets/Collaboration/SCENARIOS/collaboration_test_user_experiment.sce
+-params ../move3d-launch/parameters/params_biomech_test_sampling_trajs
 
 
 # range[0] for dof Pelvis 0.03
