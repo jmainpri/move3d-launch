@@ -17,13 +17,12 @@
 #
 #                                           Jim Mainprice on Sunday May 17 2015
 
-import subprocess
 import os
-import sys
 import re
 import shutil
 import time
 import multiprocessing
+
 
 def move3d_set_variable(filename, variable, new_value):
 
@@ -33,7 +32,10 @@ def move3d_set_variable(filename, variable, new_value):
     new_params = []
     f = open(filename)
     for line in f:
-        new_line = re.sub( str1.encode('string-escape'), str2.encode('string-escape'), line)
+        new_line = re.sub(
+            str1.encode('string-escape'),
+            str2.encode('string-escape'),
+            line)
         new_params.append(new_line)
 
     f = open(filename, 'w')
@@ -41,13 +43,15 @@ def move3d_set_variable(filename, variable, new_value):
         f.write(line)
     f.close()
 
+
 class Move3D:
 
     def __init__(self):
 
         self.id = 0
         self.folder_param_files = os.environ['MOVE3D_PARAM_FILES']
-        # self.folder_tmp_param_files = os.path.dirname(os.path.realpath(__file__)) + "/tmp_params_files"
+        # self.folder_tmp_param_files = os.path.dirname(
+        # os.path.realpath(__file__)) + "/tmp_params_files"
         self.folder_tmp_files = os.environ['MOVE3D_TMP_FILES']
         self.folder_tmp_param_files = self.folder_tmp_files + "/params_files"
 
@@ -72,7 +76,9 @@ class Move3D:
         # Launch the program in a new process
         # with the copied parameter file as argument
         # it has to be called with a name as first argument
-        p = multiprocessing.Process(target=program, args=('move3d_process', tmp_param_file, args))
+        p = multiprocessing.Process(
+            target=program, args=(
+                'move3d_process', tmp_param_file, args))
         p.start()
         return p
 

@@ -24,6 +24,7 @@ import sys
 import shlex
 from move3d_basic import *
 
+
 class Matlab:
 
     def __init__(self):
@@ -35,12 +36,20 @@ class Matlab:
         self.id += 1
 
         folder = "/usr/local/jim_local/Dropbox/move3d/move3d-launch/matlab/ioc/"
-        #command = str("matlab -nojvm -r \"cd {}; ioc_leave_one_out_human_trajectories({});exit\" ").format(folder, regularizer)
-        command = str("matlab -nojvm -r \"cd {}; ioc_leave_one_out_human_trajectories();exit\" ").format(folder)
+        # command = str("matlab -nojvm -r \"cd {};
+        # ioc_leave_one_out_human_trajectories({});exit\" ").format(
+        # folder, regularizer)
+        matlab_function = "ioc_leave_one_out_human_trajectories()"
+
+        command = (
+            "matlab -nojvm -r \"cd {}; {};exit\" ").format(folder,
+                                                           matlab_function)
 
         # Launch the program in a new process
         # it has to be called with a name as first argument
-        p = multiprocessing.Process(target=self.run, args=("matlab_process", command))
+        p = multiprocessing.Process(
+            target=self.run, args=(
+                "matlab_process", command))
         p.start()
         return p
 
@@ -72,10 +81,22 @@ def run_test(name, parameter_filename_tmp, args):
     options += " -sc " + sce_file
 
     move3d_set_variable(parameter_filename_tmp, 'intParameter\ioc_phase', '1')
-    move3d_set_variable(parameter_filename_tmp, 'intParameter\ioc_sample_iteration', '330')
-    move3d_set_variable(parameter_filename_tmp, 'boolParameter\ioc_exit_after_run', 'true')
-    move3d_set_variable(parameter_filename_tmp, 'boolParameter\ioc_split_motions', 'true')
-    move3d_set_variable(parameter_filename_tmp, 'boolParameter\ioc_training_dataset', 'true')
+    move3d_set_variable(
+        parameter_filename_tmp,
+        'intParameter\ioc_sample_iteration',
+        '330')
+    move3d_set_variable(
+        parameter_filename_tmp,
+        'boolParameter\ioc_exit_after_run',
+        'true')
+    move3d_set_variable(
+        parameter_filename_tmp,
+        'boolParameter\ioc_split_motions',
+        'true')
+    move3d_set_variable(
+        parameter_filename_tmp,
+        'boolParameter\ioc_training_dataset',
+        'true')
     move3d_set_variable(parameter_filename_tmp, 'drawDisabled', 'true')
 
     debug = ""

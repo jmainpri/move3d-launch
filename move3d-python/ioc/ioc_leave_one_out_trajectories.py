@@ -25,20 +25,20 @@ import os
 import sys
 import shlex
 
-class Move3DIOCHumanTrajectories():
 
-    def __init__(self):
+class Move3DIOCHumanTrajectories:
+    def __init__(self, test):
 
         self.function = "SphereIOC"
+        self.human_robot_run = ""
 
-        #----------------------------------------------
-        # SELECT the data set here !!!!
-        test = "september"
-        #----------------------------------------------
+        # ----------------------------------------------
+
+        p3d_dir = "../assets/Collaboration/"
 
         if test == "september":
-            self.p3d_file = "../assets/Collaboration/TwoHumansTableMocap.p3d"
-            self.sce_file = "../assets/Collaboration/SCENARIOS/collaboration_aterm.sce"
+            self.p3d_file = p3d_dir + "TwoHumansTableMocap.p3d"
+            self.sce_file = p3d_dir + "SCENARIOS/collaboration_aterm.sce"
             self.id = 0
             self.loo_splits = [
                 "[0446-0578]",
@@ -48,12 +48,13 @@ class Move3DIOCHumanTrajectories():
                 "[0780-0871]",
                 "[1537-1608]",
                 "[2711-2823]"]
-            #self.loo_splits = ["[0444-0585]"]
+            # self.loo_splits = ["[0444-0585]"]
             self.param_file = "params_collaboration_planning_aterm"
 
         elif test == "february":
-            self.p3d_file = "../assets/Collaboration/TwoHumansTableMocap.p3d"
-            self.sce_file = "../assets/Collaboration/SCENARIOS/collaboration_test_mocap_resized.sce"
+            self.p3d_file = p3d_dir + "TwoHumansTableMocap.p3d"
+            self.sce_file = (
+                p3d_dir + "SCENARIOS/collaboration_test_mocap_resized.sce")
             self.id = 0
             self.loo_splits = [
                 "[0649-0740]",
@@ -64,32 +65,33 @@ class Move3DIOCHumanTrajectories():
             self.param_file = "params_collaboration_planning_mocap"
 
         elif test == "userstudy":
-            self.p3d_file = "../assets/Collaboration/TwoHumansUserExp.p3d"
-            self.sce_file = "../assets/Collaboration/SCENARIOS/collaboration_test_user_experiment.sce"
+            self.p3d_file = p3d_dir + "TwoHumansUserExp.p3d"
+            self.sce_file = (
+                p3d_dir + "SCENARIOS/collaboration_test_user_experiment.sce")
             self.id = 0
-            #splelf.loo_splits = ["[0904-1027]"]
+            # splelf.loo_splits = ["[0904-1027]"]
             self.loo_splits = [
-                 "[0612-0703]",
-                 "[0904-1027]",
-                 "[0921-1010]",
-                 "[1018-1131]",
-                 "[1159-1255]",
-                 "[1197-1363]",
-                 "[1248-1428]",
-                 "[1496-1591]",
-                 "[1595-1694]",
-                 "[1639-1779]",
-                 "[1648-1802]",
-                 "[1809-1897]",
-                 "[1881-1970]",
-                 "[1896-2006]",
-                 "[2020-2116]",
-                 "[2142-2234]",
-                 "[2259-2349]",
-                 "[2483-2568]",
-                 "[2550-2642]",
-                 "[2556-2697]",
-                 "[3124-3230]"]
+                "[0612-0703]",
+                "[0904-1027]",
+                "[0921-1010]",
+                "[1018-1131]",
+                "[1159-1255]",
+                "[1197-1363]",
+                "[1248-1428]",
+                "[1496-1591]",
+                "[1595-1694]",
+                "[1639-1779]",
+                "[1648-1802]",
+                "[1809-1897]",
+                "[1881-1970]",
+                "[1896-2006]",
+                "[2020-2116]",
+                "[2142-2234]",
+                "[2259-2349]",
+                "[2483-2568]",
+                "[2550-2642]",
+                "[2556-2697]",
+                "[3124-3230]"]
 
             # self.loo_splits = ["[1896-2006]"]
             # self.loo_splits = ["[3124-3230]"]
@@ -106,29 +108,31 @@ class Move3DIOCHumanTrajectories():
             self.param_file = "params_collaboration_planning_user_experiment"
 
         elif test == "human_robot_experiment":
-            self.p3d_file = "../assets/Collaboration/HumanAndRobotTableLogan.p3d"
-            self.sce_file = "../assets/Collaboration/SCENARIOS/collaboration_human_robot_experiment.sce"
+            self.p3d_file = p3d_dir + "HumanAndRobotTableLogan.p3d"
+            self.sce_file = (
+                p3d_dir +
+                "SCENARIOS/collaboration_human_robot_experiment_tro.sce")
             self.id = 0
 
             self.loo_splits = [
-                 "robot_000.t",
-                 "robot_001.t",
-                 "robot_002.t",
-                 "robot_003.t",
-                 "robot_004.t",
-                 "robot_005.t",
-                 "robot_006.t",
-                 "robot_007.t",
-                 "robot_008.t",
-                 "robot_009.t",
-                 "robot_010.t",
-                 "robot_011.t",
-                 "robot_012.t",
-                 "robot_013.t",
-                 "robot_014.t",
-                 "robot_015.t",
-                 "robot_016.t"
-                 ]
+                "robot_000.t",
+                "robot_001.t",
+                "robot_002.t",
+                "robot_003.t",
+                "robot_004.t",
+                "robot_005.t",
+                "robot_006.t",
+                "robot_007.t",
+                "robot_008.t",
+                "robot_009.t",
+                "robot_010.t",
+                "robot_011.t",
+                "robot_012.t",
+                "robot_013.t",
+                "robot_014.t",
+                "robot_015.t",
+                "robot_016.t"
+            ]
             self.param_file = "params_collaboration_planning_human_robot_experiment"
 
     def run_test(self, parameter_filename):
@@ -149,11 +153,11 @@ class Move3DIOCHumanTrajectories():
         options += " -sc " + self.sce_file
 
         debug = ""
-        #debug = "gdb -ex run --args "
-        #debug = "gdb -ex \"set disable-randomization off\" -ex run --args "
+        # debug = "gdb -ex run --args "
+        # debug = "gdb -ex \"set disable-randomization off\" -ex run --args "
         debug = "gdb -ex run --args "
         command = shlex.split(debug + "move3d-qt-studio" + options)
-        
+
         p = subprocess.Popen(command, stdin=sys.stdin, stdout=sys.stdout)
         p.wait()
         # p = subprocess.call(command)
@@ -163,25 +167,33 @@ class Move3DIOCHumanTrajectories():
         print "start : ", name
         print " -- args : ", args
 
-        move3d_set_variable(parameter_filename, 'boolParameter\ioc_split_motions', 'false')
-        move3d_set_variable(parameter_filename, 'boolParameter\ioc_no_replanning', 'true')
-        move3d_set_variable(parameter_filename, 'boolParameter\ioc_use_baseline', 'false')
+        move3d_set_variable(parameter_filename,
+                            'boolParameter\ioc_split_motions', 'false')
+        move3d_set_variable(parameter_filename,
+                            'boolParameter\ioc_no_replanning', 'true')
+        move3d_set_variable(parameter_filename,
+                            'boolParameter\ioc_use_baseline', 'false')
 
-        set_basic_parameters(parameter_filename, args)
+        self.set_basic_parameters(parameter_filename, args)
 
         self.run_test(parameter_filename)
 
-    def stomp_baseline_conservative_noreplan(self, name, parameter_filename, args):
+    def stomp_baseline_conservative_noreplan(self, name, parameter_filename,
+                                             args):
 
         print "start : ", name
         print " -- args : ", args
 
-        move3d_set_variable(parameter_filename, 'boolParameter\ioc_split_motions', 'false')
-        move3d_set_variable(parameter_filename, 'boolParameter\ioc_no_replanning', 'true')
-        move3d_set_variable(parameter_filename, 'boolParameter\ioc_use_baseline', 'true')
-        move3d_set_variable(parameter_filename, 'boolParameter\ioc_conservative_baseline', 'true')
+        move3d_set_variable(parameter_filename,
+                            'boolParameter\ioc_split_motions', 'false')
+        move3d_set_variable(parameter_filename,
+                            'boolParameter\ioc_no_replanning', 'true')
+        move3d_set_variable(parameter_filename,
+                            'boolParameter\ioc_use_baseline', 'true')
+        move3d_set_variable(parameter_filename,
+                            'boolParameter\ioc_conservative_baseline', 'true')
 
-        set_basic_parameters(parameter_filename, args)
+        self.set_basic_parameters(parameter_filename, args)
 
         self.run_test(parameter_filename)
 
@@ -190,12 +202,16 @@ class Move3DIOCHumanTrajectories():
         print "start : ", name
         print " -- args : ", args
 
-        move3d_set_variable(parameter_filename, 'boolParameter\ioc_split_motions', 'false')
-        move3d_set_variable(parameter_filename, 'boolParameter\ioc_no_replanning', 'true')
-        move3d_set_variable(parameter_filename, 'boolParameter\ioc_use_baseline', 'true')
-        move3d_set_variable(parameter_filename, 'boolParameter\ioc_conservative_baseline', 'false')
+        move3d_set_variable(parameter_filename,
+                            'boolParameter\ioc_split_motions', 'false')
+        move3d_set_variable(parameter_filename,
+                            'boolParameter\ioc_no_replanning', 'true')
+        move3d_set_variable(parameter_filename,
+                            'boolParameter\ioc_use_baseline', 'true')
+        move3d_set_variable(parameter_filename,
+                            'boolParameter\ioc_conservative_baseline', 'false')
 
-        set_basic_parameters(parameter_filename, args)
+        self.set_basic_parameters(parameter_filename, args)
 
         self.run_test(parameter_filename)
 
@@ -204,25 +220,33 @@ class Move3DIOCHumanTrajectories():
         print "start : ", name
         print " -- args : ", args
 
-        move3d_set_variable(parameter_filename, 'boolParameter\ioc_split_motions', 'false')
-        move3d_set_variable(parameter_filename, 'boolParameter\ioc_no_replanning', 'false')
-        move3d_set_variable(parameter_filename, 'boolParameter\ioc_use_baseline', 'false')
+        move3d_set_variable(parameter_filename,
+                            'boolParameter\ioc_split_motions', 'false')
+        move3d_set_variable(parameter_filename,
+                            'boolParameter\ioc_no_replanning', 'false')
+        move3d_set_variable(parameter_filename,
+                            'boolParameter\ioc_use_baseline', 'false')
 
-        set_basic_parameters(parameter_filename, args)
+        self.set_basic_parameters(parameter_filename, args)
 
         self.run_test(parameter_filename)
 
-    def stomp_baseline_conservative_replan(self, name, parameter_filename, args):
+    def stomp_baseline_conservative_replan(self, name, parameter_filename,
+                                           args):
 
         print "start : ", name
         print " -- args : ", args
 
-        move3d_set_variable(parameter_filename, 'boolParameter\ioc_split_motions', 'false')
-        move3d_set_variable(parameter_filename, 'boolParameter\ioc_no_replanning', 'false')
-        move3d_set_variable(parameter_filename, 'boolParameter\ioc_use_baseline', 'true')
-        move3d_set_variable(parameter_filename, 'boolParameter\ioc_conservative_baseline', 'true')
+        move3d_set_variable(parameter_filename,
+                            'boolParameter\ioc_split_motions', 'false')
+        move3d_set_variable(parameter_filename,
+                            'boolParameter\ioc_no_replanning', 'false')
+        move3d_set_variable(parameter_filename,
+                            'boolParameter\ioc_use_baseline', 'true')
+        move3d_set_variable(parameter_filename,
+                            'boolParameter\ioc_conservative_baseline', 'true')
 
-        set_basic_parameters(parameter_filename, args)
+        self.set_basic_parameters(parameter_filename, args)
 
         self.run_test(parameter_filename)
 
@@ -231,12 +255,16 @@ class Move3DIOCHumanTrajectories():
         print "start : ", name
         print " -- args : ", args
 
-        move3d_set_variable(parameter_filename, 'boolParameter\ioc_split_motions', 'false')
-        move3d_set_variable(parameter_filename, 'boolParameter\ioc_no_replanning', 'false')
-        move3d_set_variable(parameter_filename, 'boolParameter\ioc_use_baseline', 'true')
-        move3d_set_variable(parameter_filename, 'boolParameter\ioc_conservative_baseline', 'false')
+        move3d_set_variable(parameter_filename,
+                            'boolParameter\ioc_split_motions', 'false')
+        move3d_set_variable(parameter_filename,
+                            'boolParameter\ioc_no_replanning', 'false')
+        move3d_set_variable(parameter_filename,
+                            'boolParameter\ioc_use_baseline', 'true')
+        move3d_set_variable(parameter_filename,
+                            'boolParameter\ioc_conservative_baseline', 'false')
 
-        set_basic_parameters(parameter_filename, args)
+        self.set_basic_parameters(parameter_filename, args)
 
         self.run_test(parameter_filename)
 
@@ -244,15 +272,20 @@ class Move3DIOCHumanTrajectories():
 
         self.id += 1
 
-        tmp_folder = move3d.folder_tmp_files + "/trajectories_process/"
-        tmp_folder += function.__name__ + "/"
-        tmp_folder += loo_split
-        # tmp_folder += "%06d" % self.id
+        if self.human_robot_run == "":
+            tmp_folder = move3d.folder_tmp_files + "/trajectories_process/"
+            tmp_folder += function.__name__ + "/"
+            tmp_folder += loo_split
+        else:
+            tmp_folder = move3d.folder_tmp_files + "/trajectories_process/"
+            tmp_folder += self.human_robot_run + "/"
+            tmp_folder += function.__name__ + "/"
+            tmp_folder += loo_split
 
         print "make tmp folder : ", tmp_folder
 
         # Make trajectory temporary folder
-        mkdir_recursive(tmp_folder)
+        os.makedirs(tmp_folder)
 
         # Set move3d arguments
         args = [loo_split, tmp_folder]
@@ -261,37 +294,43 @@ class Move3DIOCHumanTrajectories():
         # the function with the new tmp file as argument
         return move3d.launch(self.param_file, function, args, return_dict)
 
+    def set_basic_parameters(self, parameter_filename, args):
+        # Get the splits for Leave One Out
+        loo_splits = args[0]
+        traj_folder = args[1]
 
-def mkdir_recursive(path):
-    sub_path = os.path.dirname(path)
-    if not os.path.exists(sub_path):
-        mkdir_recursive(sub_path)
-    if not os.path.exists(path):
-        os.mkdir(path)
+        move3d_set_variable(parameter_filename,
+                            'stringParameter\ioc_tmp_traj_folder', traj_folder)
+        move3d_set_variable(parameter_filename,
+                            'stringParameter\ioc_traj_split_name', loo_splits)
 
+        # WARNING set to one for normal sampling, 6 simulation
+        move3d_set_variable(parameter_filename,
+                            'intParameter\ioc_phase', '6')
+        move3d_set_variable(parameter_filename,
+                            'boolParameter\ioc_exit_after_run', 'true')
+        move3d_set_variable(parameter_filename,
+                            'boolParameter\ioc_split_motions', 'false')
+        move3d_set_variable(parameter_filename,
+                            'boolParameter\ioc_parallel_job', 'true')
+        move3d_set_variable(parameter_filename,
+                            'boolParameter\ioc_training_dataset', 'false')
+        move3d_set_variable(parameter_filename,
+                            'drawDisabled', 'true')
 
-def set_basic_parameters(parameter_filename, args):
-
-    # Get the splits for Leave One Out
-    loo_splits = args[0]
-    traj_folder = args[1]
-
-    move3d_set_variable(parameter_filename, 'stringParameter\ioc_tmp_traj_folder', traj_folder)
-    move3d_set_variable(parameter_filename, 'stringParameter\ioc_traj_split_name', loo_splits)
-
-    # WARNING set to one for normal sampling, 6 simulation
-    move3d_set_variable(parameter_filename, 'intParameter\ioc_phase', '6')
-    move3d_set_variable(parameter_filename, 'boolParameter\ioc_exit_after_run', 'true')
-    move3d_set_variable(parameter_filename, 'boolParameter\ioc_split_motions', 'false')
-    move3d_set_variable(parameter_filename, 'boolParameter\ioc_parallel_job', 'true')
-    move3d_set_variable(parameter_filename, 'boolParameter\ioc_training_dataset', 'false')
-    move3d_set_variable(parameter_filename, 'drawDisabled', 'true')
+        if self.human_robot_run != "":
+            move3d_set_variable(parameter_filename,
+                                'stringParameter\ioc_human_robot_run',
+                                self.human_robot_run)
 
 
 def run_icra_feb_motions():
+    # ----------------------------------------------
+    # SELECT the data set here !!!!
+    test = "september"
 
+    move3d_test = Move3DIOCHumanTrajectories(test)
     move3d = Move3D()
-    move3d_test = Move3DIOCHumanTrajectories()
 
     manager = multiprocessing.Manager()
     return_dict = manager.dict()
@@ -299,27 +338,39 @@ def run_icra_feb_motions():
     jobs = []
 
     for split in move3d_test.loo_splits:
-
         print "Launch split : " + split
 
-        jobs.append(move3d_test.run_one_test(move3d, move3d_test.stomp_noreplan,
-                                            split, return_dict))
-        jobs.append(move3d_test.run_one_test(move3d, move3d_test.stomp_baseline_agressive_noreplan,
-                                             split, return_dict))
-        jobs.append(move3d_test.run_one_test(move3d, move3d_test.stomp_baseline_conservative_noreplan,
-                                            split, return_dict))
-        jobs.append(move3d_test.run_one_test(move3d, move3d_test.stomp_replan,
-                                           split, return_dict))
-        jobs.append(move3d_test.run_one_test(move3d, move3d_test.stomp_baseline_agressive_replan,
-                                             split, return_dict))
-        jobs.append(move3d_test.run_one_test(move3d, move3d_test.stomp_baseline_conservative_replan,
-                                            split, return_dict))
+        jobs.append(
+            move3d_test.run_one_test(
+                move3d, move3d_test.stomp_noreplan,
+                split, return_dict))
+        jobs.append(
+            move3d_test.run_one_test(
+                move3d,
+                move3d_test.stomp_baseline_agressive_noreplan,
+                split, return_dict))
+        jobs.append(move3d_test.run_one_test(
+            move3d,
+            move3d_test.stomp_baseline_conservative_noreplan,
+            split, return_dict))
+        jobs.append(move3d_test.run_one_test(
+            move3d, move3d_test.stomp_replan,
+            split, return_dict))
+        jobs.append(move3d_test.run_one_test(
+            move3d,
+            move3d_test.stomp_baseline_agressive_replan,
+            split, return_dict))
+        jobs.append(move3d_test.run_one_test(
+            move3d,
+            move3d_test.stomp_baseline_conservative_replan,
+            split, return_dict))
 
     for proc in jobs:
         proc.join()
 
     print "return values :"
     print return_dict.values()
+
 
 # run test
 if __name__ == "__main__":
