@@ -6,6 +6,7 @@ import os
 import sys
 import shlex
 
+
 class Move3DTest():
 
     def __init__(self):
@@ -32,6 +33,7 @@ class Move3DTest():
         options += " -f " + self.p3d_file
 
         subprocess.call(shlex.split("move3d-qt-studio" + options))
+
 
 def run_multi_process():
 

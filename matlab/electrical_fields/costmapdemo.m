@@ -1,8 +1,8 @@
 function costmapdemo
 
 N = 5;
-xMax = 0.5;
-xMin = -0.5;
+xMax = 0.10;
+xMin = -0.10;
 centers = (xMax-xMin) * rand(N,2) + xMin;
 
 % scatter( centers(:,1), centers(:,2) );
@@ -11,63 +11,21 @@ centers = (xMax-xMin) * rand(N,2) + xMin;
 % axis([0 1 0 1])
 % e = energy(centers(1,:), centers);
 
-xMaxPlot = 3;
-xMinPlot = -3;
+xMaxPlot = 0.5;
+xMinPlot = -0.5;
 [C] = costmap(centers, xMaxPlot, xMinPlot);
-plot_field(C(:,2:end)', xMaxPlot, xMinPlot);
+plot_field(C, xMaxPlot, xMinPlot);
 
 % point is the querry point
 % centers are the points where to compute the distance from
 function e = energy( point, centers )
 
 beta = 1.0;
-gamma = 4.0;
+gamma = 20.0;
 p =  repmat(point, size(centers,1), 1);
 dist = sqrt(sum((p - centers)' .^ 2))';
 e = log( sum( exp( -dist/beta ) .^ gamma ) );
 % e = max(e) / sum(e);
-
-% point is the querry point
-% centers are the points where to compute the distance from
-function e = distance_min( point, centers )
-
-p =  repmat(point, size(centers,1), 1);
-dist = sqrt(sum((p - centers)' .^ 2))';
-e = min( dist );
-
-
-function C = costmap( centers, xMax, xMin )
-
-n_points = 100;
-X = linspace(xMin,xMax,n_points);
-Y = X;
-points = zeros(n_points, n_points, 2);
-costs = zeros(n_points, n_points);
-
-i = 0; j = 0;
-for x = X ,
-    i = i + 1;
-    j = 0;
-    for y = Y,
-        j = j + 1;
-        points(i, j, :) = [x,y];
-        costs(i, j) = distance_min( [x,y], centers );
-    end
-end
-
-% figure
-% imagesc( costs, [0, 15]);
-% surf(X,Y,costs);
-
-[C] = contourc( X, Y, costs, [.3 .3]);
-plot(C(1,2:end), C(2,2:end));
-axis([xMin xMax xMin xMax]);
-pause;
-% figure
-% quiver( X, Y, costs, gradient(costs))
-
-%  title(['Number : ' num2str(run,formatSpec)]);
-%  colorbar
 
 function plot_field( C, xMaxPlot, xMinPlot )
 
@@ -101,8 +59,10 @@ for i=1:NGrid
         %@ Compute potential at the grid point
         VPlot(i,j) = energy([x y], C);  % Potential V(x,y)
         %@ Compute components of the electric field
-        ExPlot(i,j) = (energy([x+delta y], C) - energy([x-delta y], C)) / 2*delta;
-        EyPlot(i,j) = (energy([x, y+delta], C) - energy([x y-delta], C)) / 2*delta;
+        ExPlot(i,j) = (energy([x+delta, y], C) - ...
+            energy([x-delta y], C)) / 2*delta;
+        EyPlot(i,j) = (energy([x, y+delta], C) - ...
+            energy([x y-delta], C)) / 2*delta;
         
         %@ Normalize E-field vectors to unit length
         MagnitudeE = sqrt( ExPlot(i,j)^2 + EyPlot(i,j)^2 );
@@ -122,6 +82,7 @@ end
 
 % Specify contour levels used in contour plot
 axis([-xMax xMax -yMax yMax]); % Fix the min,max for x,y axes
+axis square
 cs = contour(xPlot,yPlot,VPlot,15); % Draw contour plot
 clabel(cs); % Place contour labels on contour levels
 %@ Add electric field direction to potential contour plot

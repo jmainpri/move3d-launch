@@ -1,11 +1,14 @@
 clear; clc
 
+dropbox = '/usr/local/jim_local/Dropbox/';
+
 % Set the enviroment for move3d libraries
-setenv('LD_LIBRARY_PATH','/jim_local/move3d/install/lib:/home/jmainpri/catkin_ws/devel/lib:/opt/ros/groovy/lib')
-setenv('HOME_MOVE3D','/jim_local/Dropbox/move3d/libmove3d')
+setenv('LD_LIBRARY_PATH',['/jim_local/move3d/install/lib:'...
+    '/home/jmainpri/catkin_ws/devel/lib:/opt/ros/groovy/lib'])
+setenv('HOME_MOVE3D',[dropbox 'move3d/libmove3d'])
 
 % Set move3d and matlab working directories
-move3d_dir = '/jim_local/Dropbox/move3d/move3d-launch/';
+move3d_dir = [dropbox 'move3d/move3d-launch/'];
 matlab_dir = [move3d_dir 'matlab/'];
 ioc_dir = [matlab_dir 'ioc/'];
 move3d_data_dir = 'move3d_tmp_data_human_trajs/';
@@ -26,6 +29,9 @@ else
     gui_str='-nogui';
 end
 
+global ioc_regularizer;
+ioc_regularizer = 0.01;
+
 %% SET MOCAP SPLITS
 
 loo_splits = [];
@@ -35,7 +41,8 @@ move3d_scenario = '';
 
 if use_sept,
 
-    move3d_scenario_feb = '-sc ../assets/Collaboration/SCENARIOS/collaboration_test_mocap_resized.sce';
+    move3d_scenario_feb = ['-sc ../assets/Collaboration/SCENARIOS/' ...
+        'collaboration_test_mocap_resized.sce'];
     file_params_feb = 'parameters/params_collaboration_planning_mocap';
 
     % Original Motions
@@ -56,7 +63,8 @@ if use_feb,
     
     % Active ICRA Deadline
     
-    move3d_scenario_aterm = '-sc ../assets/Collaboration/SCENARIOS/collaboration_aterm.sce';
+    move3d_scenario_aterm = ['-sc ../assets/Collaboration/SCENARIOS/' ...
+        collaboration_aterm.sce'];
     file_params_aterm = 'params_collaboration_planning_aterm';
 
     loo_splits = [loo_splits ; '[0649-0740]'];
@@ -73,7 +81,9 @@ end
 %% MOVE3D COMMAND
 % Set move3d system-command, files and seed
 
-move3d_cmd = ['move3d-qt-studio ' gui_str ' -launch SphereIOC -c pqp -f ../assets/Collaboration/TwoHumansTableMocap.p3d ' move3d_scenario ' -setgui -params ../move3d-launch/'];
+move3d_cmd = ['move3d-qt-studio ' gui_str ...
+    ' -launch SphereIOC -c pqp -f ../assets/Collaboration/TwoHumansTableMocap.p3d ' ...
+    move3d_scenario ' -setgui -params ../move3d-launch/'];
     
 %% IOC PARAMETERS
 % Fix seed
@@ -84,7 +94,7 @@ seed = 1391184850;
 nb_tests = 1; % number of calls to each sampling phase
 
 % Get samples sequence
-samples = [700];
+samples = [330];
 csvwrite( [matlab_dir, move3d_data_dir, 'samples_tmp.txt'], samples );
 
 phases(1) = false; % sampling
@@ -97,22 +107,24 @@ compute_baseline = true;
 
 % Set move3d variables ----------------------------------------------------
 
-move3d_set_variable( move3d_dir, file_params, 'intParameter\\ioc_ik', '0' ); % 0 : no ik, 1 : only ik, 2 : both
-move3d_set_variable( move3d_dir, file_params, 'stringParameter\\active_cost_function', 'costHumanTrajectoryCost' );
-move3d_set_variable( move3d_dir, file_params, 'stringParameter\\ioc_traj_split_name', '' );
-move3d_set_variable( move3d_dir, file_params, 'boolParameter\\ioc_use_baseline', 'false' );
-move3d_set_variable( move3d_dir, file_params, 'boolParameter\\init_spheres_cost', 'false' );
-move3d_set_variable( move3d_dir, file_params, 'boolParameter\\init_human_trajectory_cost', 'true' );
-move3d_set_variable( move3d_dir, file_params, 'boolParameter\\ioc_single_iteration', 'false' );
-move3d_set_variable( move3d_dir, file_params, 'boolParameter\\ioc_sample_around_demo', 'true' );
-move3d_set_variable( move3d_dir, file_params, 'boolParameter\\ioc_draw_demonstrations', 'false' );
-move3d_set_variable( move3d_dir, file_params, 'boolParameter\\ioc_draw_samples', 'false' );
-move3d_set_variable( move3d_dir, file_params, 'intParameter\\ioc_from_file_offset', '0' );
-move3d_set_variable( move3d_dir, file_params, 'boolParameter\\ioc_load_samples_from_file', 'false' );
-move3d_set_variable( move3d_dir, file_params, 'doubleParameter\\ioc_sample_std_dev', '0.0001' );
+ if phases(1) == true,
+    move3d_set_variable( move3d_dir, file_params, 'intParameter\\ioc_ik', '0' ); % 0 : no ik, 1 : only ik, 2 : both
+    move3d_set_variable( move3d_dir, file_params, 'stringParameter\\active_cost_function', 'costHumanTrajectoryCost' );
+    move3d_set_variable( move3d_dir, file_params, 'stringParameter\\ioc_traj_split_name', '' );
+    move3d_set_variable( move3d_dir, file_params, 'boolParameter\\ioc_use_baseline', 'false' );
+    move3d_set_variable( move3d_dir, file_params, 'boolParameter\\init_spheres_cost', 'false' );
+    move3d_set_variable( move3d_dir, file_params, 'boolParameter\\init_human_trajectory_cost', 'true' );
+    move3d_set_variable( move3d_dir, file_params, 'boolParameter\\ioc_single_iteration', 'false' );
+    move3d_set_variable( move3d_dir, file_params, 'boolParameter\\ioc_sample_around_demo', 'true' );
+    move3d_set_variable( move3d_dir, file_params, 'boolParameter\\ioc_draw_demonstrations', 'false' );
+    move3d_set_variable( move3d_dir, file_params, 'boolParameter\\ioc_draw_samples', 'false' );
+    move3d_set_variable( move3d_dir, file_params, 'intParameter\\ioc_from_file_offset', '0' );
+    move3d_set_variable( move3d_dir, file_params, 'boolParameter\\ioc_load_samples_from_file', 'false' );
+    move3d_set_variable( move3d_dir, file_params, 'doubleParameter\\ioc_sample_std_dev', '0.0001' );
 
-move3d_set_variable( move3d_dir, file_params, 'drawTrajVector', 'false' );
-move3d_set_variable( move3d_dir, file_params, 'drawTraj', 'true' );
+    move3d_set_variable( move3d_dir, file_params, 'drawTrajVector', 'false' );
+    move3d_set_variable( move3d_dir, file_params, 'drawTraj', 'true' );
+end
 
 %% ------------------------------------------------------------------------
 %% GENERATE WEIGHT VECTORS REPLAN  ----------------------------------------
@@ -123,11 +135,17 @@ demo_id = -1;
 if compute_weight_vectors,
     for i=1:size(loo_splits),
         
-        move3d_set_variable( move3d_dir, file_params, 'boolParameter\\ioc_split_motions', 'true' );
-        move3d_set_variable( move3d_dir, file_params, 'stringParameter\\ioc_traj_split_name' , loo_splits(i,:) );
-        move3d_set_variable( move3d_dir, file_params, 'boolParameter\\ioc_remove_split' , 'true' );
-        
-        move3d_set_variable( move3d_dir, file_params, 'stringParameter\\ioc_traj_split_name' , loo_splits(i,:) );
+        if phases(1) == true, 
+            move3d_set_variable( move3d_dir, file_params, ...
+                'boolParameter\\ioc_split_motions', 'true' );
+            move3d_set_variable( move3d_dir, file_params, ...
+                'stringParameter\\ioc_traj_split_name' , loo_splits(i,:) );
+            move3d_set_variable( move3d_dir, file_params, ...
+                'boolParameter\\ioc_remove_split' , 'true' );
+
+            move3d_set_variable( move3d_dir, file_params, ...
+                'stringParameter\\ioc_traj_split_name' , loo_splits(i,:) );
+        end
         
         % when no sampling is performed load from a single file
         % by removing the unnecssary data
@@ -135,15 +153,22 @@ if compute_weight_vectors,
             demo_id = i-1;
         end
         
-        [nb_demo, nb_feature, results, recovered_weights, feat_count, feat_jac] = ioc_single_test( move3d_dir, matlab_dir, ...
-            move3d_data_dir, move3d_cmd, file_params, seed, nb_tests, samples, phases, demo_id );
+        [nb_demo, nb_feature, results, recovered_weights, ...
+            feat_count, feat_jac] = ...
+        ioc_single_test( move3d_dir, matlab_dir, ...
+            move3d_data_dir, move3d_cmd, file_params, seed, ...
+            nb_tests, samples, phases, demo_id );
         
         cd( matlab_dir );
         
-        save(['results_current/tmp_results_replan/nb_demos_human_motion_replan_' loo_splits(i,:) '.mat'],'nb_demo');
-        save(['results_current/tmp_results_replan/resu_human_motion_replan_' loo_splits(i,:) '.mat'],'results');
-        save(['results_current/tmp_results_replan/feat_human_motion_replan_' loo_splits(i,:) '.mat'],'feat_count');
-        save(['results_current/tmp_results_replan/weig_human_motion_replan_' loo_splits(i,:) '.mat'],'recovered_weights');
+        save(['results_current/tmp_results_replan/nb_demos_human_motion_replan_' ...
+            loo_splits(i,:) '.mat'],'nb_demo');
+        save(['results_current/tmp_results_replan/resu_human_motion_replan_' ...
+            loo_splits(i,:) '.mat'],'results');
+        save(['results_current/tmp_results_replan/feat_human_motion_replan_' ...
+            loo_splits(i,:) '.mat'],'feat_count');
+        save(['results_current/tmp_results_replan/weig_human_motion_replan_' ...
+            loo_splits(i,:) '.mat'],'recovered_weights');
         
         cd( ioc_dir );
     end
@@ -158,10 +183,16 @@ demo_id = -1;
 if compute_weight_vectors,
     for i=1:size(loo_splits),
         
-        move3d_set_variable( move3d_dir, file_params, 'boolParameter\\ioc_split_motions', 'false' );
-        move3d_set_variable( move3d_dir, file_params, 'stringParameter\\ioc_traj_split_name' , loo_splits(i,:) );
-        move3d_set_variable( move3d_dir, file_params, 'boolParameter\\ioc_remove_split' , 'true' );
-        move3d_set_variable( move3d_dir, file_params, 'stringParameter\\ioc_traj_split_name' , loo_splits(i,:) );
+        if( phases(1) == true ),
+            move3d_set_variable( move3d_dir, file_params, ...
+                'boolParameter\\ioc_split_motions', 'false' );
+            move3d_set_variable( move3d_dir, file_params, ...
+                'stringParameter\\ioc_traj_split_name' , loo_splits(i,:) );
+            move3d_set_variable( move3d_dir, file_params, ...
+                'boolParameter\\ioc_remove_split' , 'true' );
+            move3d_set_variable( move3d_dir, file_params, ...
+                'stringParameter\\ioc_traj_split_name' , loo_splits(i,:) );
+        end
         
         % when no sampling is performed load from a single file
         % by removing the unnecssary data

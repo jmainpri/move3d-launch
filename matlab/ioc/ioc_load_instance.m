@@ -1,8 +1,10 @@
-function [phi_demo, phi_k] = ioc_load_instance( nb_demo, nb_samples, nb_features, data_folder )
+function [phi_demo, phi_k] = ioc_load_instance( nb_demo, ...
+    nb_samples, nb_features, data_folder )
 
 formatSpec = '%03d';
 
-filename = [data_folder 'spheres_features_', num2str(nb_samples,formatSpec), '.txt'];
+filename = [data_folder 'spheres_features_', ...
+    num2str(nb_samples,formatSpec), '.txt'];
 display(data_folder)
 display(filename)
 
