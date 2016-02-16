@@ -15,7 +15,7 @@
 # OTHER TORTIOUS ACTION,   ARISING OUT OF OR IN    CONNECTION WITH THE USE   OR
 # PERFORMANCE OF THIS SOFTWARE.
 #
-#                                           Jim Mainprice on Sunday May 17 2015
+# Jim Mainprice on Sunday May 17 2015
 from numpy.distutils.system_info import tmp
 
 from move3d_basic import *
@@ -30,7 +30,25 @@ class Move3DIOCHumanTrajectories:
     def __init__(self, test):
 
         self.function = "SphereIOC"
+        self.phase = '6'  # TODO test if we can replace by double quotes
         self.human_robot_run = ""
+
+        # Each phase corresponds to something about IOC
+        # Either TRAINING or VALIDATION
+        # mainly we use the sampling (1) phase, the simulation (6) phase
+        # and the Dynamic Time Warping phase (8)
+        # see the set_phase function
+        #
+        # IOC PHASES are :
+        # generate = 0,
+        #   sample = 1,
+        #   compare = 2,
+        #   run_planner = 3,
+        #   default_phase = 4,
+        #   monte_carlo = 5,
+        #   simulation = 6,
+        #   save_feature_and_demo_size = 7,
+        #   generate_results = 8
 
         # ----------------------------------------------
 
@@ -133,7 +151,32 @@ class Move3DIOCHumanTrajectories:
                 "robot_015.t",
                 "robot_016.t"
             ]
-            self.param_file = "params_collaboration_planning_human_robot_experiment"
+            self.param_file = (
+                "params_collaboration_planning_human_robot_experiment")
+
+    # Each phase corresponds to something about IOC
+    # Either TRAINING or VALIDATION
+    # mainly we use the sampling (1) phase, the simulation (6) phase
+    # and the Dynamic Time Warping phase (8)
+    def set_phase(self, phase):
+
+        # IOC PHASES are :
+        # generate = 0,
+        #   sample = 1,
+        #   compare = 2,
+        #   run_planner = 3,
+        #   default_phase = 4,
+        #   monte_carlo = 5,
+        #   simulation = 6,
+        #   save_feature_and_demo_size = 7,
+        #   generate_results = 8
+
+        if phase == "sampling":
+            self.phase = '1'
+        elif phase == "simulation":
+            self.phase = '6'
+        elif phase == "dtw":
+            self.phase = '8'
 
     def run_test(self, parameter_filename):
 
@@ -155,7 +198,7 @@ class Move3DIOCHumanTrajectories:
         debug = ""
         # debug = "gdb -ex run --args "
         # debug = "gdb -ex \"set disable-randomization off\" -ex run --args "
-        debug = "gdb -ex run --args "
+        # debug = "gdb -ex run --args "
         command = shlex.split(debug + "move3d-qt-studio" + options)
 
         p = subprocess.Popen(command, stdin=sys.stdin, stdout=sys.stdout)
@@ -285,7 +328,8 @@ class Move3DIOCHumanTrajectories:
         print "make tmp folder : ", tmp_folder
 
         # Make trajectory temporary folder
-        os.makedirs(tmp_folder)
+        if not os.path.exists(tmp_folder):
+            os.makedirs(tmp_folder)
 
         # Set move3d arguments
         args = [loo_split, tmp_folder]
@@ -306,7 +350,7 @@ class Move3DIOCHumanTrajectories:
 
         # WARNING set to one for normal sampling, 6 simulation
         move3d_set_variable(parameter_filename,
-                            'intParameter\ioc_phase', '6')
+                            'intParameter\ioc_phase', self.phase)
         move3d_set_variable(parameter_filename,
                             'boolParameter\ioc_exit_after_run', 'true')
         move3d_set_variable(parameter_filename,
@@ -327,7 +371,8 @@ class Move3DIOCHumanTrajectories:
 def run_icra_feb_motions():
     # ----------------------------------------------
     # SELECT the data set here !!!!
-    test = "september"
+    # test = "september"
+    test = "userstudy"
 
     move3d_test = Move3DIOCHumanTrajectories(test)
     move3d = Move3D()

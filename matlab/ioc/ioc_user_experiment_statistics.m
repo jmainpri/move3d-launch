@@ -1,3 +1,6 @@
+move3d_base_dir = '/usr/local/jim_local/Dropbox/move3d/';
+move3d_dir = [move3d_base_dir 'move3d-launch/'];
+matlab_dir = [move3d_dir 'matlab/'];
 cd( matlab_dir );
 
 % sephere
@@ -83,7 +86,7 @@ if strcmp(with_replan, 'replan'),
     w_o = w_o';
     nb_demo = nb_demos.nb_demo;
 else
-    nb_samples = 300;
+    nb_samples = 300; % 300
     nb_demo = 461;
 end
 
@@ -113,8 +116,9 @@ for d=1:nb_demos.nb_demo,
     phi_samples = features.feat_count{1}(id_start:id_end,:);
     
     % print statistics
-    number_of_degeneration = print_stats( d, phi_demo, phi_samples, ...
-        w_o, w_1, print_markers, display );
+    number_of_degeneration = print_stats( ...
+        d, phi_demo, phi_samples, w_o, w_1, ...
+        print_markers, display );
     
     disp(['number of degenration : ' num2str(number_of_degeneration)])
     

@@ -26,7 +26,7 @@ def plot_page(t, dofs, curves):
     for i in range(len(dofs)):
         splot = plt.subplot(len(dofs), 1, 1 + i)
         splot.plot(t, curves[dofs[i], 1:])
-    plt.show()
+    plt.show
 
 if __name__ == "__main__":
 

@@ -50,8 +50,6 @@ class Move3D:
 
         self.id = 0
         self.folder_param_files = os.environ['MOVE3D_PARAM_FILES']
-        # self.folder_tmp_param_files = os.path.dirname(
-        # os.path.realpath(__file__)) + "/tmp_params_files"
         self.folder_tmp_files = os.environ['MOVE3D_TMP_FILES']
         self.folder_tmp_param_files = self.folder_tmp_files + "/params_files"
 

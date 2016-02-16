@@ -15,7 +15,7 @@
 # OTHER TORTIOUS ACTION,   ARISING OUT OF OR IN    CONNECTION WITH THE USE   OR
 # PERFORMANCE OF THIS SOFTWARE.
 #
-#                                           Jim Mainprice on Sunday May 17 2015
+#                                    Jim Mainprice on Wednesday January 03 2016
 
 import os
 from os import path
@@ -50,6 +50,7 @@ class Move3DIOCHumanRobot:
 
                 human_run_dir = id_dir + os.sep + "human"
                 robot_run_dir = id_dir + os.sep + "robot"
+
                 if (os.path.exists(human_run_dir) and
                         os.path.exists(robot_run_dir)):
 
@@ -124,5 +125,16 @@ if __name__ == "__main__":
     ioc.list_all_runs()
 
     # ioc.run_stomp("block3/7")
+
+    # run_block_ids= []
+    # run_block_ids.append("block4/10")
+    # run_block_ids.append("block11/5")
+    # run_block_ids.append("block0/4")
+    # run_block_ids.append("block8/6")
+    # run_block_ids.append("block8/12")
+
+    # for run_id in run_block_ids:
+    #    ioc.run_stomp(run_id)
+
     for run_id in ioc.run_block_ids:
         ioc.run_stomp(run_id)

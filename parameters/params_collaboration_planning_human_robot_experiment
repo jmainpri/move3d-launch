@@ -414,9 +414,9 @@ doubleParameter\ioc_spheres_power=0
 doubleParameter\ioc_sample_std_dev=7.999999797903e-05
 doubleParameter\ioc_sample_std_dev_ik=2
 doubleParameter\ioc_cost_factor=0
-stringParameter\ioc_traj_split_name=robot_003.t
+stringParameter\ioc_traj_split_name=robot_000.t
 stringParameter\ioc_tmp_traj_folder=
-stringParameter\ioc_human_robot_run=block3/7
+stringParameter\ioc_human_robot_run=block12/12
 
 [Camera]
 ox=2.29304099082947
