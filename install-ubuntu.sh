@@ -266,7 +266,6 @@ case "$1" in
     'recompile' )
         SetReposNames
         MakeAndInstallRepos
-        Makeepos
     ;;
 
     *)

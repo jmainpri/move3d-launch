@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$USER_HOME$/catkin_ws/src/hrics-or-rafi/.idea/hrics-or-rafi.iml" filepath="$USER_HOME$/catkin_ws/src/hrics-or-rafi/.idea/hrics-or-rafi.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/python.iml" filepath="$PROJECT_DIR$/.idea/python.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../../catkin_ws/workspace/src/riemo_electrical_fields/rieef_programs/.idea/rieef_programs.iml" filepath="$PROJECT_DIR$/../../../catkin_ws/workspace/src/riemo_electrical_fields/rieef_programs/.idea/rieef_programs.iml" />
     </modules>
   </component>
 </project>

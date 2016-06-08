@@ -410,20 +410,22 @@ intParameter\ioc_from_file_offset=0
 intParameter\ioc_ik=2
 intParameter\ioc_baseline_type=-1
 intParameter\ioc_dataset=0
+intParameter\ioc_similarity=0
 doubleParameter\ioc_spheres_power=0
 doubleParameter\ioc_sample_std_dev=5.99999984842725e-05
 doubleParameter\ioc_sample_std_dev_ik=0.600000023841858
 doubleParameter\ioc_cost_factor=0
 stringParameter\ioc_traj_split_name=[0444-0585]
 stringParameter\ioc_tmp_traj_folder=
+stringParameter\ioc_human_robot_run=
 
 [Camera]
 ox=1.83975899219513
 oy=1.35148119926453
 oz=1.14201271533966
-dist=1.77542692363262
-az=0.9225
-el=0.595796412229538
+dist=1.77542686462402
+az=0.922500014305115
+el=0.595796406269073
 up0=0
 up1=0
 up2=1

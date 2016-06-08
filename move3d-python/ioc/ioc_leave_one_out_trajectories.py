@@ -372,7 +372,7 @@ def run_icra_feb_motions():
     # ----------------------------------------------
     # SELECT the data set here !!!!
     # test = "september"
-    test = "userstudy"
+    test = "september"
 
     move3d_test = Move3DIOCHumanTrajectories(test)
     move3d = Move3D()

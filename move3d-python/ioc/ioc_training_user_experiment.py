@@ -24,22 +24,23 @@ import sys
 import shlex
 from move3d_basic import *
 
+
 class Matlab:
-
     def __init__(self):
-
         self.id = 0
 
     def launch(self, regularizer):
-
         self.id += 1
 
         folder = "/usr/local/jim_local/Dropbox/move3d/move3d-launch/matlab/ioc/"
-        command = str("matlab -nojvm -r \"cd {}; ioc_user_experiment({});exit\" ").format(folder, regularizer)
+        command = str(
+            "matlab -nojvm -r \"cd {}; ioc_user_experiment({});exit\" ").format(
+            folder, regularizer)
 
         # Launch the program in a new process
         # it has to be called with a name as first argument
-        p = multiprocessing.Process(target=self.run, args=("matlab_process", command))
+        p = multiprocessing.Process(target=self.run,
+                                    args=("matlab_process", command))
         p.start()
         return p
 
@@ -49,7 +50,6 @@ class Matlab:
 
 
 def run_test(name, parameter_filename_tmp, args):
-
     print "ENTER RUN TEST" + name
 
     # Get home move3d
@@ -71,10 +71,14 @@ def run_test(name, parameter_filename_tmp, args):
     options += " -sc " + sce_file
 
     move3d_set_variable(parameter_filename_tmp, 'intParameter\ioc_phase', '1')
-    move3d_set_variable(parameter_filename_tmp, 'intParameter\ioc_sample_iteration', '300')
-    move3d_set_variable(parameter_filename_tmp, 'boolParameter\ioc_exit_after_run', 'true')
-    move3d_set_variable(parameter_filename_tmp, 'boolParameter\ioc_split_motions', 'true')
-    move3d_set_variable(parameter_filename_tmp, 'boolParameter\ioc_training_dataset', 'true')
+    move3d_set_variable(parameter_filename_tmp,
+                        'intParameter\ioc_sample_iteration', '300')
+    move3d_set_variable(parameter_filename_tmp,
+                        'boolParameter\ioc_exit_after_run', 'true')
+    move3d_set_variable(parameter_filename_tmp,
+                        'boolParameter\ioc_split_motions', 'true')
+    move3d_set_variable(parameter_filename_tmp,
+                        'boolParameter\ioc_training_dataset', 'true')
 
     debug = ""
     # debug = "gdb -ex run --args "
@@ -83,7 +87,6 @@ def run_test(name, parameter_filename_tmp, args):
 
 
 def run_move3d(move3d, function, return_dict):
-
     # Set move3d arguments
     args = []
 
@@ -95,7 +98,6 @@ def run_move3d(move3d, function, return_dict):
 
 
 def run_user_study_train_motions():
-
     move3d = Move3D()
 
     manager = multiprocessing.Manager()
@@ -111,7 +113,7 @@ def run_user_study_train_motions():
     print "done!"
 
     jobs = []
-    #regularizers = [0]
+    # regularizers = [0]
     regularizers = [0, 0.01, 0.05, 0.1, 0.5, 1, 5, 10, 50, 100]
 
     matlab_test = Matlab()
@@ -122,6 +124,7 @@ def run_user_study_train_motions():
         proc.join()
 
     print "All process have joined"
+
 
 if __name__ == "__main__":
     run_user_study_train_motions()

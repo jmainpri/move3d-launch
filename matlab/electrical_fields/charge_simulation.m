@@ -22,8 +22,8 @@ fh1 = figure(1);
 set(fh1, 'color', 'white')
 [contour] = costmap(centers, xMaxArea, xMinArea );
 
-xMaxPlot = 0.5;
-xMinPlot = -0.5;
+xMaxPlot = 0.2;
+xMinPlot = -0.2;
 axis([xMinPlot xMaxPlot xMinPlot xMaxPlot]);
 xlabel('x-axis in meters','fontsize',14);
 ylabel('y-axis in meters','fontsize',14);
@@ -72,6 +72,40 @@ display(['minimal charge : ' num2str(min(q))])
 display(['maximal charge : ' num2str(max(q))])
 
 %-------------------------------------------------------------------------%
+% 3) computed EDT
+u_t = linspace( 0, 2*pi, nb_of_charges+1 );
+NGrid = 200;
+dx = 2*xMaxPlot / NGrid;
+dy = 2*xMaxPlot / NGrid;
+R = makerefmat(xMinPlot, xMinPlot, dx, dy);
+bw = zeros(NGrid,NGrid);
+for p=1:size(points,1),
+    points(p,:)
+    p = points(p,:);
+    [r, c] = map2pix(R,p);
+    bw(uint32(r), uint32(c)) = 1;
+end
+D1 = bwdist(bw,'euclidean');
+D1 = exp(-0.02*D1);
+%subimage(mat2gray(D1)), title('Euclidean')
+
+fig_id = 3;
+figure(fig_id)
+imagesc(D1);
+shading interp
+colormap default
+hold on
+% density = 10;
+% view(-360,90); axis tight, axis square
+% % plot(C(:,1), C(:,2),'b*');
+% title('Euclidean Distance','fontsize',14);
+% % axis([min(x) max(x) min(y) max(y)]);
+colorbar('location','eastoutside','fontsize',14);
+xlabel('x-axis in nb of data points','fontsize',14);
+ylabel('y-axis in nb of data points','fontsize',14);
+
+
+%-------------------------------------------------------------------------%
 % 4) plot fields
 % q = 1e-5 * ones(size(q));
 u_t = linspace( 0, 2*pi, nb_of_charges+1 );
@@ -95,17 +129,16 @@ x = zeros(1,NGrid);
 y = zeros(1,NGrid);
 
 for i=1:NGrid
-    x(i) = xMinPlot + (i-1)/(NGrid-1)*(2*xMax); % x values to plot
-    y(i) = xMinPlot + (i-1)/(NGrid-1)*(2*yMax); % y values to plot
+    x(i) = xMinPlot + ((i-1)/(NGrid-1))*(2*xMax); % x values to plot
+    y(i) = xMinPlot + ((i-1)/(NGrid-1))*(2*yMax); % y values to plot
 end
-
 
 % charges'
 compute_grid = false;
 
 if compute_grid,
     
-    V  = zeros(NGrid, NGrid);
+    V = zeros(NGrid, NGrid);
     
     %@ Loop over all grid points and evaluate V(x,y) and E(x,y) on grid
     for i=1:NGrid
@@ -137,7 +170,7 @@ Ey = -Ey;
 E = sqrt(Ex.^2+Ey.^2);
 
 display('find coordinates');
-[grid] = contour_coordinate_grid( x, y, V, C, u );
+% [grid] = contour_coordinate_grid( x, y, V, C, u );
 
 display('start plotting');
 
@@ -147,11 +180,11 @@ display('start plotting');
 % Contour Display for electric potential
 % fig_id = 3;
 % figure(fig_id)
-Vmax = max(V(:));
-Vmin = min(V(:));
-% contour_range_V = Vmin:((Vmax-Vmin)/1000):Vmax;
-% contour(x,y,V,contour_range_V,'linewidth',0.5);
-% hold on, plot(C(:,1), C(:,2),'k*');
+% Vmax = max(V(:));
+% Vmin = min(V(:));
+% % contour_range_V = Vmin:((Vmax-Vmin)/1000):Vmax;
+% % contour(x,y,V,contour_range_V,'linewidth',0.5);
+% % hold on, plot(C(:,1), C(:,2),'k*');
 % axis([min(x) max(x) min(y) max(y)]), axis square;
 % colorbar('location','eastoutside','fontsize',14);
 % xlabel('x-axis in meters','fontsize',14);
@@ -245,39 +278,51 @@ Vmin = min(V(:));
 % fh3 = figure(5);
 % set(fh3, 'color', 'white')
 
-
-
+fig_id = 4;
+figure(fig_id)
+imagesc(V)
+shading interp
+colormap default
+hold on
+% density = 10;
+% view(-360,90); axis tight, axis square
+% % plot(C(:,1), C(:,2),'b*');
+% title('Euclidean Distance','fontsize',14);
+% % axis([min(x) max(x) min(y) max(y)]);
+colorbar('location','eastoutside','fontsize',14);
+xlabel('x-axis in nb of data points','fontsize',14);
+ylabel('y-axis in nb of data points','fontsize',14);
 
 %--------------------------------------------------------------------------
 % Electric field Lines
-cost_map = false;
-if cost_map
-    fig_id = 6;
-    figure(fig_id)
-    surf(V)
-    shading interp
-    colormap summer
-    hold on
-    density = 10;
-    hss = streamslice(Ex,Ey,density,'cubic');
-    set(hss,'color','k')
-    length(hss)
-    for i=1:length(hss);
-        zi = interp2(V,get(hss(i),'xdata'),get(hss(i),'ydata'));
-        set(hss(i),'zdata',zi);
-    end
-    view(-360,90); axis tight, axis square
-    % plot(C(:,1), C(:,2),'b*');
-    title('Electric field Lines, E (x,y) in V/m','fontsize',14);
-    % axis([min(x) max(x) min(y) max(y)]);
-    colorbar('location','eastoutside','fontsize',14);
-    xlabel('x-axis in nb of data points','fontsize',14);
-    ylabel('y-axis in nb of data points','fontsize',14);
-    h4=gca;
-    set(h4,'fontsize',14);
-    fh4 = figure(fig_id);
-    set(fh4, 'color', 'white')
-end
+% cost_map = true;
+% if cost_map
+%     fig_id = 6;
+%     figure(fig_id)
+%     surf(V)
+%     shading interp
+%     colormap default
+%     hold on
+%     density = 10;
+% %     hss = streamslice(Ex,Ey,density,'cubic');
+% %     set(hss,'color','k')
+% %     length(hss)
+% %     for i=1:length(hss);
+% %         zi = interp2(V,get(hss(i),'xdata'),get(hss(i),'ydata'));
+% %         set(hss(i),'zdata',zi);
+% %     end
+%     view(-360,90); axis tight, axis square
+%     % plot(C(:,1), C(:,2),'b*');
+%     title('Electric potential in V','fontsize',14);
+%     % axis([min(x) max(x) min(y) max(y)]);
+%     colorbar('location','eastoutside','fontsize',14);
+%     xlabel('x-axis in nb of data points','fontsize',14);
+%     ylabel('y-axis in nb of data points','fontsize',14);
+%     h4=gca;
+%     set(h4,'fontsize',14);
+%     fh4 = figure(fig_id);
+%     set(fh4, 'color', 'white')
+% end
 
 %--------------------------------------------------------------------------
 field_lines = false;
